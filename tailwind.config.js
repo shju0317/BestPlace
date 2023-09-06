@@ -4,14 +4,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#68B0AB",
-        secondary: "#2F6690",
+        primary: '#68B0AB',
+        secondary: '#2F6690',
       },
       fontFamily: {
-        'suit': ['SUIT Variable']
+        suit: ['SUIT Variable'],
       },
     },
   },
   plugins: [],
-}
-
+};
