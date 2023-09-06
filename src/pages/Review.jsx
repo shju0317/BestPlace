@@ -1,14 +1,17 @@
-import ReviewKeyword from '@/components/ReviewKeyword';
-import Button from '@/components/Button';
+import ReviewKeyword from '@/components/review/ReviewKeyword';
+import Button from '@/components/review/Button';
+import VisitedPlace from '@/components/review/VisitedPlace';
+import ReviewInput from '@/components/review/ReviewInput';
 
 function Review() {
   return (
-    <>
-    <ul>
+    <form className="flex flex-col gap-4 flex-wrap max-w-3xl">
+      <VisitedPlace/>
+      <hr/>
+      <ReviewInput/>
       <ReviewKeyword/>
-    </ul>
-    <Button type='button' text='등록하기'/>
-    </>
+      <Button type='submit' text='등록하기'/>
+    </form>
   )
 }
 

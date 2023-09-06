@@ -1,4 +1,4 @@
-const keywords = [
+const KEYWORDS = [
 	{
     id: 'keyword-1',
     name: '친절해요',
@@ -53,10 +53,16 @@ const keywords = [
 
 
 function ReviewKeyword() {
-  const listItems = keywords.map(keyword => <li key={keyword.id} className="mb-2"><button className="px-3 py-2 bg-primary rounded"><span className="mr-2">{keyword.emoji}</span>{keyword.name}</button></li>);
+  const listItems = KEYWORDS.map(keyword => (
+    <li key={keyword.id} className="mb-2">
+      <button className="min-w-max px-3 py-2 bg-primary rounded shadow-sm shadow-slate-300">
+        <span className="mr-2">{keyword.emoji}</span>{keyword.name}
+      </button>
+    </li>
+  ));
 
   return (
-    <ul className="text-white text-xs">{listItems}</ul>
+    <ul className="text-white text-xs flex gap-1">{listItems}</ul>
   )
 }
 
