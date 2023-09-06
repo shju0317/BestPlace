@@ -4,10 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#373E6A",
-        secondary: "#699AFE",
-        white: "#ffffff",
-        black: "#000000",
+        primary: "#68B0AB",
+        secondary: "#2F6690",
       },
       fontFamily: {
         'suit': ['SUIT Variable']
