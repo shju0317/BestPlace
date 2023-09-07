@@ -8,19 +8,17 @@ const TAG_LIST = ["친절해요", "음식이 맛있어요", "재료가 신선해
 function Feed() {
   return (
     <>
-      <div className="bg-gray-50">
-        <ul className="mx-auto flex max-w-3xl gap-2 p-3">
-          {PLACE_LIST.map((item) => (
-            <Place key={crypto.randomUUID()} title={item} />
-          ))}
-        </ul>
-      </div>
-      <ul className="mx-auto flex max-w-3xl gap-2 p-3 text-sm">
+      <ul className="flex gap-2">
+        {PLACE_LIST.map((item) => (
+          <Place key={crypto.randomUUID()} title={item} />
+        ))}
+      </ul>
+      <ul className="flex gap-2 py-3 text-sm">
         {CATEGORY.map((item) => (
           <Category key={crypto.randomUUID()} title={item} />
         ))}
       </ul>
-      <ul className="mx-auto flex max-w-3xl flex-col gap-2 p-3">
+      <ul className="flex flex-col gap-2 py-4">
         <FeedItem />
       </ul>
     </>
@@ -33,7 +31,9 @@ export default Feed;
 function Place({ title }) {
   return (
     <li>
-      <button className="rounded-md bg-white p-2 shadow">{title}</button>
+      <button className="rounded-md bg-gray-100 p-2 text-gray-500 shadow hover:bg-secondary hover:text-white">
+        {title}
+      </button>
     </li>
   );
 }
@@ -61,7 +61,7 @@ function FeedItem() {
     <li className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <dl className="grid gap-1">
-          <dt className="sr-only">프로필 사진</dt>
+          <dt className="sr-only">작성자 프로필</dt>
           <dd className="col-start-1  row-start-1 row-end-3 h-12 w-12 rounded-full bg-gray-300"></dd>
           <dt className="sr-only">작성자</dt>
           <dd className="col-start-2 col-end-6 font-bold">멋쟁이 사자처럼</dd>
@@ -82,7 +82,7 @@ function FeedItem() {
           </p>
         </figcaption>
       </figure>
-      <li className="flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <ul className="flex gap-2">
           {TAG_LIST.map((item) => (
             <TagList key={crypto.randomUUID()} item={item} />
@@ -91,7 +91,7 @@ function FeedItem() {
         <time dateTime="2023-09-06" className="text-sm text-gray-500">
           9.6 수 방문
         </time>
-      </li>
+      </div>
       <div className="flex items-center justify-between rounded-lg border p-4">
         <dl className="grid gap-1">
           <dt className="sr-only">가게이름</dt>
