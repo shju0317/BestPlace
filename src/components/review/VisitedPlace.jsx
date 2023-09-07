@@ -15,7 +15,7 @@
 
 function VisitedPlace() {
   return (
-    <div className="border-b-[1px] pb-2 w-80 md:w-full self-center">
+    <div className="border-b-[1px] pb-2 w-full self-center">
       <h1 className="text-lg font-semibold">투썸플레이스 상무번영로점</h1>
       <p>카페<span className="mx-1">|</span>광주광역시 서구 치평동</p>
     </div>
