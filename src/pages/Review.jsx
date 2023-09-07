@@ -6,7 +6,7 @@ import ReviewPhoto from '@/components/review/ReviewPhoto';
 
 function Review() {
   return (
-    <form className="flex flex-col gap-4 flex-wrap max-w-3xl">
+    <form className="flex flex-col gap-4 flex-wrap mx-auto max-w-3xl py-5 mobile:px-5">
       <VisitedPlace/>
       <ReviewInput/>
       <ReviewPhoto/>

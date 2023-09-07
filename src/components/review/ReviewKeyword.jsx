@@ -62,10 +62,10 @@ function ReviewKeyword() {
   ));
 
   return (
-    <>
+    <div className="flex flex-col flex-wrap gap-2 w-80 md:w-full self-center">
       <p className="text-lg text-center font-semibold">어떤 점이 좋았나요?<span className="text-sm">(1개~5개)</span></p>
-      <ul className="text-white text-xs flex gap-1">{listItems}</ul>
-    </>
+      <ul className="text-white text-xs flex flex-wrap gap-x-1 justify-center">{listItems}</ul>
+    </div>
   )
 }
 
