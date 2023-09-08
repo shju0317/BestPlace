@@ -10,7 +10,7 @@ function Review() {
   return (
     <>
     {/* <BiX className="w-7 h-7 text-primary float-right"/> */}
-    <form className="flex flex-col gap-4 flex-wrap mx-auto max-w-3xl p-3">
+    <form className="flex flex-col gap-4 flex-wrap mx-auto max-w-3xl">
       <button type="button" aria-label="작성취소"><MdOutlineCancel className="w-7 h-7 text-primary float-right ml-auto"/></button>
       <VisitedPlace/>
       <ReviewInput/>
