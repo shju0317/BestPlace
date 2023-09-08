@@ -1,12 +1,12 @@
-const NAV_MENU = ["피드", "방문", "리뷰", "예약"];
+const NAV_MENU = ["피드", "방문", "리뷰", "예약", "저장"];
 
 function Nav() {
   return (
-    <nav className="text-gray-200">
-      <ul className="flex items-center justify-center gap-5 py-4">
+    <nav className="sticky top-0 bg-primary text-gray-200">
+      <ul className="mx-auto flex max-w-[400px] items-center justify-between">
         {NAV_MENU.map((item) => {
           return (
-            <li key={crypto.randomUUID()} className="px-4">
+            <li key={crypto.randomUUID()} className="cursor-pointer px-3 py-4">
               {item}
             </li>
           );
