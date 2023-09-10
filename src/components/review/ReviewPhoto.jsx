@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 
 function ReviewPhoto() {
   const [fileImages, setFileImages] = useState([]);
+  const [imageCount, setImageCount] = useState(0);
   const photoRef = useRef(null);
   const divRef = useRef(null);
   const labelRef = useRef(null);
@@ -19,10 +20,14 @@ function ReviewPhoto() {
 
   const handleUpload = (e) => {
     const { files } = e.target;
+    console.log('file길이래',files.length);
     const fileImages = Array.from(files).map((file) => ({
       image: URL.createObjectURL(file),
       label: file.name,
     }));
+
+    console.log(fileImages);
+    setImageCount(files.length);
     setFileImages(fileImages);
 
     showElement(divRef);
@@ -62,7 +67,7 @@ function ReviewPhoto() {
         </div>
         <div className="flex flex-col justify-center items-center text-primary">
           <PiPlusCircle className="w-20 h-20"/>
-          <p className="font-bold">1/20</p>
+          <p className="font-bold">{imageCount}/20</p>
         </div>
         </div>
       </div>
