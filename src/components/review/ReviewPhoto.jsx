@@ -90,11 +90,11 @@ function ReviewPhoto() {
         />
         <div className="hidden flex gap-4" ref={divRef}>
         <div 
-          className="flex border border-primary rounded gap-2 overflow-x-auto p-2 h-full w-full"
+          className="flex border border-primary rounded gap-2 overflow-x-auto p-2 h-36 w-full"
         >
         {fileImages.map((file,index)=> (
               <div key={index} className="relative">
-                <img src={file.image} alt={file.label} />
+                <img src={file.image} alt={file.label} className="h-full"/>
                 {/* 삭제 버튼 */}
                 <button 
                   onClick={() => handleDeleteImage(index)} 
