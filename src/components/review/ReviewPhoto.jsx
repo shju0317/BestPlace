@@ -4,7 +4,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import { useRef, useState } from 'react';
 
 function ReviewPhoto() {
-  const MAX_IMAGE_COUNT = 10;
+  const MAX_IMAGE_COUNT = 5;
 
   const [fileImages, setFileImages] = useState([]);
   const [imageCount, setImageCount] = useState(0);
@@ -20,27 +20,8 @@ function ReviewPhoto() {
     element.current.style.display = "flex";
   }
 
-  // const handleUpload = (e) => {
-  //   const { files } = e.target;
-
-  //   const fileImages = Array.from(files).map((file) => ({
-  //     image: URL.createObjectURL(file),
-  //     label: file.name,
-  //   }));
-
-  //   setImageCount(files.length);
-  //   setFileImages(fileImages);
-
-  //   if(files.length <= 0){
-  //     showElement(labelRef);
-  //     hideElement(divRef);
-  //   }else{
-  //     showElement(divRef);
-  //     hideElement(labelRef);
-  //   }
-  // };
-
-  const handleUpload = (e) => {
+  // 이미지 파일 업로드하기
+  const handleUploadImage = (e) => {
     const { files } = e.target;
   
     const newFileImages = Array.from(files).map((file) => ({
@@ -67,12 +48,24 @@ function ReviewPhoto() {
     }
   };
   
+  // 업로드한 이미지 파일 삭제하기
   const handleDeleteImage = (index) => {
     setFileImages((prevFileImages) =>
       prevFileImages.filter((_, i) => i !== index)
     );
-    setImageCount((prevImageCount) => prevImageCount -1 );
+  
+    setImageCount((prevImageCount) => {
+      const updatedImageCount = prevImageCount - 1;
+      
+      if (updatedImageCount <= 0) {
+        showElement(labelRef);
+        hideElement(divRef);
+      }
+      
+      return updatedImageCount;
+    });
   };
+  
 
 
 
@@ -92,18 +85,21 @@ function ReviewPhoto() {
           ref={photoRef}
           name="photo"
           id="photo"
-          onChange={handleUpload}
+          onChange={handleUploadImage}
           className="absolute z-10 w-full h-full opacity-0 cursor-pointer"
         />
         <div className="hidden flex gap-4" ref={divRef}>
         <div 
-          className="flex border border-primary rounded gap-2 overflow-x-auto p-2 h-36 w-full"
+          className="flex border border-primary rounded gap-2 overflow-x-auto p-2 h-full w-full"
         >
         {fileImages.map((file,index)=> (
               <div key={index} className="relative">
                 <img src={file.image} alt={file.label} />
                 {/* 삭제 버튼 */}
-                <button onClick={() => handleDeleteImage(index)} className='absolute top-[4px] right-[4px] text-primary' aria-label="이미지 삭제">
+                <button 
+                  onClick={() => handleDeleteImage(index)} 
+                  className="absolute top-[4px] right-[4px] text-primary z-10"
+                  aria-label="이미지 삭제">
                   <MdOutlineCancel size="20"/>
                 </button>
               </div>

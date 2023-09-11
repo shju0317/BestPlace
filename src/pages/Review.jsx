@@ -3,7 +3,6 @@ import Button from '@c/review/Button';
 import VisitedPlace from '@c/review/VisitedPlace';
 import Input from '@c/review/Input';
 import ReviewPhoto from '@c/review/ReviewPhoto';
-import { BiX } from "react-icons/bi";
 import { MdOutlineCancel } from "react-icons/md";
 
 function Review() {
