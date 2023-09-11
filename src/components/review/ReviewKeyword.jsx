@@ -69,7 +69,7 @@ function ReviewKeyword() {
     <li key={keyword.id} className="mb-2">
       <button type="button"
       className={`min-w-max px-3 py-2 rounded shadow-sm shadow-slate-300 
-      ${selectedKeywords.includes(keyword.id) ? 'bg-primary text-white' : 'bg-gray-100 text-gray-500 '}`}
+      ${selectedKeywords.includes(keyword.id) ? 'bg-primary text-white' : 'bg-gray-100 text-black'}`}
       onClick={() => handleKeywordClick(keyword.id)}
       >
         <span className="mr-2">{keyword.emoji}</span>{keyword.name}
