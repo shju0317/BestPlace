@@ -51,11 +51,27 @@ const KEYWORDS = [
   }
 ]
 
+import { useState } from 'react';
 
 function ReviewKeyword() {
+
+  const [selectedKeywords, setSelectedKeywords] = useState([]);
+
+  const handleKeywordClick = (keywordId) => {
+    if (selectedKeywords.includes(keywordId)) {
+      setSelectedKeywords(selectedKeywords.filter(id => id !== keywordId));
+    } else {
+      setSelectedKeywords([...selectedKeywords, keywordId]);
+    }
+  };
+
   const listItems = KEYWORDS.map(keyword => (
     <li key={keyword.id} className="mb-2">
-      <button className="min-w-max px-3 py-2 bg-primary rounded shadow-sm shadow-slate-300">
+      <button type="button"
+      className={`min-w-max px-3 py-2 rounded shadow-sm shadow-slate-300 
+      ${selectedKeywords.includes(keyword.id) ? 'bg-primary text-white' : 'bg-gray-100 text-gray-500 '}`}
+      onClick={() => handleKeywordClick(keyword.id)}
+      >
         <span className="mr-2">{keyword.emoji}</span>{keyword.name}
       </button>
     </li>
