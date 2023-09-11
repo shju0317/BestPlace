@@ -15,23 +15,30 @@
 
 // import { read, create } from "@/utils";
 
-import read from '@u/readPocketHost'
-import { readRecordList } from '@u/readRecordList'
+import { useEffect, useState } from 'react';
+import { readRecordList, readRecordOne } from '@u/readRecordList'
 
 function VisitedPlace() {
 
-  // const data =read("places");
-  // console.log('데이터', data.items);
+  const [data, setData] = useState([]);
 
-// const data = readRecordList("places")
-// console.log(data);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await readRecordOne("places","zxuv5vm0v8b5wph");
+        setData(result);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
+    fetchData();
+  }, []);
 
   return (
     <div className="border-b-[1px] pb-2 w-full self-center">
-      <h1 className="text-lg font-semibold">투썸플레이스 상무번영로점</h1>
-      <p>카페<span className="mx-1">|</span>광주광역시 서구 치평동</p>
-      {/* {data.values()} */}
+      <h1 className="text-lg font-semibold">{data.title}</h1>
+      <p>{data.category}<span className="mx-1">|</span>{data.address}</p>
     </div>
   )
 }
