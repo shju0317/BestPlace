@@ -2,6 +2,7 @@ import { CiImageOn } from "react-icons/ci";
 import { PiPlusCircle} from "react-icons/pi";
 import { MdOutlineCancel } from "react-icons/md";
 import { useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 
 function ReviewPhoto() {
   const MAX_IMAGE_COUNT = 5;
@@ -33,6 +34,20 @@ function ReviewPhoto() {
     const updatedImageCount = imageCount + files.length;
 
     if (files.length + fileImages.length > MAX_IMAGE_COUNT) {
+      toast("최대 5장까지 추가할 수 있습니다.",{
+        duration: 2000,
+        icon: "❗",
+        style:{
+          background: "#2F6690",
+          color: "#fff",
+          borderRadius: "28px",
+          padding: "12px"
+        },
+        ariaProps:{
+          role: "alert",
+          'aria-live': 'polite'
+        }
+      });
       return; // 이미지 개수가 최대 값을 초과하면 업로드 중단
     }else{
       setFileImages(updatedFileImages);
