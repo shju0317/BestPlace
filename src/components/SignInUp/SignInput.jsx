@@ -1,11 +1,12 @@
 import { string, func } from "prop-types";
 import { useState } from "react";
 
-function SignInput({ labelValue, ariaText, placeHolder }) {
-  const [value, setValue] = useState();
+function SignInput({ labelValue, ariaText, placeHolder, inputValue }) {
+  const [inputChange, setInputChange] = useState("");
 
   const handleChangeInput = ({ target }) => {
-    setValue(target.value);
+    setInputChange(target.value);
+    inputValue(target.value);
   };
 
   return (
@@ -17,7 +18,7 @@ function SignInput({ labelValue, ariaText, placeHolder }) {
         type="text"
         aria-label={ariaText}
         placeholder={placeHolder}
-        value=""
+        value={inputChange}
         onChange={handleChangeInput}
       />
     </div>
@@ -27,6 +28,7 @@ SignInput.propTypes = {
   labelValue: string,
   ariaText: string,
   placeHolder: string,
+  inputValue: func,
 };
 
 export default SignInput;
