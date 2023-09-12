@@ -1,5 +1,5 @@
 import { useState } from "react";
-import pb from "./pocketbase";
+import pb from "@/api/pocketbase";
 
 export function useFeedList() {
   const [data, setData] = useState(null);
