@@ -1,3 +1,5 @@
+import toast from 'react-hot-toast';
+
 const KEYWORDS = [
 	{
     id: 'keyword-1',
@@ -60,8 +62,23 @@ function ReviewKeyword() {
   const handleKeywordClick = (keywordId) => {
     if (selectedKeywords.includes(keywordId)) {
       setSelectedKeywords(selectedKeywords.filter(id => id !== keywordId));
-    } else {
+    } else if (selectedKeywords.length < 5) { // 최대 개수 제한
       setSelectedKeywords([...selectedKeywords, keywordId]);
+    } else { // 선택 개수가 이미 최대값(5)인 경우 경고 메시지 표시
+      toast("최대 5개까지만 선택할 수 있습니다.",{
+        duration: 2000,
+        icon: "❗",
+        style:{
+          background: "#2F6690",
+          color: "#fff",
+          borderRadius: "28px",
+          padding: "12px"
+        },
+        ariaProps:{
+          role: "alert",
+          'aria-live': 'polite'
+        }
+      });
     }
   };
 
