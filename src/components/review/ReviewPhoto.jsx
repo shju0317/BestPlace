@@ -53,7 +53,6 @@ function ReviewPhoto() {
         label: file.name,
       })));
       draftImage.imageCount += files.length;
-      console.log('무어ㅑ',draftImage.imageCount);
     }));    
 };
 

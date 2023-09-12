@@ -26,8 +26,8 @@ function ReviewKeyword() {
         duration: 2000,
         icon: "❗",
         style:{
-          background: "#2F6690",
-          color: "#fff",
+          background: "#e0f2fe",
+          color: "#000",
           borderRadius: "28px",
           padding: "12px"
         },
