@@ -1,11 +1,9 @@
-import Profile from "../components/Profile";
-import Nav from "./Nav";
+import Profile from "@/components/Profile";
 
 function Header() {
   return (
     <header className="bg-primary pt-9 text-white">
       <Profile />
-      <Nav />
     </header>
   );
 }

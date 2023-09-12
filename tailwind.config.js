@@ -10,6 +10,10 @@ export default {
       fontFamily: {
         suit: ["SUIT Variable"],
       },
+      backgroundImage: {
+        "check": 'url("/button-check.svg")',
+        "checked": 'url("/button-checked.svg")',
+      },
     },
   },
   plugins: [],
