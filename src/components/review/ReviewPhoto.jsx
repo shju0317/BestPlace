@@ -97,6 +97,7 @@ function ReviewPhoto() {
                 <img src={file.image} alt={file.label} className="h-full"/>
                 {/* 삭제 버튼 */}
                 <button 
+                  type="button"
                   onClick={() => handleDeleteImage(index)} 
                   className="absolute top-[4px] right-[4px] text-primary z-10"
                   aria-label="이미지 삭제">

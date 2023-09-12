@@ -1,12 +1,12 @@
 import RootLayout from "./layout/RootLayout";
 import Feed from "./pages/Feed";
-import Review from "./pages/Review";
+import ReviewWrite from "./pages/ReviewWrite";
 
 function App() {
   return (
     <div className="App">
       <RootLayout>
-        <Review/>
+        <ReviewWrite/>
       </RootLayout>
     </div>
   );
