@@ -1,4 +1,4 @@
-import { string } from 'prop-types';
+import { string } from "prop-types";
 
 function SignTitle({ value }) {
   return (
@@ -9,10 +9,8 @@ function SignTitle({ value }) {
   );
 }
 
-
 SignTitle.propTypes = {
   value: string,
 };
-
 
 export default SignTitle;
