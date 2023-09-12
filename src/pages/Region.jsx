@@ -95,17 +95,24 @@ function SearchRegion({ ...props }) {
     resetSearchState();
   };
 
+  // 검색창 포커스 시 이벤트
+  const handleFocusSearchBar = () => {
+    if (isFocusSearchBar === false) props.onFocus(true);
+  };
+
   return (
     <>
       <div className="flex items-center gap-1">
-        <button
-          type="button"
-          onClick={handleClickPageBack}
-          className={`ml-1 px-1 text-4xl ${isFocusSearchBar || "hidden"}`}
+        {!isFocusSearchBar || (
+          <button type="button" onClick={handleClickPageBack} className="ml-1 px-1 text-4xl">
+            <GoChevronLeft />
+          </button>
+        )}
+        <div
+          className={`flex grow items-center justify-between gap-2 rounded-xl border border-black px-4 py-3 focus:outline-none ${
+            !isFocusSearchBar || "border-2"
+          }`}
         >
-          <GoChevronLeft />
-        </button>
-        <div className="flex grow items-center justify-between gap-2 rounded-xl border border-black px-4 py-3 focus:outline-none">
           <label htmlFor="searchRegion">
             <FaSearch />
           </label>
@@ -114,13 +121,15 @@ function SearchRegion({ ...props }) {
             id="searchRegion"
             placeholder="원하는 지역을 검색해 보세요"
             className="grow appearance-none text-base focus:outline-none"
-            onFocus={isFocusSearchBar || props.onFocus}
+            onFocus={handleFocusSearchBar}
             onChange={debounce((e) => toggleInputSearch(e.target.value), 500)}
             ref={inputRef}
           />
-          <button type="button" onClick={handleClickRemoveText}>
-            <GoX className="text-xl" />
-          </button>
+          {!isFocusSearchBar || (
+            <button type="button" onClick={handleClickRemoveText}>
+              <GoX className="text-xl" />
+            </button>
+          )}
         </div>
       </div>
       <div className={`mt-28 flex flex-col items-center ${!isSearch || "hidden"} ${isFocusSearchBar || "hidden"}`}>
@@ -130,31 +139,25 @@ function SearchRegion({ ...props }) {
         <p className="mt-2 text-sm font-semibold text-gray-500">예) 서울, 해운대구, 경주시 등</p>
       </div>
       <div className="mt-4">
-        {searchResult.toSorted().map((region, index) => (
-          <li
-            key={index}
-            className={`mt-2 flex items-center justify-between gap-2 rounded-lg px-4 py-2 text-lg ${
-              isSearch || "hidden"
-            }`}
-          >
-            <FaLocationArrow className="mr-2 inline-block text-primary" />
-            <div className="flex grow items-center justify-start">
-              <h4 className="font-bold">{region}</h4>
-              <span
-                className={`mx-2 rounded-lg bg-gray-600 p-1 text-xs text-white ${
-                  checkedRegionList.includes(region) || "hidden"
-                }`}
-              >
-                내 관심지역
-              </span>
-            </div>
-            <button
-              type="button"
-              className={`h-5 w-5 bg-contain ${!checkedRegionList.includes(region) ? "bg-check" : "bg-checked"}`}
-              onClick={handleUpdateRegion}
-            ></button>
-          </li>
-        ))}
+        {searchResult.toSorted().map(
+          (region, index) =>
+            !isSearch || (
+              <li key={index} className="mt-2 flex items-center justify-between gap-2 rounded-lg px-4 py-2 text-lg">
+                <FaLocationArrow className="mr-2 inline-block text-primary" />
+                <div className="flex grow items-center justify-start">
+                  <h4 className="font-bold">{region}</h4>
+                  {!checkedRegionList.includes(region) || (
+                    <span className="mx-2 rounded-lg bg-gray-600 p-1 text-xs text-white">내 관심지역</span>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  className={`h-5 w-5 bg-contain ${!checkedRegionList.includes(region) ? "bg-check" : "bg-checked"}`}
+                  onClick={handleUpdateRegion}
+                ></button>
+              </li>
+            )
+        )}
       </div>
     </>
   );
@@ -334,6 +337,19 @@ PopularRegionList.propTypes = {
 
 /* -------------------------------------------------------------------------- */
 
+//@ 저장하기 버튼
+function RegionSaveButton() {
+  return (
+    <div className="sticky bottom-0 z-10 bg-gradient-to-b from-white/10 from-10% to-white to-40% pb-3 pt-8">
+      <button type="submit" className="w-full rounded-lg bg-primary py-3 font-bold text-white">
+        이대로 저장할래요
+      </button>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+
 //@ Region Component
 function Region() {
   const [checkedRegionList, setCheckedRegionList] = useState([]);
@@ -354,14 +370,16 @@ function Region() {
   return (
     <div className="max-w-3xl">
       <div className="sticky top-0 z-10 bg-gradient-to-b from-white from-80% to-white/10 to-90% pb-8">
-        <div className={`${!isFocusSearchBar || "hidden"}`}>
-          {/* 창 닫기 */}
-          <button type="button" className="float-right">
-            <GoX className="text-3xl" />
-          </button>
-          {/* 제목 */}
-          <h2 className="mb-3 pt-8 text-2xl font-bold">관심지역을 설정해주세요!</h2>
-        </div>
+        {isFocusSearchBar || (
+          <div>
+            {/* 창 닫기 */}
+            <button type="button" className="float-right">
+              <GoX className="text-3xl" />
+            </button>
+            {/* 제목 */}
+            <h2 className="mb-3 pt-8 text-2xl font-bold">관심지역을 설정해주세요!</h2>
+          </div>
+        )}
         {/* 검색바 */}
         <SearchRegion
           checkedRegionList={checkedRegionList}
@@ -370,23 +388,22 @@ function Region() {
           onUpdate={handleUpdateRegionList}
         />
       </div>
-      <div className={`flex flex-col gap-8 ${!isFocusSearchBar || "hidden"}`}>
-        {/* 내 관심지역 */}
-        <RegionSelectedList
-          checkedRegionList={checkedRegionList}
-          onUpdate={handleUpdateRegionList}
-          onRemove={handleRemoveRegionList}
-        />
-        {/* '이런 지역 어때요' 리스트 */}
-        <SuggestRegionList checkedRegionList={checkedRegionList} onUpdate={handleUpdateRegionList} />
-        {/* '요즘 많이 찾아봐요' 리스트 */}
-        <PopularRegionList checkedRegionList={checkedRegionList} onUpdate={handleUpdateRegionList} />
-        <div className="sticky bottom-0 z-10 bg-gradient-to-b from-white/10 from-10% to-white to-40% pb-3 pt-8">
-          <button type="submit" className="w-full rounded-lg bg-primary py-3 font-bold text-white">
-            이대로 저장할래요
-          </button>
+      {isFocusSearchBar || (
+        <div className="flex flex-col gap-8">
+          {/* 내 관심지역 */}
+          <RegionSelectedList
+            checkedRegionList={checkedRegionList}
+            onUpdate={handleUpdateRegionList}
+            onRemove={handleRemoveRegionList}
+          />
+          {/* '이런 지역 어때요' 리스트 */}
+          <SuggestRegionList checkedRegionList={checkedRegionList} onUpdate={handleUpdateRegionList} />
+          {/* '요즘 많이 찾아봐요' 리스트 */}
+          <PopularRegionList checkedRegionList={checkedRegionList} onUpdate={handleUpdateRegionList} />
+          {/* 저장하기 버튼 */}
+          <RegionSaveButton />
         </div>
-      </div>
+      )}
     </div>
   );
 }
