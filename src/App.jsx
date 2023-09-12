@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import RootLayout from "./layout/RootLayout";
+import Feed from "./pages/Feed";
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  return <div></div>;
+  return (
+    <div className="App">
+      <RootLayout>
+        <Feed />
+      </RootLayout>
+    </div>
+  );
 }
 
 export default App;
