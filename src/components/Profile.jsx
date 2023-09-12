@@ -1,5 +1,6 @@
 import { PiPencilSimpleLineDuotone } from "react-icons/pi";
 import { IoLogOutOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 function Profile() {
   return (
@@ -34,13 +35,14 @@ function Profile() {
             </dl>
           </dd>
         </dl>
-
-        <div className="mt-3 flex w-[300px] justify-between gap-2">
-          <button className="flex w-full items-center justify-center gap-1 rounded-xl bg-secondary py-2 text-sm">
-            <PiPencilSimpleLineDuotone className="text-base" />
-            리뷰 쓰기
-          </button>
-        </div>
+        <Link to="/reviewwrite">
+          <div className="mt-3 flex w-[300px] justify-between gap-2">
+            <button className="flex w-full items-center justify-center gap-1 rounded-xl bg-secondary py-2 text-sm">
+              <PiPencilSimpleLineDuotone className="text-base" />
+              리뷰 쓰기
+            </button>
+          </div>
+        </Link>
       </div>
     </div>
   );

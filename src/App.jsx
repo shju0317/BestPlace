@@ -1,15 +1,12 @@
 import { Toaster } from "react-hot-toast";
-import RootLayout from "./layout/RootLayout";
-import Feed from "./pages/Feed";
-import ReviewWrite from "./pages/ReviewWrite";
+import { RouterProvider } from 'react-router-dom';
+import router from '@/routes';
 
 function App() {
   return (
     <div className="App">
-      <RootLayout>
-        <ReviewWrite/>
-        <Toaster/>
-      </RootLayout>
+      <Toaster/>
+      <RouterProvider router={router} />
     </div>
   );
 }
