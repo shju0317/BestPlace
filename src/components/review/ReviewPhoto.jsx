@@ -1,14 +1,18 @@
 import { CiImageOn } from "react-icons/ci";
 import { PiPlusCircle} from "react-icons/pi";
 import { MdOutlineCancel } from "react-icons/md";
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { produce } from 'immer';
 
 function ReviewPhoto() {
   const MAX_IMAGE_COUNT = 5;
 
-  const [fileImages, setFileImages] = useState([]);
-  const [imageCount, setImageCount] = useState(0);
+  const [image, setImage] = useState({
+    fileImages: [],
+    imageCount: 0,
+  });
+
   const photoRef = useRef(null);
   const divRef = useRef(null);
   const labelRef = useRef(null);
@@ -24,16 +28,8 @@ function ReviewPhoto() {
   // 이미지 파일 업로드하기
   const handleUploadImage = (e) => {
     const { files } = e.target;
-  
-    const newFileImages = Array.from(files).map((file) => ({
-      image: URL.createObjectURL(file),
-      label: file.name,
-    }));
-  
-    const updatedFileImages = [...fileImages, ...newFileImages];
-    const updatedImageCount = imageCount + files.length;
 
-    if (files.length + fileImages.length > MAX_IMAGE_COUNT) {
+    if (files.length + image.fileImages.length > MAX_IMAGE_COUNT) {
       toast("최대 5장까지 추가할 수 있습니다.",{
         duration: 2000,
         icon: "❗",
@@ -49,37 +45,40 @@ function ReviewPhoto() {
         }
       });
       return; // 이미지 개수가 최대 값을 초과하면 업로드 중단
-    }else{
-      setFileImages(updatedFileImages);
-      setImageCount(updatedImageCount);
     }
+  
+    setImage(produce((draftImage) => {
+      draftImage.fileImages.push(...Array.from(files).map((file) => ({
+        image: URL.createObjectURL(file),
+        label: file.name,
+      })));
+      draftImage.imageCount += files.length;
+      console.log('무어ㅑ',draftImage.imageCount);
+    }));    
+};
 
-    if (updatedImageCount <= 0) {
-      showElement(labelRef);
-      hideElement(divRef);
-    } else {
-      showElement(divRef);
-      hideElement(labelRef);
-    }
-  };
+useEffect(() => {
+  if (image.imageCount <= 0) {
+    showElement(labelRef);
+    hideElement(divRef);
+  } else {
+    showElement(divRef);
+    hideElement(labelRef);
+  }
+}, [image]);
   
   // 업로드한 이미지 파일 삭제하기
   const handleDeleteImage = (index) => {
-    setFileImages((prevFileImages) =>
-      prevFileImages.filter((_, i) => i !== index)
-    );
-  
-    setImageCount((prevImageCount) => {
-      const updatedImageCount = prevImageCount - 1;
-      
-      if (updatedImageCount <= 0) {
-        showElement(labelRef);
-        hideElement(divRef);
-      }
-      
-      return updatedImageCount;
-    });
-  };
+    setImage(produce((draftImage) => {
+      draftImage.fileImages.splice(index,1);
+      draftImage.imageCount -=1;
+    }));
+ 
+    if (image.imageCount <=1){
+      showElement(labelRef);
+      hideElement(divRef)
+    }
+ };
   
 
 
@@ -107,7 +106,7 @@ function ReviewPhoto() {
         <div 
           className="flex border border-primary rounded gap-2 overflow-x-auto p-2 h-36 w-full"
         >
-        {fileImages.map((file,index)=> (
+        {image.fileImages.map((file,index)=> (
               <div key={index} className="relative">
                 <img src={file.image} alt={file.label} className="h-full"/>
                 {/* 삭제 버튼 */}
@@ -115,7 +114,7 @@ function ReviewPhoto() {
                   type="button"
                   onClick={() => handleDeleteImage(index)} 
                   className="absolute top-[4px] right-[4px] text-primary z-10"
-                  aria-label="이미지 삭제">
+                  aria-label={`이미지 ${index+1} 삭제`}>
                   <MdOutlineCancel size="20"/>
                 </button>
               </div>
@@ -123,7 +122,7 @@ function ReviewPhoto() {
         </div>
         <div className="flex flex-col justify-center items-center text-primary">
           <PiPlusCircle className="w-20 h-20"/>
-          <p className="font-bold">{imageCount}/{MAX_IMAGE_COUNT}</p>
+          <p className="font-bold">{image.imageCount}/{MAX_IMAGE_COUNT}</p>
         </div>
         </div>
       </div>
