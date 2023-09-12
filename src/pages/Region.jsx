@@ -95,7 +95,7 @@ function RegionSelectedList(props) {
       <h3 className="text-lg font-bold">
         내 관심지역 <span className="text-primary">{checkedRegionList.length}</span>
       </h3>
-      <div className="flex">
+      <div className="mb-4 flex">
         <p className="grow text-sm font-medium text-gray-400">길게 눌러 순서를 변경할 수 있습니다. (미구현)</p>
         <button type="button" className="text-sm font-semibold text-gray-700" onClick={props.onRemove}>
           전체 삭제
@@ -134,22 +134,30 @@ function SuggestRegionList(props) {
 
   return (
     <div>
-      <h3 className="font-bold">이런 지역 어때요?</h3>
-      <p className="my-2 text-sm">
-        <span className="font-bold">ㅇㅇ</span>님이 좋아하실 것 같아요
+      <h3 className="text-lg font-bold">이런 지역 어때요?</h3>
+      <p className="my-2 mb-4">
+        <span className="font-extrabold">ㅇㅇ</span>님이 좋아하실 것 같아요
       </p>
       <ul className="grid grid-cols-2 gap-3">
         {suggestRegionList.map((region, index) => (
           <li
             key={index}
             className={`relative rounded-lg ${
-              !checkedRegionList.includes(region.name) ? "bg-neutral-100" : "bg-sky-100"
+              !checkedRegionList.includes(region.name) ? "bg-neutral-100" : "bg-sky-100 shadow-md"
             }`}
             aria-label={region.name + "를 관심 지역에 추가"}
           >
             <label htmlFor={"suggest " + region.name} className="block p-4">
-              <p className={`text-xs font-semibold text-gray-500`}>{region.tag}</p>
-              <h4 className={`font-bold`}>{region.name}</h4>
+              <p
+                className={`text-xs text-gray-500 ${
+                  !checkedRegionList.includes(region.name) ? "font-semibold " : "font-bold"
+                }`}
+              >
+                {region.tag}
+              </p>
+              <h4 className={`${!checkedRegionList.includes(region.name) ? "font-bold " : "font-extrabold"}`}>
+                {region.name}
+              </h4>
               <span
                 className={`absolute right-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 ${
                   !checkedRegionList.includes(region.name) ? "bg-check" : "bg-checked"
@@ -187,14 +195,20 @@ function PopularRegionList(props) {
           <li
             key={index}
             className={`relative rounded-lg ${
-              !checkedRegionList.includes(region.name) ? "bg-neutral-100" : "bg-sky-100"
+              !checkedRegionList.includes(region.name) ? "bg-neutral-100" : "bg-sky-100 shadow-md"
             }`}
             aria-label={region.name + "를 관심 지역에 추가"}
           >
             <label htmlFor={"popular " + region.name} className="block flex flex-col items-center p-4">
               {/* 사진 div */}
               <img src="" alt="" className="h-12 w-12" />
-              <h4 className="mx-auto text-sm font-bold">{region.name}</h4>
+              <h4
+                className={`mx-auto text-sm ${
+                  !checkedRegionList.includes(region.name) ? "font-semibold " : "font-bold"
+                }`}
+              >
+                {region.name}
+              </h4>
               <span
                 className={`absolute right-2 top-0 h-[18px] w-[18px] translate-y-1/2 ${
                   !checkedRegionList.includes(region.name) ? "bg-check" : "bg-checked"
@@ -209,12 +223,9 @@ function PopularRegionList(props) {
   );
 }
 
-PopularRegionList.propTypes = {
-  props: shape({
-    checkedRegionList: array,
-    onUpdate: object,
-  }),
-};
+function RegionSaveButton() {
+  return <></>;
+}
 
 /* -------------------------------------------------------------------------- */
 
@@ -232,17 +243,17 @@ function Region() {
 
   return (
     <div className="max-w-3xl">
-      <div className="sticky top-0 z-10 bg-white">
+      <div className="sticky top-0 z-10 bg-gradient-to-b from-white from-80% to-white/10 to-90% pb-8">
         {/* 창 닫기 */}
         <button type="button" className="float-right">
           <GoX className="text-3xl" />
         </button>
         {/* 제목 */}
-        <h2 className="mb-3 text-2xl font-bold">관심지역을 설정해주세요!</h2>
+        <h2 className="mb-3 pt-8 text-2xl font-bold">관심지역을 설정해주세요!</h2>
         {/* 검색바 */}
         <SearchRegion />
-        <div className="h-4 bg-white opacity-50"></div>
       </div>
+
       <div className="flex flex-col gap-8">
         {/* 내 관심지역 */}
         <RegionSelectedList
@@ -254,6 +265,12 @@ function Region() {
         <SuggestRegionList checkedRegionList={checkedRegionList} onUpdate={handleUpdateRegionList} />
         {/* '요즘 많이 찾아봐요' 리스트 */}
         <PopularRegionList checkedRegionList={checkedRegionList} onUpdate={handleUpdateRegionList} />
+
+        <div className="sticky bottom-0 z-10 bg-gradient-to-b from-white/10 from-10% to-white to-40% pb-3 pt-8">
+          <button type="submit" className="w-full rounded-lg bg-primary py-3 font-bold text-white">
+            이대로 저장할래요
+          </button>
+        </div>
       </div>
     </div>
   );
