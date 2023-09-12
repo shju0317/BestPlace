@@ -12,9 +12,11 @@ function Profile() {
           <dt className="sr-only">내 닉네임</dt>
           <dd className="col-start-2 flex items-center justify-between text-xl font-bold">
             개미
-            <button aria-label="로그아웃" title="로그아웃">
-              <IoLogOutOutline className="text-2xl" />
-            </button>
+            <Link to="/login">
+              <button aria-label="로그아웃" title="로그아웃">
+                <IoLogOutOutline className="text-2xl" />
+              </button>
+            </Link>
           </dd>
           <dt className="sr-only">나의 활동</dt>
           <dd>
