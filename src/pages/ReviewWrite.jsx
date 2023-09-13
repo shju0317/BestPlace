@@ -4,6 +4,7 @@ import VisitedPlace from '@c/Review/VisitedPlace';
 import Input from '@c/review/Input';
 import ReviewPhoto from '@c/Review/ReviewPhoto';
 import useReviewStore from '@h/useReviewStore';
+import { useNavigate } from 'react-router-dom';
 
 function ReviewWrite() {
   // const { reviewData, setReviewData } = useReviewStore();
@@ -29,6 +30,21 @@ function ReviewWrite() {
   //   }
   // };
 
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate(-1); // 이전 페이지로 이동
+    // navigate('/login');
+    console.log('된거니');
+  };
+
+  // useEffect(() => {
+  //   handleGoBack();
+  // });
+
+  const handleSubmit = ()=>{};
+
+
   return (
     <>
     <form className="flex flex-col gap-4 flex-wrap mx-auto max-w-3xl mt-4">
@@ -37,8 +53,8 @@ function ReviewWrite() {
       <ReviewPhoto/>
       <ReviewKeyword/>
       <div className="flex gap-2">
-        <Button type="cancel" text="취소하기" bgColor="bg-gray-100" textColor="text-red-500"/>
-        <Button type="submit" text="등록하기" onClick="handleSubmit"/>
+        <Button text="취소하기" onClick={handleGoBack} bgColor="bg-gray-100" textColor="text-red-500"/>
+        <Button type="submit" text="등록하기" onClick={handleSubmit}/>
       </div>
     </form>
     </>
