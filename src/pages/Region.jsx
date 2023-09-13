@@ -60,6 +60,9 @@ function SearchRegion({ ...props }) {
     if (inputRef.current.value) {
       setIsSearch(true);
       setSearchResult(locations.filter((region) => region.includes(inputRef.current.value)));
+    } else {
+      setIsSearch(false);
+      setSearchResult([]);
     }
   };
 
@@ -366,6 +369,8 @@ function Region() {
   const handleFocusSearchBar = (isFocus) => {
     setIsFocusSearchBar(isFocus);
   };
+
+  console.log(checkedRegionList);
 
   return (
     <div className="max-w-3xl">
