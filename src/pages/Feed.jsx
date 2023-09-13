@@ -4,7 +4,7 @@ import Place from "@c/Feed/Place";
 import FeedItem from "@c/Feed/FeedItem/FeedItem";
 import Spinner from "@c/Spinner";
 import { useCategoryStore } from "@/store/category";
-import { LuSearchX } from "react-icons/lu";
+// import { LuSearchX } from "react-icons/lu";
 
 const PLACE_LIST = ["전체", "홍익대", "합정역", "+ 관심지역"];
 
@@ -46,7 +46,7 @@ export default Feed;
 function Empty() {
   return (
     <div className="flex flex-col items-center justify-center bg-white pt-10">
-      <LuSearchX className="h-20 w-20" />
+      {/* <LuSearchX className="h-20 w-20" /> */}
       <h3 className="mt-2 text-2xl font-bold">일치하는 결과가 없습니다.</h3>
       <p className="mt-2">필터를 바꾸고 다시 시도해보세요.</p>
     </div>

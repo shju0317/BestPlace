@@ -14,7 +14,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Feed /> },
       { path: "reviewwrite", element: <ReviewWrite /> },
-      { path: "reviewlist", element: <ReviewList /> },
+      { path: "리뷰", element: <ReviewList /> },
       { path: "저장", element: <Region /> },
       { path: "피드", element: <Feed /> },
       { path:"login", element: <Login/> }
