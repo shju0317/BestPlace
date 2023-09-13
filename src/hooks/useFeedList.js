@@ -1,26 +1,34 @@
-import { useState } from "react";
 import pb from "@/api/pocketbase";
+import { useCategoryStore } from "@/store/category";
+import { useQuery } from "@tanstack/react-query";
 
 export function useFeedList() {
-  const [data, setData] = useState(null);
-  const [status, setStatus] = useState("pending");
+  const category = useCategoryStore((state) => state.category).sort();
+  const queryParams = category.includes("전체") ? "" : category.map((item) => `place.category='${item}'`).join("||");
 
-  async function getFeedList() {
+  async function fetchReviews() {
     try {
-      setStatus("loading");
       const reviews = await pb.collection("reviews").getFullList({
         expand: "writer,place",
+        // filter: filterQuery,
       });
-      setData(reviews);
-      setStatus("success");
+      return reviews;
     } catch (error) {
-      setStatus("error");
+      console.log("tryCatch-" + error);
+      console.log(error.isAbort);
     }
   }
 
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["reviews"],
+    // queryFn: () => fetchReviews(queryParams),
+    queryFn: fetchReviews,
+  });
+
+  if (error) console.log("useQuery-" + error);
+
   return {
     data,
-    status,
-    getFeedList,
+    isLoading,
   };
 }
