@@ -1,10 +1,12 @@
-import PocketBase from "pocketbase";
+export async function read(pb, collection, field, id) {
+  const FieldData = await pb.collection(collection).getList(1, 10, {
+    fields: field,
+  });
 
-export async function read(collection) {
-  const pb = new PocketBase("https://lionplace-db.pockethost.io/");
+  const collectionData = await pb.collection(collection).getList(1, 10);
 
-  const data = await pb.collection(collection).getList(1, 99);
-  // 나중에 삭제
-  console.log(data);
-  return data;
+  // 추후 삭제해야 함
+  console.log(field ? FieldData : collectionData);
+
+  return field ? FieldData : collectionData;
 }
