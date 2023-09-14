@@ -1,4 +1,4 @@
-import pb from "@/api/pocketbase";
+import { pb, setLogIn } from "@/api/pocketbase";
 import { useState } from "react";
 
 import SignTitle from "@c/SignInUp/SignTitle";
@@ -6,8 +6,7 @@ import SignInput from "@c/SignInUp/SignInput";
 import SignButton from "@c/SignInUp/SignButton";
 import SignForm from "@c/SignInUp/SignForm";
 import SignLogo from "@c/SignInUp/SignLogo";
-
-import { read, create } from "@u";
+import SignContents from "@c/SignInUp/SignContents";
 
 function Login() {
   const [id, setId] = useState("");
@@ -23,18 +22,8 @@ function Login() {
   }
   function isId() {}
 
-  async function setLogIn(pb, idPw) {
-    await pb.collection("users").authWithPassword(...idPw);
-    console.log(pb.authStore.model.nickname);
-  }
-
-  function setLogOut(pb) {
-    pb.authStore.clear();
-    console.log("Logout");
-  }
-
   return (
-    <div className="flex h-screen w-screen flex-col gap-10 bg-primary px-8 py-40 text-white">
+    <SignContents>
       <SignLogo />
       <SignTitle value="로그인" />
 
@@ -52,9 +41,9 @@ function Login() {
       <div className="flex flex-col gap-2">
         <SignButton value="로그인" handleEvent={() => setLogIn(idPw)} bgColor="bg-white" textColor="text-black" />
         {/* <br /> */}
-        <SignButton value="회원가입(미완)" handleEvent={() => setLogOut()} />
+        <SignButton value="회원가입(미완)" handleEvent={() => setLogIn(idPw)} />
       </div>
-    </div>
+    </SignContents>
   );
 }
 
