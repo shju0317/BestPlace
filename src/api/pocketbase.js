@@ -25,6 +25,18 @@ export async function read(collection, field, id) {
   return field ? FieldData : collectionData;
 }
 
+export async function fullRead(collection, field, id) {
+  const FieldData = await pb.collection(collection).getFullList({
+    fields: field,
+  });
+  const collectionData = await pb.collection(collection).getFullList();
+
+  // 추후 삭제해야 함
+  // console.log(field ? FieldData : collectionData);
+
+  return field ? FieldData : collectionData;
+}
+
 export function update(collection, itemId, data) {
   const update = pb.collection(collection).update(itemId, data);
 
