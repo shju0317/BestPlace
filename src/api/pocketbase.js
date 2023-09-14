@@ -34,3 +34,10 @@ export function update(collection, itemId, data) {
   
   return update
 }
+
+export function setLogOut() {
+  pb.authStore.clear();
+  
+  // 추후 삭제해야 함
+  console.log("Logout");
+}
