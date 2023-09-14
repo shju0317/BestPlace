@@ -1,18 +1,17 @@
 import pb from "@/api/pocketbase";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-export function useFeedList() {
-  async function fetchReviews({ pageParam = 1 }) {
+export const useFeedList = () => {
+  const fetchReviews = async ({ pageParam = 1 }) => {
     try {
-      const reviews = await pb.collection("reviews").getList(pageParam, 4, {
+      const reviews = await pb.collection("reviews").getList(pageParam, 5, {
         expand: "writer,place",
       });
       return reviews;
     } catch (error) {
-      console.log("tryCatch-" + error);
-      console.log(error.isAbort);
+      console.error("tryCatch-" + error);
     }
-  }
+  };
 
   const { data, isLoading, error, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ["reviews"],
@@ -24,7 +23,7 @@ export function useFeedList() {
     },
   });
 
-  if (error) console.log("useQuery-" + error);
+  if (error) console.error("useQuery-" + error);
 
   return {
     data: data?.pages,
@@ -32,4 +31,4 @@ export function useFeedList() {
     fetchNextPage,
     hasNextPage,
   };
-}
+};

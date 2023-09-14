@@ -24,6 +24,7 @@ function Feed() {
   // 카테고리 필터링
   const data = useFilterCategory(fetchData);
 
+  // 로딩 중
   if (isLoading) {
     return (
       <div className="flex items-center justify-center">
