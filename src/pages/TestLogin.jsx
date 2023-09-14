@@ -1,12 +1,9 @@
-import PocketBase from "pocketbase";
-
+import { pb, setLogIn, setLogOut } from "@/api/pocketbase";
 import SignTitle from "@c/SignInUp/SignTitle";
 import SignButton from "@c/SignInUp/SignButton";
 
 function TestLogin() {
-  const pb = new PocketBase("https://lionplace-db.pockethost.io/");
-
-  let idPw = ["abc", "12341234"];
+  let idPw1 = ["abc", "12341234"];
   let idPw2 = ["www", "12341234"];
 
   async function setAuthAdmin(pb) {
@@ -14,17 +11,7 @@ function TestLogin() {
     console.log(pb.authStore.model.email);
   }
 
-  async function setLogIn(pb, idPw0) {
-    let authData = await pb.collection("users").authWithPassword(...idPw0);
-    console.log(pb.authStore.model.username);
-  }
-
-  function setLogOut(pb) {
-    pb.authStore.clear();
-    console.log("Logout");
-  }
-
-  function getPb(pb) {
+  function getLogger(pb) {
     pb.authStore.model?.username ? console.log(pb.authStore.model.username) : console.log("no user");
   }
 
@@ -38,13 +25,13 @@ function TestLogin() {
       <SignTitle value="테스트 로그인" />
       <SignButton value="로그인 - 관리자, 로컬 스토리지로만 확인가능" handleEvent={() => setAuthAdmin(pb)} />
       <br />
-      <SignButton value="로그인 - abc" handleEvent={() => setLogIn(pb, idPw)} />
+      <SignButton value="로그인 - abc" handleEvent={() => setLogIn(idPw1)} />
       <br />
-      <SignButton value="로그인 - www" handleEvent={() => setLogIn(pb, idPw2)} />
+      <SignButton value="로그인 - www" handleEvent={() => setLogIn(idPw2)} />
       <br />
-      <SignButton value="로그 아웃" handleEvent={() => setLogOut(pb)} />
+      <SignButton value="로그 아웃" handleEvent={() => setLogOut()} />
       <br />
-      <SignButton value="유저 확인" handleEvent={() => getPb(pb)} />
+      <SignButton value="유저 확인" handleEvent={() => getLogger(pb)} />
       <br />
       <SignButton value="로컬 스토리지 확인" handleEvent={() => getLocalStorageAuth()} />
     </>
