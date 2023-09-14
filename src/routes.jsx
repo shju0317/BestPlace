@@ -7,8 +7,8 @@ import Region from "@p/Region";
 import ReviewList from "@p/ReviewList";
 import { pb } from "@/api/pocketbase";
 
-// import Login from "@p/Login";
-import Login from "@p/TestLogin";
+import Login from "@p/Login";
+// import Login from "@p/TestLogin";
 // import Login from "@p/Register";
 
 let isValidUser = pb.authStore.isValid;

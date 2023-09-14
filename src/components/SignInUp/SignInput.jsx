@@ -11,10 +11,12 @@ function SignInput({ labelValue, ariaText, placeHolder, inputValue }) {
 
   return (
     <div className="">
-      <label className="">{labelValue}</label>
-      <br />
+      <label className="" htmlFor="signInputId">
+        {labelValue}
+      </label>
       <input
-        className=""
+        id="signInputId"
+        className="w-full rounded border px-7 py-4 text-base text-white bg-primary placeholder-white"
         type="text"
         aria-label={ariaText}
         placeholder={placeHolder}
