@@ -1,8 +1,7 @@
 import PocketBase from "pocketbase";
 
-const pb = new PocketBase(import.meta.env.VITE_PB_URL);
+export const pb = new PocketBase(import.meta.env.VITE_PB_URL);
 pb.autoCancellation(false);
-export default pb;
 
 export async function create(collection, data) {
   const create = await pb.collection(collection).create(data);
