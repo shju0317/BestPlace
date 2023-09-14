@@ -1,19 +1,28 @@
-import { useFeedList } from "@/hooks/useFeedList";
+import { useFeedList, useIntersect, useFilterCategory } from "@h";
 import Category from "@c/Feed/Category";
 import Place from "@c/Feed/Place";
 import FeedItem from "@c/Feed/FeedItem/FeedItem";
 import Spinner from "@c/Spinner";
-import { useCategoryStore } from "@/store/category";
-// import { LuSearchX } from "react-icons/lu";
+import NoResult from "@c/Feed/NoResult";
 
 const PLACE_LIST = ["전체", "홍익대", "합정역", "+ 관심지역"];
 
 function Feed() {
-  let data = [];
-  const { data: fetchData, isLoading } = useFeedList();
-  const category = useCategoryStore((state) => state.category);
-  const filteredData = fetchData?.filter((el) => category.includes(el.expand.place.category));
-  category.includes("전체") ? (data = fetchData) : (data = filteredData);
+  const { data: fetchData, isLoading, hasNextPage, fetchNextPage } = useFeedList();
+
+  // 인피니트 스크롤
+  const ref = useIntersect(
+    async (entry, observer) => {
+      observer.unobserve(entry.target);
+      if (hasNextPage && !isLoading) {
+        fetchNextPage();
+      }
+    },
+    { threshold: 1 }
+  );
+
+  // 카테고리 필터링
+  const data = useFilterCategory(fetchData);
 
   if (isLoading) {
     return (
@@ -34,21 +43,17 @@ function Feed() {
       <ul className="flex gap-2 py-3 text-sm">
         <Category />
       </ul>
+
       <ul className="flex flex-col gap-1 bg-gray-50">
-        {data.length ? data?.map((item) => <FeedItem key={item.id} item={item} />) : <Empty />}
+        {data[0].items.length ? (
+          data.map((group) => group.items.map((item) => <FeedItem key={item.id} item={item} />))
+        ) : (
+          <NoResult />
+        )}
       </ul>
+      <div ref={ref} className="h-[1px]"></div>
     </>
   );
 }
 
 export default Feed;
-
-function Empty() {
-  return (
-    <div className="flex flex-col items-center justify-center bg-white pt-10">
-      {/* <LuSearchX className="h-20 w-20" /> */}
-      <h3 className="mt-2 text-2xl font-bold">일치하는 결과가 없습니다.</h3>
-      <p className="mt-2">필터를 바꾸고 다시 시도해보세요.</p>
-    </div>
-  );
-}
