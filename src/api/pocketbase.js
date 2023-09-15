@@ -31,7 +31,7 @@ export async function fullRead(collection, field, id) {
   return field ? FieldData : collectionData;
 }
 
-//콜랙션의 아이템에 데이터를 업데이트, 데이터는 객체이며 키값이 일치해야 한다 
+//콜랙션의 아이템에 데이터를 업데이트, 데이터는 객체이며 해당 콜랙션의 필드와 키값이 일치해야 한다 
 export function update(collection, itemId, data) {
   const update = pb.collection(collection).update(itemId, data);
   return update;
