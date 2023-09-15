@@ -1,5 +1,6 @@
 import { pb, setLogIn } from "@/api/pocketbase";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import SignTitle from "@c/SignInUp/SignTitle";
 import SignInput from "@c/SignInUp/SignInput";
@@ -9,6 +10,8 @@ import SignLogo from "@c/SignInUp/SignLogo";
 import SignContents from "@c/SignInUp/SignContents";
 
 function Login() {
+  const navigate = useNavigate()
+  
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   let idPw = [id, pw];
@@ -21,7 +24,6 @@ function Login() {
     return ids;
   }
   function isId() {}
-
   return (
     <SignContents>
       <SignLogo />
@@ -40,8 +42,7 @@ function Login() {
 
       <div className="flex flex-col gap-2">
         <SignButton value="로그인" handleEvent={() => setLogIn(idPw)} bgColor="bg-white" textColor="text-black" />
-        {/* <br /> */}
-        <SignButton value="회원가입(미완)" handleEvent={() => setLogIn(idPw)} />
+        <SignButton value="회원가입" handleEvent={() => navigate("/Register")} />
       </div>
     </SignContents>
   );

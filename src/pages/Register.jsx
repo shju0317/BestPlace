@@ -7,8 +7,11 @@ import SignForm from "@c/SignInUp/SignForm";
 import SignContents from "@c/SignInUp/SignContents";
 import { pb, read, create, update } from "@/api/pocketbase";
 import SignLogo from "@c/SignInUp/SignLogo";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const navigate = useNavigate();
+
   const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
@@ -40,7 +43,6 @@ function Register() {
     email: email,
     password: pw,
     passwordConfirm: pwCheck,
-
   };
   const updateData = {
     nickname: "업데이트된 닉네임",
@@ -73,14 +75,11 @@ function Register() {
           inputValue={setPwCheck}
         />
       </SignForm>
-      {/* <SignButton value="업데이트" handleEvent={() => update("users", pb.authStore.model.id, updateData)} /> */}
-      <SignButton
-        value="회원가입"
-        handleEvent={() => create("users", userData)}
-        bgColor="bg-white"
-        textColor="text-black"
-      />
-      {/* <SignButton value="아이디 목록" handleEvent={() => read("users")} /> */}
+
+      <div className="flex flex-col gap-2">
+        <SignButton value="회원가입" handleEvent={() => read()} bgColor="bg-white" textColor="text-black" />
+        <SignButton value="로그인" handleEvent={() => navigate("/Login")} />
+      </div>
     </SignContents>
   );
 }
