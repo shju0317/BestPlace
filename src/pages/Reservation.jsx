@@ -1,5 +1,5 @@
 import SwiperCategory from "@/components/SwiperCategory";
-import { BsChevronDown } from "react-icons/bs";
+import { BsCalendarWeek, BsChevronDown } from "react-icons/bs";
 import { MdFoodBank, MdOutlineCheck } from "react-icons/md";
 import { PiCalendarCheckBold, PiCalendarXBold, PiNumberSquareOneFill } from "react-icons/pi";
 
@@ -8,12 +8,15 @@ import { PiCalendarCheckBold, PiCalendarXBold, PiNumberSquareOneFill } from "rea
 //@ 현재 예약중 리스트
 function ReservedList() {
   return (
-    <div className="p-4 border-2 border-primary">
-      
+    <div className="my-5 rounded-2xl border-2 border-primary p-4">
+      <p className="inline rounded-xl bg-primary px-1.5 py-0.5 text-xs font-bold text-white">13일전</p>
+      <h4 className="mt-1 font-bold">상호명</h4>
+      <p className="text-sm font-light">
+        12. 24 토 <span className="mx-1 font-normal opacity-40">|</span> 오후 12:00
+      </p>
     </div>
   );
 }
-
 
 /* -------------------------------------------------------------------------- */
 
@@ -102,7 +105,13 @@ function Reservation() {
   let count = "33";
 
   return (
-    <div className="max-w-md">
+    <div>
+      {/* 현재 예약중 리스트 */}
+      <h3 className="my-5 text-lg font-bold">
+        <BsCalendarWeek className="mr-2 inline align-bottom text-3xl" />
+        {name}님이 현재 예약한 정보에요
+      </h3>
+      <ReservedList />
       {/* 카테고리 선택 */}
       <h3 className="mb-2 text-lg font-bold">
         <MdFoodBank className="mr-2 inline align-bottom text-3xl" />
@@ -119,6 +128,7 @@ function Reservation() {
 
       {/* 예약 횟수 */}
       <ReservationCount />
+      
       {/* 예약 리스트 */}
       <ReservationList />
     </div>
