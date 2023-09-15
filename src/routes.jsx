@@ -3,6 +3,7 @@ import RootLayout from "@l/RootLayout";
 import NotFound from "@p/NotFound";
 import Feed from "@p/Feed";
 import ReviewWrite from "@p/ReviewWrite";
+import ReserveWrite from "@p/ReserveWrite";
 import Region from "@p/Region";
 import ReviewList from "@p/ReviewList";
 import { pb } from "@/api/pocketbase";
@@ -23,6 +24,7 @@ const routerConfig = isValidUser
           { index: true, element: <Feed /> },
           { path: "reviewwrite", element: <ReviewWrite /> },
           { path: "리뷰", element: <ReviewList /> },
+          { path: "예약", element: <ReserveWrite /> },
           { path: "저장", element: <Region /> },
           { path: "feed", element: <Feed /> },
         ],
