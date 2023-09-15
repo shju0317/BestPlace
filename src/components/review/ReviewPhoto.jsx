@@ -129,4 +129,10 @@ useEffect(() => {
   )
 }
 
+// ReviewPhoto.propTypes = {
+//   name: string,
+//   onChange: func
+// };
+
+
 export default ReviewPhoto
