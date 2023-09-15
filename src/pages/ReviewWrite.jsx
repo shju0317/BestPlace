@@ -2,7 +2,7 @@ import { pb } from '@/api/pocketbase';
 import ReviewKeyword from '@c/Review/ReviewKeyword';
 import Button from '@c/Review/Button';
 import VisitedPlace from '@c/Review/VisitedPlace';
-import Input from '@c/review/Input';
+import Input from '@c/Review/Input';
 import ReviewPhoto from '@c/Review/ReviewPhoto';
 import { useNavigate } from 'react-router-dom';
 import useReview from '@h/useReview';
