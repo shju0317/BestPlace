@@ -2,11 +2,13 @@ import toast from 'react-hot-toast';
 import { produce } from 'immer';
 import { useState } from 'react';
 import KEYWORDS from '@d/keywords';
+import useReview from '@h/useReview';
+import { string } from 'prop-types';
 
-
-function ReviewKeyword() {
+function ReviewKeyword({name}) {
 
   const [selectedKeyword, setSelectedKeyword] = useState([]);
+  const {handleInputChange, reviewData} = useReview();
 
   const handleKeywordClick = (keywordId) => {
     if (selectedKeyword.includes(keywordId)) {
@@ -40,11 +42,15 @@ function ReviewKeyword() {
   };
 
   const listItems = KEYWORDS.map(keyword => (
-    <li key={keyword.id} className="mb-2">
+    <li key={keyword.id} className="mb-2" >
       <button type="button"
       className={`min-w-max px-3 py-2 rounded shadow-sm shadow-slate-300 
       ${selectedKeyword.includes(keyword.id) ? 'bg-primary text-white' : 'bg-gray-100 text-black'}`}
-      onClick={() => handleKeywordClick(keyword.id)}
+      onClick={(e) => {
+        handleKeywordClick(keyword.id)
+        handleInputChange({target: { name: name, value: e.target.value }})
+        }
+      }
       >
         <span className="mr-2">{keyword.emoji}</span>{keyword.name}
       </button>
@@ -58,5 +64,9 @@ function ReviewKeyword() {
     </div>
   )
 }
+
+ReviewKeyword.propTypes = {
+  name: string
+};
 
 export default ReviewKeyword

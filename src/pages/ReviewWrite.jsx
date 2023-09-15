@@ -1,25 +1,16 @@
-import pb from '@/api/pocketbase';
+import { pb } from '@/api/pocketbase';
 import ReviewKeyword from '@c/Review/ReviewKeyword';
 import Button from '@c/Review/Button';
 import VisitedPlace from '@c/Review/VisitedPlace';
 import Input from '@c/review/Input';
 import ReviewPhoto from '@c/Review/ReviewPhoto';
-import useReviewStore from '@/store/review';
 import { useNavigate } from 'react-router-dom';
+import useReview from '@h/useReview';
 
 function ReviewWrite() {
-  const { reviewData, setReviewData } = useReviewStore();
   const navigate = useNavigate();
-
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    console.log('name은', name);
-    console.log('value는', value);
-    
-    setReviewData({ [name]: value });
-    console.log(reviewData);
-  };
+  
+  const {handleInputChange, reviewData} = useReview();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +33,7 @@ function ReviewWrite() {
 
   return (
     <>
-    <form className="flex flex-col gap-4 flex-wrap mx-auto max-w-3xl mt-4">
+    <form method="POST" className="flex flex-col gap-4 flex-wrap mx-auto max-w-3xl mt-4">
       <VisitedPlace/>
       <Input label="리뷰를 남겨주세요" 
         placeholder="업주와 다른 사용자들이 상처받지 않도록 좋은 표현을 사용해주세요. 유용한 Tip도 남겨주세요!"
@@ -50,10 +41,8 @@ function ReviewWrite() {
         value={reviewData.contents}
         onChange={handleInputChange}
       />
-      <ReviewPhoto
-        name="photos"
-        onChange={handleInputChange}/>
-      <ReviewKeyword/>
+      <ReviewPhoto name="photos"/>
+      <ReviewKeyword name="keywords"/>
       <div className="flex gap-2">
         <Button text="취소하기" onClick={handleGoBack} bgColor="bg-gray-100" textColor="text-red-500"/>
         <Button type="submit" text="등록하기" onClick={handleSubmit}/>

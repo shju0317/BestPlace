@@ -4,9 +4,14 @@ import { MdOutlineCancel } from "react-icons/md";
 import { useRef, useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { produce } from 'immer';
+import useReview from '@h/useReview';
+import { string } from 'prop-types';
 
-function ReviewPhoto() {
+
+function ReviewPhoto({name}) {
   const MAX_IMAGE_COUNT = 5;
+
+  const {handleInputChange, reviewData} = useReview();
 
   const [image, setImage] = useState({
     fileImages: [],
@@ -17,13 +22,8 @@ function ReviewPhoto() {
   const divRef = useRef(null);
   const labelRef = useRef(null);
 
-  const hideElement = (element) => {
-    element.current.style.display = "none";
-  }
-
-  const showElement = (element) => {
-    element.current.style.display = "flex";
-  }
+  const hideElement = (element) => element.current.style.display = "none";
+  const showElement = (element) => element.current.style.display = "flex";
 
   // 이미지 파일 업로드하기
   const handleUploadImage = (e) => {
@@ -84,7 +84,7 @@ useEffect(() => {
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <label htmlFor="photo" 
+      <label htmlFor="photos" 
         ref={labelRef}
         className="flex justify-center items-center gap-1 py-1 border border-primary rounded font-semibold w-full self-center">
         <CiImageOn />
@@ -96,9 +96,13 @@ useEffect(() => {
           type="file"
           accept="*.jpg,*.png,*.jpeg,*.webp,*.avif"
           ref={photoRef}
-          name="photo"
-          id="photo"
-          onChange={handleUploadImage}
+          name="photos"
+          id="photos"
+          onChange={ (e)=>{
+            handleUploadImage(e)
+            handleInputChange({target: { name: name, value: e.target.value }})
+          }
+            }
           className="absolute z-10 w-full h-full opacity-0 cursor-pointer"
         />
         <div className="hidden flex gap-4" ref={divRef}>
@@ -129,10 +133,8 @@ useEffect(() => {
   )
 }
 
-// ReviewPhoto.propTypes = {
-//   name: string,
-//   onChange: func
-// };
-
+ReviewPhoto.propTypes = {
+  name: string
+};
 
 export default ReviewPhoto
