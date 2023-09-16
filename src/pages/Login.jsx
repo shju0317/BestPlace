@@ -1,4 +1,4 @@
-import { pb, setLogIn } from "@/api/pocketbase";
+import { pb, read, setLogIn } from "@/api/pocketbase";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -10,20 +10,24 @@ import SignLogo from "@c/SignInUp/SignLogo";
 import SignContents from "@c/SignInUp/SignContents";
 
 function Login() {
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
+
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   let idPw = [id, pw];
 
   console.log(idPw);
 
-  async function getIds(pb) {
-    const users = await pb.collection("users").getList(1, 99);
+  async function getIds() {
+    const users = read("users");
     const ids = users.items.map((item) => item.username);
-    return ids;
+    const isValidId = ids.include(id);
+    console.log(isValidId);
+    return isValidId;
   }
+
   function isId() {}
+
   return (
     <SignContents>
       <SignLogo />
