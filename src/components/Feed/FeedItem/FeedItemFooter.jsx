@@ -1,7 +1,40 @@
+import pb from "@/api/pocketbase";
+import { useUserFavorites } from "@/hooks/useUserFavorites";
 import { shape, string } from "prop-types";
+import { useState, useEffect } from "react";
 import { BsBookmarkStar } from "react-icons/bs";
 
 function FeedItemFooter({ item }) {
+  const userId = pb.authStore.model.id;
+  const userFavorites = pb.authStore.model.favorites;
+  const [isSave, setIsSave] = useState(false);
+  const { data, refetch } = useUserFavorites();
+
+  useEffect(() => {
+    data?.record.favorites.includes(item.expand.place.id) ? setIsSave(true) : setIsSave(false);
+  }, [data, item.expand.place.id]);
+
+  const handleSave = async () => {
+    let favorites;
+
+    if (isSave) {
+      favorites = userFavorites.filter((el) => el !== item.expand.place.id);
+      setIsSave(false);
+    } else {
+      favorites = [...userFavorites, item.expand.place.id];
+      setIsSave(true);
+    }
+
+    try {
+      await pb.collection("users").update(userId, {
+        favorites,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    refetch();
+  };
+
   return (
     <div className="flex items-center justify-between rounded-lg border p-4">
       <dl className="grid grid-cols-[36px_1fr] gap-1">
@@ -18,10 +51,17 @@ function FeedItemFooter({ item }) {
           {item.expand.place.address}
         </dd>
       </dl>
-      <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-gray-400">
-        <BsBookmarkStar className="text-2xl" />
-        <span className="text-xs">저장</span>
-      </button>
+      {isSave ? (
+        <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-yellow-400">
+          <BsBookmarkStar className="text-2xl" onClick={handleSave} />
+          <span className="text-xs">저장</span>
+        </button>
+      ) : (
+        <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-gray-400">
+          <BsBookmarkStar className="text-2xl" onClick={handleSave} />
+          <span className="text-xs">저장</span>
+        </button>
+      )}
     </div>
   );
 }
