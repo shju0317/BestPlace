@@ -6,6 +6,7 @@ import ReviewWrite from "@p/ReviewWrite";
 import Region from "@p/Region";
 import ReviewList from "@p/ReviewList";
 import { pb } from "@/api/pocketbase";
+import ReserveWrite from "@p/ReserveWrite";
 
 // import Login from "@p/Login";
 import Login from "@p/TestLogin";
@@ -23,6 +24,7 @@ const routerConfig = isValidUser
           { index: true, element: <Feed /> },
           { path: "reviewwrite", element: <ReviewWrite /> },
           { path: "리뷰", element: <ReviewList /> },
+          { path: "예약", element: <ReserveWrite /> },
           { path: "저장", element: <Region /> },
           { path: "feed", element: <Feed /> },
         ],
