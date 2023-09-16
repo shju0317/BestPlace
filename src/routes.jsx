@@ -6,6 +6,7 @@ import Feed from "@p/Feed";
 import ReviewWrite from "@p/ReviewWrite";
 import Region from "@p/Region";
 import ReviewList from "@p/ReviewList";
+import UpdateUserData from "@p/UpdateUserData";
 import Login from "@p/Login";
 import Register from "@p/Register";
 
@@ -23,6 +24,7 @@ const routerConfig = isValidUser
           { path: "리뷰", element: <ReviewList /> },
           { path: "저장", element: <Region /> },
           { path: "feed", element: <Feed /> },
+          { path: "updateUserData", element: <UpdateUserData /> },
         ],
       },
     ]
