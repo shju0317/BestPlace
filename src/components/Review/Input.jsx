@@ -1,8 +1,8 @@
-import { string } from 'prop-types';
+import { string, func } from 'prop-types';
 import { useId, useState } from "react"
 
 
-function Input({label, placeholder}) {
+function Input({label, placeholder, name, onChange}) {
   const INPUT_MAX_LENGTH = 200;
 
   const inputId = useId();
@@ -14,7 +14,11 @@ function Input({label, placeholder}) {
       <textarea id="inputId" rows="5" maxLength={INPUT_MAX_LENGTH}
         placeholder={placeholder}
         className="bg-slate-100 rounded p-3 focus:outline-primary"
-        onChange={(e)=>setLetterCount(e.target.value.length)}>
+        onChange={
+          (e)=>{
+            setLetterCount(e.target.value.length);
+            onChange({target: { name: name, value: e.target.value }});
+          }}>
       </textarea>
       <span className="text-xs text-right">{letterCount}/{INPUT_MAX_LENGTH}</span>
     </div>
@@ -23,7 +27,9 @@ function Input({label, placeholder}) {
 
 Input.propTypes = {
   label: string,
-  placeholder: string
+  placeholder: string,
+  name: string,
+  onChange: func
 };
 
 

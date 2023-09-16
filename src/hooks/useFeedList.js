@@ -1,4 +1,4 @@
-import pb from "@/api/pocketbase";
+import {pb} from "@/api/pocketbase";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 export const useFeedList = () => {

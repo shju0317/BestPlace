@@ -1,7 +1,15 @@
 import { string, func } from "prop-types";
 import { useState } from "react";
 
-function SignInput({ labelValue, ariaText, placeHolder, inputValue }) {
+function SignInput({
+  labelValue,
+  ariaText,
+  placeHolder,
+  inputValue,
+  bgColor = "bg-primary",
+  textColor = "text-white",
+  placeHolderColor = "placeholder-white",
+}) {
   const [inputChange, setInputChange] = useState("");
 
   const handleChangeInput = ({ target }) => {
@@ -11,10 +19,12 @@ function SignInput({ labelValue, ariaText, placeHolder, inputValue }) {
 
   return (
     <div className="">
-      <label className="">{labelValue}</label>
-      <br />
+      <label className="" htmlFor="signInputId">
+        {labelValue}
+      </label>
       <input
-        className=""
+        id="signInputId"
+        className={`${textColor} ${bgColor} ${placeHolderColor} w-full rounded border px-7 py-4 text-base`}
         type="text"
         aria-label={ariaText}
         placeholder={placeHolder}
@@ -29,6 +39,9 @@ SignInput.propTypes = {
   ariaText: string,
   placeHolder: string,
   inputValue: func,
+  bgColor: string,
+  textColor: string,
+  placeHolderColor: string,
 };
 
 export default SignInput;

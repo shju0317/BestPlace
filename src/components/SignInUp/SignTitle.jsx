@@ -1,12 +1,7 @@
 import { string } from "prop-types";
 
 function SignTitle({ value }) {
-  return (
-    <>
-      <h2 className="text-xl">{value}</h2>
-      <br />
-    </>
-  );
+  return <h2 className="text-3xl">{value}</h2>;
 }
 
 SignTitle.propTypes = {
