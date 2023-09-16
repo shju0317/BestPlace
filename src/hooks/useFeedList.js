@@ -1,16 +1,11 @@
-import pb from "@/api/pocketbase";
-import { useCategoryStore } from "@/store/category";
-import { useQuery } from "@tanstack/react-query";
+import {pb} from "@/api/pocketbase";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 export function useFeedList() {
-  const category = useCategoryStore((state) => state.category).sort();
-  const queryParams = category.includes("전체") ? "" : category.map((item) => `place.category='${item}'`).join("||");
-
-  async function fetchReviews() {
+  async function fetchReviews({ pageParam = 1 }) {
     try {
-      const reviews = await pb.collection("reviews").getFullList({
+      const reviews = await pb.collection("reviews").getList(pageParam, 4, {
         expand: "writer,place",
-        // filter: filterQuery,
       });
       return reviews;
     } catch (error) {
@@ -19,16 +14,22 @@ export function useFeedList() {
     }
   }
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ["reviews"],
-    // queryFn: () => fetchReviews(queryParams),
     queryFn: fetchReviews,
+    keepPreviousData: true,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.page >= lastPage.totalPages) return undefined;
+      return lastPage.page + 1;
+    },
   });
 
   if (error) console.log("useQuery-" + error);
 
   return {
-    data,
+    data: data?.pages,
     isLoading,
+    fetchNextPage,
+    hasNextPage,
   };
 }
