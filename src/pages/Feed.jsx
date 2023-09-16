@@ -1,9 +1,9 @@
 import { useFeedList, useIntersect, useFilterCategory } from "@h";
-import Category from "@c/Feed/Category";
-import Place from "@c/Feed/Place";
 import FeedItem from "@c/Feed/FeedItem/FeedItem";
 import Spinner from "@c/Spinner";
 import NoResult from "@c/Feed/NoResult";
+import FilterCategory from "@/components/Feed/FilterCategory";
+import FilterRegion from "@/components/Feed/FilterRegion";
 
 const PLACE_LIST = ["전체", "홍익대", "합정역", "+ 관심지역"];
 
@@ -38,11 +38,11 @@ function Feed() {
       <h2 className="sr-only">피드 페이지</h2>
       <ul className="flex gap-2">
         {PLACE_LIST.map((item) => (
-          <Place key={crypto.randomUUID()} title={item} />
+          <FilterRegion key={crypto.randomUUID()} title={item} />
         ))}
       </ul>
       <ul className="flex gap-2 py-3 text-sm">
-        <Category />
+        <FilterCategory />
       </ul>
 
       <ul className="flex flex-col gap-1 bg-gray-50">

@@ -1,4 +1,4 @@
-import pb from "@/api/pocketbase";
+import { pb } from "@/api/pocketbase";
 import { useQuery } from "@tanstack/react-query";
 
 export const useUserFavorites = () => {

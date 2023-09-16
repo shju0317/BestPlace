@@ -9,6 +9,8 @@ import ReviewList from "@p/ReviewList";
 import UpdateUserData from "@p/UpdateUserData";
 import Login from "@p/Login";
 import Register from "@p/Register";
+import Place from "./pages/Place";
+import UserReview from "./pages/UserReview";
 
 let isValidUser = pb.authStore.isValid;
 
@@ -25,6 +27,8 @@ const routerConfig = isValidUser
           { path: "저장", element: <Region /> },
           { path: "feed", element: <Feed /> },
           { path: "updateUserData", element: <UpdateUserData /> },
+          { path: "feed/place/:placeId", element: <Place /> },
+          { path: "userReview/:userId", element: <UserReview /> },
         ],
       },
     ]

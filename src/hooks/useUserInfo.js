@@ -1,7 +1,7 @@
-import pb from "@/api/pocketbase";
+import { pb } from "@/api/pocketbase";
 import { useQuery } from "@tanstack/react-query";
 
-export const useUserFollowing = (userId) => {
+export const useUserInfo = (userId) => {
   const fetchUser = async () => {
     try {
       const user = await pb.collection("users").getOne(userId);

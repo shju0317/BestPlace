@@ -1,6 +1,6 @@
 import { string } from "prop-types";
 
-function Place({ title }) {
+function FilterRegion({ title }) {
   return (
     <li>
       <button className="rounded-md bg-gray-100 p-2 text-gray-500 shadow hover:bg-secondary hover:text-white">
@@ -10,8 +10,8 @@ function Place({ title }) {
   );
 }
 
-Place.propTypes = {
+FilterRegion.propTypes = {
   title: string,
 };
 
-export default Place;
+export default FilterRegion;

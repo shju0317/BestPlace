@@ -1,4 +1,4 @@
-import pb from "@/api/pocketbase";
+import { pb } from "@/api/pocketbase";
 import { useUserFavorites } from "@/hooks/useUserFavorites";
 import { shape, string } from "prop-types";
 import { useState, useEffect } from "react";

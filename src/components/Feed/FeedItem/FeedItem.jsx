@@ -4,17 +4,20 @@ import PhotoLayout from "./PhotoLayout";
 import KeywordList from "./KeywordList";
 import FeedItemHeader from "./FeedItemHeader";
 import FeedItemFooter from "./FeedItemFooter";
+import { Link } from "react-router-dom";
 
 function FeedItem({ item }) {
   return (
     <li className="flex flex-col gap-3 bg-white py-8">
       <FeedItemHeader item={item} />
-      <figure>
-        <PhotoLayout item={item} />
-        <figcaption>
-          <p className="mt-3  text-gray-700">{item.contents}</p>
-        </figcaption>
-      </figure>
+      <Link to={`/feed/place/${item.expand.place.id}`}>
+        <figure>
+          <PhotoLayout item={item} />
+          <figcaption>
+            <p className="mt-3  text-gray-700">{item.contents}</p>
+          </figcaption>
+        </figure>
+      </Link>
       <div className="flex items-center justify-between">
         <ul className="flex gap-2">
           {item.keywords.map((item) => (
@@ -36,6 +39,11 @@ FeedItem.propTypes = {
     photos: array,
     keywords: array,
     created: string,
+    expand: shape({
+      place: shape({
+        id: string,
+      }),
+    }),
   }),
 };
 
