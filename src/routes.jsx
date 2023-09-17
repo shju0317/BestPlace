@@ -1,16 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
+import { pb } from "@/api/pocketbase";
 import RootLayout from "@l/RootLayout";
 import NotFound from "@p/NotFound";
 import Feed from "@p/Feed";
 import ReviewWrite from "@p/ReviewWrite";
 import Region from "@p/Region";
 import ReviewList from "@p/ReviewList";
-import { pb } from "@/api/pocketbase";
+import UpdateUserData from "@p/UpdateUserData";
+import Login from "@p/Login";
+import Register from "@p/Register";
 import ReserveWrite from "@p/ReserveWrite";
-
-// import Login from "@p/Login";
-import Login from "@p/TestLogin";
-// import Login from "@p/Register";
 
 let isValidUser = pb.authStore.isValid;
 
@@ -27,13 +26,18 @@ const routerConfig = isValidUser
           { path: "예약", element: <ReserveWrite /> },
           { path: "저장", element: <Region /> },
           { path: "feed", element: <Feed /> },
+          { path: "updateUserData", element: <UpdateUserData /> },
         ],
       },
     ]
   : [
       {
         path: "/",
-        element: <Login />,
+        children: [
+          { index: true, element: <Login /> },
+          { path: "login", element: <Login /> },
+          { path: "register", element: <Register /> },
+        ],
       },
     ];
 
