@@ -1,4 +1,7 @@
+import { fullRead, pb } from "@/api/pocketbase";
 import SwiperCategory from "@/components/SwiperCategory";
+import { useEffect } from "react";
+import { useState } from "react";
 import { BsCalendarWeek, BsChevronDown } from "react-icons/bs";
 import { MdFoodBank, MdOutlineCheck } from "react-icons/md";
 import { PiCalendarCheckBold, PiCalendarXBold, PiNumberSquareOneFill } from "react-icons/pi";
@@ -100,16 +103,54 @@ function ReservationList() {
 
 //@ 예약 페이지 컴포넌트
 function Reservation() {
-  //TODO 추후 데이터 렌더링으로 가져올 것
-  let name = "LION";
-  let count = "33";
+  const userInfo = pb.authStore.model;
+  const [reservationData, setReservationData] = useState();
+  const [visitedList, setVisitedList] = useState([]);
+  const [canceledList, setCanceledList] = useState([]);
+  const [reservedList, setReservedList] = useState([]);
+  
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await pb.collection("reservation").getFullList({
+        filter: `booker = '${userInfo.id}'`,
+        expand: "place",
+        sort: "+date",
+      });
+
+      console.log(data);
+
+      setReservationData(data);
+
+      let visitedList = [];
+      let canceledList = [];
+      let reservedList = [];
+
+      data.forEach((item) => {
+        item.canceled === true
+          ? (canceledList = [...canceledList, item])
+          : item.visited === true
+          ? (visitedList = [...visitedList, item])
+          : (reservedList = [...reservedList, item]);
+      });
+
+      setVisitedList([...visitedList]);
+      setCanceledList([...canceledList]);
+      setReservedList([...reservedList]);
+    }
+
+    fetchData();
+  }, []);
+
+  let name = userInfo.nickname;
+  let count = reservationData?.length;
 
   return (
     <div>
       {/* 현재 예약중 리스트 */}
       <h3 className="my-5 text-lg font-bold">
         <BsCalendarWeek className="mr-2 inline align-bottom text-3xl" />
-        {name}님이 현재 예약한 정보에요
+        <span className="text-secondary">{name}</span>님이 현재 예약한 정보에요
       </h3>
       <ReservedList />
       {/* 카테고리 선택 */}
@@ -123,12 +164,14 @@ function Reservation() {
       {/* 예약 횟수 */}
       <h3 className="my-5 text-lg font-bold">
         <MdOutlineCheck className="mr-2 inline align-bottom text-3xl" />
-        {name}님은 LION PLACE로 {count}회 예약했어요
+        <span className="text-secondary">{name}</span>님은 LION PLACE로
+        <span className="text-secondary"> {count}회 </span>
+        예약했어요
       </h3>
 
       {/* 예약 횟수 */}
       <ReservationCount />
-      
+
       {/* 예약 리스트 */}
       <ReservationList />
     </div>
