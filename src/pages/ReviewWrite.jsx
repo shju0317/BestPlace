@@ -6,6 +6,7 @@ import Input from '@c/Review/Input';
 import ReviewPhoto from '@c/Review/ReviewPhoto';
 import { useNavigate } from 'react-router-dom';
 import useReview from '@h/useReview';
+import toast from 'react-hot-toast';
 
 function ReviewWrite() {
   const navigate = useNavigate();
@@ -44,7 +45,20 @@ function ReviewWrite() {
       await pb.collection("reviews").create(formData);
   
       // 토스트 추가하기
-      console.log("데이터 전송 성공!");
+      toast("리뷰가 등록되었습니다.",{
+        duration: 2000,
+        icon: "✔",
+        style:{
+          background: "#e0f2fe",
+          color: "#000",
+          borderRadius: "28px",
+          padding: "12px"
+        },
+        ariaProps:{
+          role: "alert",
+          'aria-live': 'polite'
+        }
+      });
   
       navigate("/리뷰"); // 리디렉션
     } catch (error) {
