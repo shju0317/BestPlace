@@ -15,26 +15,52 @@ function ReserveWrite() {
   // const [startDate, setStartDate] = useState(new Date());
   const [value, setValue] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const showSelectedDate = '';
+  
+  const maxSelectableDate = new Date();
+  maxSelectableDate.setDate(maxSelectableDate.getDate() + 21); // 현재 날짜로부터 3주 이내
+
+
   function onChange(nextValue) {
     setValue(nextValue);
   }
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
-    console.log('Selected date:', date);
+    console.log('Selected date:', date.toLocaleDateString());
   };
 
-  const [startDate, setStartDate] = useState(
-    setHours(setMinutes(new Date(), 0), 9),
+  const [time, setTime] = useState(
+    setHours(setMinutes(new Date(), 0), 9) // 9:00 AM
   );
 
-  const filterPassedTime = (time) => {
-    const currentDate = new Date();
-    const selectedDate = new Date(time);
+  const allowedStartHour = 9;
+  const allowedEndHour = 20;
 
-    return currentDate.getTime() < selectedDate.getTime();
-  };
+    // 선택 가능한 시간 목록 생성
+    const generateTimeOptions = () => {
+      const options = [];
+  
+      for (let hour = allowedStartHour; hour <= allowedEndHour; hour++) {
+        for (let minute of ['00', '30']) {
+          const timeString = `${hour}:${minute}`;
+          options.push(
+            <option key={timeString} value={timeString}>
+              {timeString}
+            </option>
+          );
+        }
+      }
+  
+      return options;
+    };
+
+    
+  // const filterPassedTime = (time) => {
+  //   const currentDate = new Date();
+  //   const selectedDate = new Date(time);
+    
+  //   return currentDate.getTime() < selectedDate.getTime();
+  // };
 
 
   const handleSubmit = async (e) => {
@@ -97,12 +123,22 @@ function ReserveWrite() {
         {/* 캘린더 */}
         <div>
           <label htmlFor="date" className="hidden">캘린더</label>
-          <Calendar id="date" value={value}
-          fortmatShortWeekday={true}
-          onChange={onChange}  
-          onClickDay={handleDateClick}
-          locale="en-US"
-          className="border border-primary p-4 text-center"
+          <Calendar id="date" 
+            fortmatShortWeekday={true}
+            minDate={new Date()}
+            maxDate={maxSelectableDate} 
+            dateFormat = "yyyy.MM.dd(eee)"
+            onChange={onChange}  
+            onClickDay={handleDateClick}
+            // locale="en-US"
+            prevAriaLabel="이전달"
+            prevLabel="<"
+            nextAriaLabel="다음달"
+            nextLabel=">"
+            navigationAriaLive="polite"
+            prev2Label={null}
+            next2Label={null}
+            className="border border-primary p-4 text-center"
           />
         </div>  
         {/* 날짜 */}
@@ -115,25 +151,20 @@ function ReserveWrite() {
           <label htmlFor="time" className="text-lg font-semibold">시간</label>
           <DatePicker
             id="time"
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
+            selected={time}
+            onChange={(date) => setTime(date)}
             showTimeSelect
             showTimeSelectOnly
             timeIntervals={30}
-            // minTime={new Date().setHours(10,0).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} // 오전 10시
-            // maxTime={new Date().setHours(20,0).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} // 오후 8시
-            timeCaption="Time"
+            minTime={new Date().setHours(9, 0)} //오전 9시
+            maxTime={new Date().setHours(20, 0)} // 오후 8시
             dateFormat="h:mm aa"
-            filterTime={filterPassedTime}
-            // timeConstraints={{
-            //   hours: {
-            //     min: 10,
-            //     max: 20,
-            //   },
-            //   minutes: {
-            //     step: 30,
-            //   },
-            // }}
+            customTimeInput={
+              <select>
+                {generateTimeOptions()}
+              </select>
+            }
+            // filterTime={filterPassedTime}
             className="rounded border border-primary px-4 py-2"
           />
         </div>
