@@ -1,10 +1,10 @@
 import { pb } from "@/api/pocketbase";
 import { useUserFavorites } from "@/hooks/useUserFavorites";
-import { shape, string } from "prop-types";
+import { bool, shape, string } from "prop-types";
 import { useState, useEffect } from "react";
 import { BsBookmarkStar } from "react-icons/bs";
 
-function FeedItemFooter({ item }) {
+function FeedItemFooter({ item, isPlace = false }) {
   const userId = pb.authStore.model.id;
   const userFavorites = pb.authStore.model.favorites;
   const [isSave, setIsSave] = useState(false);
@@ -36,7 +36,11 @@ function FeedItemFooter({ item }) {
   };
 
   return (
-    <div className="flex items-center justify-between rounded-lg border p-4">
+    <div
+      className={`flex items-center justify-between ${
+        isPlace ? "rounded-none shadow-[0_6px_6px_-2px_rgba(0,0,0,0.1)]" : "rounded-lg border"
+      } mb-2 p-4`}
+    >
       <dl className="grid grid-cols-[36px_1fr] gap-1">
         <dt className="sr-only">플레이스 이름</dt>
         <dd className="col-start-1 col-end-3 overflow-hidden text-ellipsis whitespace-nowrap font-bold">
@@ -76,6 +80,7 @@ FeedItemFooter.propTypes = {
       }),
     }),
   }),
+  isPlace: bool,
 };
 
 export default FeedItemFooter;

@@ -27,7 +27,7 @@ const routerConfig = isValidUser
           { path: "저장", element: <Region /> },
           { path: "feed", element: <Feed /> },
           { path: "updateUserData", element: <UpdateUserData /> },
-          { path: "feed/place/:placeId", element: <Place /> },
+          { path: "place/:placeId/:recordId", element: <Place /> },
           { path: "userReview/:userId", element: <UserReview /> },
         ],
       },
