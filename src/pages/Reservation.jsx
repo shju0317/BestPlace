@@ -1,25 +1,39 @@
-import { fullRead, pb } from "@/api/pocketbase";
+import { pb } from "@/api/pocketbase";
 import SwiperCategory from "@/components/SwiperCategory";
-import { useEffect } from "react";
-import { useState } from "react";
 import { BsCalendarWeek, BsChevronDown } from "react-icons/bs";
 import { MdFoodBank, MdOutlineCheck } from "react-icons/md";
 import { PiCalendarCheckBold, PiCalendarXBold, PiNumberSquareOneFill } from "react-icons/pi";
+import { array } from "prop-types";
+import Spinner from "@/components/Spinner";
+import useReservationList from "@/hooks/useReservationList.js";
+import { dateFormat, timeFormat } from "@/utils";
+import { calcDay } from "./../utils/getDate";
 
 /* -------------------------------------------------------------------------- */
 
 //@ 현재 예약중 리스트
-function ReservedList() {
+function ReservedList({ reservedList }) {
   return (
-    <div className="my-5 rounded-2xl border-2 border-primary p-4">
-      <p className="inline rounded-xl bg-primary px-1.5 py-0.5 text-xs font-bold text-white">13일전</p>
-      <h4 className="mt-1 font-bold">상호명</h4>
-      <p className="text-sm font-light">
-        12. 24 토 <span className="mx-1 font-normal opacity-40">|</span> 오후 12:00
-      </p>
-    </div>
+    <ul>
+      {reservedList.map((item, index) => (
+        <li key={index} className="my-5 rounded-2xl border-2 border-primary p-4">
+          <p className="inline rounded-xl bg-primary px-1.5 py-0.5 text-xs font-bold text-white">
+            {calcDay(item.date)}
+          </p>
+          <h4 className="mt-1 font-bold">{item.expand.place.title}</h4>
+          <p className="text-sm font-light">
+            {dateFormat(item.date)} <span className="mx-1 font-normal opacity-40">|</span>
+            {timeFormat(item.date)}
+          </p>
+        </li>
+      ))}
+    </ul>
   );
 }
+
+ReservedList.propTypes = {
+  reservedList: array,
+};
 
 /* -------------------------------------------------------------------------- */
 
@@ -103,56 +117,31 @@ function ReservationList() {
 
 //@ 예약 페이지 컴포넌트
 function Reservation() {
-  const userInfo = pb.authStore.model;
-  const [reservationData, setReservationData] = useState();
-  const [visitedList, setVisitedList] = useState([]);
-  const [canceledList, setCanceledList] = useState([]);
-  const [reservedList, setReservedList] = useState([]);
-  
+  const { data: reservation, isLoading } = useReservationList();
+  let count = reservation?.length;
+  let reservedList = [];
+  let visitedList = [];
+  let canceledList = [];
+  let name = pb.authStore.model.nickname;
 
-  useEffect(() => {
-    async function fetchData() {
-      const data = await pb.collection("reservation").getFullList({
-        filter: `booker = '${userInfo.id}'`,
-        expand: "place",
-        sort: "+date",
-      });
+  reservation?.forEach((item) => {
+    item.canceled === true
+      ? (canceledList = [...canceledList, item])
+      : item.visited === true
+      ? (visitedList = [...visitedList, item])
+      : (reservedList = [...reservedList, item]);
+  });
 
-      console.log(data);
-
-      setReservationData(data);
-
-      let visitedList = [];
-      let canceledList = [];
-      let reservedList = [];
-
-      data.forEach((item) => {
-        item.canceled === true
-          ? (canceledList = [...canceledList, item])
-          : item.visited === true
-          ? (visitedList = [...visitedList, item])
-          : (reservedList = [...reservedList, item]);
-      });
-
-      setVisitedList([...visitedList]);
-      setCanceledList([...canceledList]);
-      setReservedList([...reservedList]);
-    }
-
-    fetchData();
-  }, []);
-
-  let name = userInfo.nickname;
-  let count = reservationData?.length;
+  if (isLoading) return <Spinner />;
 
   return (
     <div>
       {/* 현재 예약중 리스트 */}
       <h3 className="my-5 text-lg font-bold">
         <BsCalendarWeek className="mr-2 inline align-bottom text-3xl" />
-        <span className="text-secondary">{name}</span>님이 현재 예약한 정보에요
+        <span className="mx-0.5 text-secondary">{name}</span>님이 현재 예약한 정보에요
       </h3>
-      <ReservedList />
+      <ReservedList reservedList={reservedList} />
       {/* 카테고리 선택 */}
       <h3 className="mb-2 text-lg font-bold">
         <MdFoodBank className="mr-2 inline align-bottom text-3xl" />
