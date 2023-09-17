@@ -11,7 +11,7 @@ import { string } from 'prop-types';
 function ReviewPhoto({name}) {
   const MAX_IMAGE_COUNT = 5;
 
-  const {handleInputChange, reviewData} = useReview();
+  const {handleInputChange} = useReview();
 
   const [image, setImage] = useState({
     fileImages: [],
@@ -92,19 +92,19 @@ useEffect(() => {
         <span className="text-slate-400 text-xs">최대 {MAX_IMAGE_COUNT}장</span>
       </label>
       <div className="relative">
-        <input
-          type="file"
-          accept="*.jpg,*.png,*.jpeg,*.webp,*.avif"
-          ref={photoRef}
-          name="photos"
-          id="photos"
-          onChange={ (e)=>{
-            handleUploadImage(e)
-            handleInputChange({target: { name: name, value: e.target.value }})
-          }
-            }
-          className="absolute z-10 w-full h-full opacity-0 cursor-pointer"
-        />
+      <input
+        type="file"
+        accept="*.jpg,*.png,*.jpeg,*.webp,*.avif"
+        ref={photoRef}
+        multiple
+        name="photos"
+        id="photos"
+        onChange={(e) => {
+          handleUploadImage(e);
+          handleInputChange({ target: { name: name, value: e.target.files } });
+        }}
+        className="absolute z-10 h-full w-full cursor-pointer opacity-0"
+      />
         <div className="hidden flex gap-4" ref={divRef}>
         <div 
           className="flex border border-primary rounded gap-2 overflow-x-auto p-2 h-36 w-full"

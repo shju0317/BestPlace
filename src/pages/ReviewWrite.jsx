@@ -14,17 +14,41 @@ function ReviewWrite() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
+    const formData = new FormData();
+  
+    for (const [key, value] of Object.entries(reviewData)) {
+      if (value) {
+        if (key === "photos") {
+          // - 파일 리스트를 순환해 파일 정보 추가 설정 
+          //   (여러 데이터의 경우 아래처럼 추가해야 함)
+          for (let file of value) {
+            formData.append(key, file);
+          }
+        } else {
+          formData.append(key, value);
+        }
+      }
+    }
+  
+    // 현재 UI에서 정보를 받는 기능이 없어 더미 데이터 추가 필요
+    // - 로그인 사용자 ID 필요
+    formData.append("writer", "puppy0123456789"); // 댕이, users59138
+    // - 키워드 선택 필요 (여러 데이터의 경우 아래처럼 추가해야 함 또는 파일리스트처럼 반복문 활용)
+    formData.append("keywords", "kind");
+    formData.append("keywords", "tasty");
+    // - 장소 정보 추가 필요
+    formData.append("place", "zxuv5vm0v8b5wph"); // 치히로 서울홍대점
+  
     try {
-      await pb.collection('reviews').create(reviewData);
-
+      await pb.collection("reviews").create(formData);
+  
       // 토스트 추가하기
-      console.log('데이터 전송 성공!');
-
+      console.log("데이터 전송 성공!");
+  
       navigate("/리뷰"); // 리디렉션
-
     } catch (error) {
-      console.error('데이터 전송 실패:', error);
+      console.error("데이터 전송 실패:", error);
     }
   };
   
