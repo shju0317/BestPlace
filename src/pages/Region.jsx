@@ -8,7 +8,7 @@ import { GoX } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import PopularRegion from "./../components/Region/PopularRegion";
 
-//@ Set Region Component
+//@ 관심지역 설정 컴포넌트
 function SetRegion() {
   const userInfo = pb.authStore.model;
   const navigate = useNavigate();
@@ -26,18 +26,22 @@ function SetRegion() {
     fetchUserData();
   }, []);
 
+  // 상태변수(checkedRegionList) 변경 이벤트 핸들러
   const handleUpdateRegionList = (region) => {
     setCheckedRegionList(region);
   };
 
+  // 상태변수(checkedRegionList) 삭제 이벤트 핸들러
   const handleRemoveRegionList = () => {
     setCheckedRegionList([]);
   };
 
+  // 검색 상태 변수 제어 이벤트 핸들러
   const handleFocusSearchBar = (isFocus) => {
     setIsFocusSearchBar(isFocus);
   };
 
+  // 관심지역 설정 서버에 등록
   const setRegionList = () => {
     update("users", userInfo.id, { regions: checkedRegionList });
     navigate("/피드");
