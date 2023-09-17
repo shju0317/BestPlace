@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import VisitedPlace from '@/components/Review/VisitedPlace';
 import DatePicker from 'react-datepicker';
+import { setHours, setMinutes } from 'date-fns';
 import toast from 'react-hot-toast';
 import Input from '@/components/Review/Input';
 // import PhotoLayout from '@c/Feed/FeedItem/PhotoLayout';
@@ -11,7 +12,7 @@ import 'react-calendar/dist/Calendar.css';
 
 function ReserveWrite() {
   const navigate = useNavigate();
-  const [startDate, setStartDate] = useState(new Date());
+  // const [startDate, setStartDate] = useState(new Date());
   const [value, setValue] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const showSelectedDate = '';
@@ -24,6 +25,16 @@ function ReserveWrite() {
     console.log('Selected date:', date);
   };
 
+  const [startDate, setStartDate] = useState(
+    setHours(setMinutes(new Date(), 0), 9),
+  );
+
+  const filterPassedTime = (time) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(time);
+
+    return currentDate.getTime() < selectedDate.getTime();
+  };
 
 
   const handleSubmit = async (e) => {
@@ -90,6 +101,7 @@ function ReserveWrite() {
           fortmatShortWeekday={true}
           onChange={onChange}  
           onClickDay={handleDateClick}
+          locale="en-US"
           className="border border-primary p-4 text-center"
           />
         </div>  
@@ -108,8 +120,20 @@ function ReserveWrite() {
             showTimeSelect
             showTimeSelectOnly
             timeIntervals={30}
+            // minTime={new Date().setHours(10,0).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} // 오전 10시
+            // maxTime={new Date().setHours(20,0).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} // 오후 8시
             timeCaption="Time"
             dateFormat="h:mm aa"
+            filterTime={filterPassedTime}
+            // timeConstraints={{
+            //   hours: {
+            //     min: 10,
+            //     max: 20,
+            //   },
+            //   minutes: {
+            //     step: 30,
+            //   },
+            // }}
             className="rounded border border-primary px-4 py-2"
           />
         </div>
