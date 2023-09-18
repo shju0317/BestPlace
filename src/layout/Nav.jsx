@@ -1,7 +1,12 @@
 import { NavLink } from "react-router-dom";
 
-const NAV_MENU = ["피드", "방문", "리뷰", "예약", "저장"];
-
+const NAV_MENU = [
+  { title: "피드", url: "feed" },
+  { title: "방문", url: "visit" },
+  { title: "리뷰", url: "review" },
+  { title: "예약", url: "reserve" },
+  { title: "저장", url: "favorite" },
+];
 
 function Nav() {
   return (
@@ -10,7 +15,7 @@ function Nav() {
         {NAV_MENU.map((item) => {
           return (
             <li key={crypto.randomUUID()} className="cursor-pointer px-3 py-4">
-              <NavLink to={`/${item}`}>{item}</NavLink>
+              <NavLink to={`/${item.url}`}>{item.title}</NavLink>
             </li>
           );
         })}
