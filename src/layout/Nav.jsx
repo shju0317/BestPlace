@@ -4,7 +4,7 @@ const NAV_MENU = [
   { title: "피드", url: "feed" },
   { title: "방문", url: "visit" },
   { title: "리뷰", url: "review" },
-  { title: "예약", url: "reserve" },
+  { title: "예약", url: "reservation" },
   { title: "저장", url: "favorite" },
 ];
 
