@@ -6,10 +6,13 @@ import Feed from "@p/Feed";
 import ReviewWrite from "@p/ReviewWrite";
 import Region from "@p/Region";
 import ReviewList from "@p/ReviewList";
+import Reservation from "./pages/Reservation";
 import UpdateUserData from "@p/UpdateUserData";
 import Login from "@p/Login";
 import Register from "@p/Register";
 import ReservationWrite from "@p/ReservationWrite";
+import Place from "./pages/Place";
+import UserReview from "./pages/UserReview";
 
 let isValidUser = pb.authStore.isValid;
 
@@ -21,12 +24,14 @@ const routerConfig = isValidUser
         errorElement: <NotFound />,
         children: [
           { index: true, element: <Feed /> },
+          { path: "feed", element: <Feed /> },
+          { path: "review", element: <ReviewList /> },
+          { path: "reservation", element: <ReservationWrite /> },
+          { path: "favorite", element: <Region /> },
           { path: "reviewwrite", element: <ReviewWrite /> },
-          { path: "리뷰", element: <ReviewList /> },
-          { path: "예약", element: <ReservationWrite /> },
-          { path: "저장", element: <Region /> },
-          { path: "피드", element: <Feed /> },
           { path: "updateUserData", element: <UpdateUserData /> },
+          { path: "place/:placeId/:recordId", element: <Place /> },
+          { path: "userReview/:userId", element: <UserReview /> },
         ],
       },
     ]
