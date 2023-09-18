@@ -1,16 +1,18 @@
-import Button from '@c/Review/Button';
+import { pb } from '@/api/pocketbase';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
-import VisitedPlace from '@/components/Review/VisitedPlace';
 import DatePicker from 'react-datepicker';
 import { setHours, setMinutes } from 'date-fns';
 import toast from 'react-hot-toast';
-import Input from '@/components/Review/Input';
+import Button from '@c/Review/Button';
+import VisitedPlace from '@c/Review/VisitedPlace';
+import Input from '@c/Review/Input';
 // import PhotoLayout from '@c/Feed/FeedItem/PhotoLayout';
 import 'react-calendar/dist/Calendar.css';
+import useReservation from '@h/useReservation';
 
-function ReserveWrite() {
+function ReservationWrite() {
   const navigate = useNavigate();
   // const [startDate, setStartDate] = useState(new Date());
   const [value, setValue] = useState(new Date());
@@ -19,6 +21,7 @@ function ReserveWrite() {
   const maxSelectableDate = new Date();
   maxSelectableDate.setDate(maxSelectableDate.getDate() + 21); // 현재 날짜로부터 3주 이내
 
+  const {handleInputChange, reservationData, setReservationData} = useReservation();
 
   function onChange(nextValue) {
     setValue(nextValue);
@@ -26,33 +29,14 @@ function ReserveWrite() {
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
-    console.log('Selected date:', date.toLocaleDateString());
+    console.log('날짜g:', date);
+    console.log('날짜:', date.toLocaleDateString());
+    setReservationData({ [date]: selectedDate });
   };
 
   const [time, setTime] = useState(
     setHours(setMinutes(new Date(), 0), 9) // 9:00 AM
   );
-
-  const allowedStartHour = 9;
-  const allowedEndHour = 20;
-
-    // 선택 가능한 시간 목록 생성
-    const generateTimeOptions = () => {
-      const options = [];
-  
-      for (let hour = allowedStartHour; hour <= allowedEndHour; hour++) {
-        for (let minute of ['00', '30']) {
-          const timeString = `${hour}:${minute}`;
-          options.push(
-            <option key={timeString} value={timeString}>
-              {timeString}
-            </option>
-          );
-        }
-      }
-  
-      return options;
-    };
 
     
   // const filterPassedTime = (time) => {
@@ -67,7 +51,7 @@ function ReserveWrite() {
     e.preventDefault();
 
     try {
-      // await pb.collection('reservation').create(reviewData);
+      await pb.collection('reservation').create(reservationData);
 
       toast("예약되었습니다.",{
         duration: 2000,
@@ -84,7 +68,7 @@ function ReserveWrite() {
         }
       });
 
-      navigate("/리뷰"); // 리디렉션
+      navigate("/예약"); // 리디렉션
 
     } catch (error) {
       console.error('데이터 전송 실패:', error);
@@ -143,8 +127,10 @@ function ReserveWrite() {
         </div>  
         {/* 날짜 */}
         <div className="flex flex-row gap-4 border-b p-4 items-center">
-          <label htmlFor="checkedDate" className="text-lg font-semibold">날짜</label>
-          <div id="checkedDate">{selectedDate && selectedDate.toLocaleDateString()}</div>
+          <label htmlFor="date" className="text-lg font-semibold">날짜</label>
+          <input id="date" name="date"
+            value={selectedDate && selectedDate.toLocaleDateString()}
+            onChange={handleInputChange}/>
         </div>
         {/* 시간 */}
         <div className="flex flex-row gap-4 border-b p-4 items-center">
@@ -159,11 +145,6 @@ function ReserveWrite() {
             minTime={new Date().setHours(9, 0)} //오전 9시
             maxTime={new Date().setHours(20, 0)} // 오후 8시
             dateFormat="h:mm aa"
-            customTimeInput={
-              <select>
-                {generateTimeOptions()}
-              </select>
-            }
             // filterTime={filterPassedTime}
             className="rounded border border-primary px-4 py-2"
           />
@@ -171,14 +152,17 @@ function ReserveWrite() {
         {/* 예약인원 */}
         <div className="flex flex-row gap-4 border-b p-4 items-center">
           <label htmlFor="guestCount" className="text-lg font-semibold">인원</label>
-          <select id="guestCount" value={guestCount} 
+          <input type="number" min="1" max="10" id="guestCount"
+            inputMode="numeric"
+            className="rounded border border-primary px-4 py-2"/>
+          {/* <select id="guestCount" value={guestCount} 
             onChange={handleGuestCountChange}
             className="rounded border border-primary px-4 py-2"
             >
             {Array.from({ length: 10 }, (_, index) => (
               <option key={index + 1} value={index + 1}>{index + 1}</option>
             ))}
-          </select>
+          </select> */}
           <span>명</span>
         </div>
         {/* 예약자 정보 */}
@@ -187,19 +171,30 @@ function ReserveWrite() {
           <div id="guestInfo" className="flex flex-col gap-4 ml-4 font-semibold">
             <div className="flex items-center gap-4">
               <label htmlFor="reservedName" className="w-1/6">예약명</label>
-              <input type="text" id="reservedName" className="rounded border border-primary px-4 py-2 w-5/6"/>
+              <input type="text" id="reservedName" name="reservedName"
+                inputMode="text" 
+                onChange={handleInputChange}
+                className="rounded border border-primary px-4 py-2 w-5/6"/>
             </div>
             <div className="flex items-center gap-4">
-              <label htmlFor="reservedName" className="w-1/6">연락처</label>
-              <input type="tel" id="reservedName" className="rounded border border-primary px-4 py-2 w-5/6"/>
+              <label htmlFor="tel" className="w-1/6">연락처</label>
+              <input type="tel" id="tel" name="tel" placeholder="숫자만 입력하세요"
+                inputMode="tel"
+                onChange={handleInputChange}
+                className="rounded border border-primary px-4 py-2 w-5/6"/>
             </div>
             <div className="flex items-center gap-4">
               <label htmlFor="reservedName" className="w-1/6">이메일</label>
-              <input type="email" id="reservedName" className="rounded border border-primary px-4 py-2 w-5/6"/>
+              <input type="email" id="reservedName" name="email" placeholder="example@naver.com"
+              inputMode="email"
+              onChange={handleInputChange}
+              className="rounded border border-primary px-4 py-2 w-5/6"/>
             </div>
             <div className="flex items-center gap-8">
               <label htmlFor="requirements" className="w-1/6">요청사항</label>
-              <Input id="requirements" placeholder="업체에 요청하실 내용을 적어주세요"
+              <Input id="requirements" name="requirements" placeholder="업체에 요청하실 내용을 적어주세요"
+              inputMode="text" 
+              onChange={handleInputChange}
               />
             </div>
           </div>
@@ -215,4 +210,4 @@ function ReserveWrite() {
   )
 }
 
-export default ReserveWrite
+export default ReservationWrite

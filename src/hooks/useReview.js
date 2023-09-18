@@ -1,4 +1,4 @@
-import useReviewStore from '@/store/review';
+import useReviewStore from '@s/review';
 
 function useReview() {
 
