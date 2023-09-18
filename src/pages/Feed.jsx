@@ -23,6 +23,7 @@ function Feed() {
 
   // 카테고리 필터링
   const data = useFilterCategory(fetchData);
+  const result = data?.flatMap((el) => el.items) || null;
 
   // 로딩 중
   if (isLoading) {
@@ -47,9 +48,13 @@ function Feed() {
 
       <ul className="flex flex-col gap-1 bg-gray-50">
         {data[0].items.length ? (
-          data.map((group) => group.items.map((item) => <FeedItem key={item.id} item={item} />))
+          result.map((item) => (
+            <li key={item.id}>
+              <FeedItem item={item} />
+            </li>
+          ))
         ) : (
-          <NoResult />
+          <NoResult title="일치하는 결과가 없습니다." contents="필터를 바꾸고 다시 시도해 보세요." />
         )}
       </ul>
       <div ref={ref} className="h-[1px]"></div>
