@@ -14,11 +14,10 @@ function SelectedRegionList({ ...props }) {
 
   return (
     <div>
-      <h3 className="text-lg font-bold">
-        내 관심지역 <span className="text-primary">{checkedRegionList.length}</span>
-      </h3>
-      <div className="mb-4 flex">
-        {/* <p className="grow text-sm font-medium text-gray-400">길게 눌러 순서를 변경할 수 있습니다. (미구현)</p> */}
+      <div className="mb-4 flex justify-center items-end">
+        <h3 className="text-lg font-bold grow">
+          내 관심지역 <span className="text-primary">{checkedRegionList.length}</span>
+        </h3>
         <button type="button" className="text-sm font-semibold text-gray-700" onClick={props.onRemove}>
           전체 삭제
         </button>
