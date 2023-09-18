@@ -44,7 +44,7 @@ function SetRegion() {
   // 관심지역 설정 서버에 등록
   const setRegionList = () => {
     update("users", userInfo.id, { regions: checkedRegionList });
-    navigate("/피드");
+    navigate("/");
   };
 
   return (
@@ -53,7 +53,7 @@ function SetRegion() {
         {isFocusSearchBar || (
           <div>
             {/* 창 닫기 */}
-            <button type="button" className="float-right">
+            <button type="button" className="float-right" onClick={navigate("/")}>
               <GoX className="text-3xl" />
             </button>
             {/* 제목 */}
