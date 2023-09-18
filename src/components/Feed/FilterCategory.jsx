@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 const CATEGORY = ["전체", "한식", "양식", "일식", "중식", "카페", "아시아/퓨전 음식", "뷔페/레스토랑", "술집"];
 
-function Category() {
+function FilterCategory() {
   const { category: selectedCategory, addCategory, removeCategory, resetCategory } = useCategoryStore();
 
   useEffect(() => {
@@ -42,9 +42,9 @@ function Category() {
   );
 }
 
-Category.propTypes = {
+FilterCategory.propTypes = {
   title: string,
   isActive: bool,
 };
 
-export default Category;
+export default FilterCategory;
