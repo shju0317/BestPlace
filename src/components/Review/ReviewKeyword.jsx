@@ -1,9 +1,10 @@
-import toast from 'react-hot-toast';
 import { produce } from 'immer';
 import { useState, useEffect } from 'react';
 import KEYWORDS from '@d/keywords';
 import useReview from '@h/useReview';
 import { string } from 'prop-types';
+import alertMessage from '@u/alertMessage';
+
 
 function ReviewKeyword({name}) {
 
@@ -17,27 +18,14 @@ function ReviewKeyword({name}) {
           draft.splice(draft.indexOf(keywordName), 1);
         })
       );
-    } else if (selectedKeyword.length < 5) { // 최대 개수 제한
+    } else if (selectedKeyword.length < 5) { // 최대 5개 선택 제한
       setSelectedKeyword(
         produce(selectedKeyword, (draft) => {
           draft.push(keywordName);
         })
       );
-    } else { // 선택 개수가 이미 최대값(5)인 경우 경고 메시지 표시
-      toast("최대 5개까지만 선택할 수 있습니다.",{
-        duration: 2000,
-        icon: "❗",
-        style:{
-          background: "#e0f2fe",
-          color: "#000",
-          borderRadius: "28px",
-          padding: "12px"
-        },
-        ariaProps:{
-          role: "alert",
-          'aria-live': 'polite'
-        }
-      });
+    } else {
+      alertMessage("최대 5개까지만 선택할 수 있습니다.","❗");
     }
     console.log('selectedKey!!!',selectedKeyword)
   };

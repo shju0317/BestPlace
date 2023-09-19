@@ -6,7 +6,7 @@ import Input from '@c/Review/Input';
 import ReviewPhoto from '@c/Review/ReviewPhoto';
 import { useNavigate } from 'react-router-dom';
 import useReview from '@h/useReview';
-import toast from 'react-hot-toast';
+import alertMessage from '@u/alertMessage';
 
 function ReviewWrite() {
   const navigate = useNavigate();
@@ -43,39 +43,10 @@ function ReviewWrite() {
   
     try {
       await pb.collection("reviews").create(formData);
-  
-      toast("리뷰가 등록되었습니다.",{
-        duration: 2000,
-        icon: "✔",
-        style:{
-          background: "#e0f2fe",
-          color: "#000",
-          borderRadius: "28px",
-          padding: "12px"
-        },
-        ariaProps:{
-          role: "alert",
-          'aria-live': 'polite'
-        }
-      });
-  
+      alertMessage("리뷰가 등록되었습니다.");
       navigate("/review"); // 리디렉션
     } catch (error) {
-      toast("요청하신 작업을 수행하지 못했습니다.",{
-        duration: 2000,
-        icon: "❗",
-        style:{
-          background: "#e0f2fe",
-          color: "#000",
-          borderRadius: "28px",
-          padding: "12px"
-        },
-        ariaProps:{
-          role: "alert",
-          'aria-live': 'polite'
-        }
-      });
-
+      alertMessage("요청하신 작업을 수행하지 못했습니다.","❗");
       console.log(error);
     }
   };
