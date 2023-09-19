@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useReservation from '@h/useReservation';
 import alertMessage from '@u/alertMessage';
 import Button from '@c/Review/Button';
-import VisitedPlace from '@c/Review/VisitedPlace';
+import PlaceInfo from '@c/Review/PlaceInfo';
 import ReservationDate from '@c/Reservation/ReservationDate';
 import ReservationTime from '@c/Reservation/ReservationTime';
 import ReservationGuestCount from '@c/Reservation/ReservationGuestCount';
@@ -32,7 +32,7 @@ function ReservationWrite() {
     <>
     <section className="gap-4 flex-wrap mx-auto max-w-3xl mt-4 my-8">
       <h1 className="hidden">가게정보</h1>
-      <VisitedPlace/>
+      <PlaceInfo/>
       <div className="flex flex-col gap-4 items-center mt-4 w-full h-80 p-4">
         <div className="w-full h-60 border ">이미지 불러오기!</div>
         <p className="border-t w-full p-4">예약순서에 따라 창가쪽 좌석 우선 배치됩니다.</p>
