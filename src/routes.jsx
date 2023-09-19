@@ -11,6 +11,7 @@ import Login from "@p/Login";
 import Register from "@p/Register";
 import Place from "./pages/Place";
 import UserReview from "./pages/UserReview";
+import UserReviewList from "./pages/UserReviewList";
 
 let isValidUser = pb.authStore.isValid;
 
@@ -28,9 +29,10 @@ const routerConfig = isValidUser
           { path: "feed", element: <Feed /> },
           { path: "updateUserData", element: <UpdateUserData /> },
           { path: "place/:placeId/:recordId", element: <Place /> },
-          { path: "userReview/:userId", element: <UserReview /> },
         ],
       },
+      { path: "userReview/:userId", element: <UserReview /> },
+      { path: "userReviewList/:userId", element: <UserReviewList /> },
     ]
   : [
       {

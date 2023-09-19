@@ -56,9 +56,9 @@ function FeedItemFooter({ item, isPlace = false }) {
         </dd>
       </dl>
       {isSave ? (
-        <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-yellow-400">
+        <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-yellow-500">
           <BsBookmarkStar className="text-2xl" onClick={handleSave} />
-          <span className="text-xs">저장</span>
+          <span className="text-xs">저장 됨</span>
         </button>
       ) : (
         <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-gray-400">
