@@ -36,13 +36,13 @@ function Place() {
     <>
       <h2 className="sr-only">플레이스 페이지</h2>
       {record && <FeedItemFooter item={record} isPlace={true} />}
-      {record && <FeedItem key={record?.id} item={record} isPlace={true} />}
+      {record && <FeedItem key={record?.id} item={record} hiddenFooter={true} />}
       <div className="border-t-2 pt-4 text-lg font-semibold">이 장소의 다른 리뷰</div>
       <ul className="flex flex-col gap-1 bg-gray-50">
         {result.length ? (
           result.map((item) => (
             <li key={item.id}>
-              <FeedItem item={item} isPlace={true} />
+              <FeedItem item={item} hiddenFooter={true} />
             </li>
           ))
         ) : (

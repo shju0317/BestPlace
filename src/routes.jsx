@@ -10,9 +10,14 @@ import Reservation from "./pages/Reservation";
 import UpdateUserData from "@p/UpdateUserData";
 import Login from "@p/Login";
 import Register from "@p/Register";
+import ReservationWrite from "@p/ReservationWrite";
 import Place from "./pages/Place";
 import UserReview from "./pages/UserReview";
+<<<<<<< HEAD
 import DontAccess from "@p/DontAccess";
+=======
+import UserReviewList from "./pages/UserReviewList";
+>>>>>>> develop
 
 let isValidUser = pb.authStore.isValid;
 
@@ -26,14 +31,18 @@ const routerConfig = isValidUser
           { index: true, element: <Feed /> },
           { path: "feed", element: <Feed /> },
           { path: "review", element: <ReviewList /> },
-          { path: "reservation", element: <Reservation /> },
+          { path: "reservation", element: <ReservationWrite /> },
           { path: "favorite", element: <Region /> },
           { path: "reviewwrite", element: <ReviewWrite /> },
           { path: "place/:placeId/:recordId", element: <Place /> },
-          { path: "userReview/:userId", element: <UserReview /> },
         ],
       },
+<<<<<<< HEAD
       { path: "updateUserData", element: <UpdateUserData /> },
+=======
+      { path: "userReview/:userId", element: <UserReview /> },
+      { path: "userReviewList/:userId", element: <UserReviewList /> },
+>>>>>>> develop
     ]
   : [
       {

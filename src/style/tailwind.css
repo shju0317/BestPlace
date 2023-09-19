@@ -5,3 +5,18 @@
 html {
   @apply font-suit;
 }
+
+/* react-datepicker 커스텀 스타일링 */
+.react-datepicker-popper {
+  @apply bg-white border shadow-md;
+}
+
+.react-datepicker-time__header,
+.react-datepicker__aria-live,
+.react-datepicker__time-list-item--disabled {
+  @apply sr-only;
+}
+
+.react-datepicker__time-list-item {
+  @apply cursor-pointer p-2 hover:bg-teal-700/20;
+}
