@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import KEYWORDS from '@d/keywords';
 import useReview from '@h/useReview';
 import { string } from 'prop-types';
-import alertMessage from '@u/alertMessage';
+import { alertMessage } from '@u/index';
 
 
 function ReviewKeyword({name}) {

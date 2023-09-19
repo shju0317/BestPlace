@@ -6,7 +6,7 @@ import Input from '@c/Review/Input';
 import ReviewPhoto from '@c/Review/ReviewPhoto';
 import { useNavigate } from 'react-router-dom';
 import useReview from '@h/useReview';
-import alertMessage from '@u/alertMessage';
+import { alertMessage } from '@u/index';
 
 function ReviewWrite() {
   const navigate = useNavigate();

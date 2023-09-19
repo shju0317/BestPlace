@@ -5,7 +5,7 @@ import { useRef, useState, useEffect } from 'react';
 import { produce } from 'immer';
 import useReview from '@h/useReview';
 import { string } from 'prop-types';
-import alertMessage from '@u/alertMessage';
+import { alertMessage } from '@u/index';
 
 function ReviewPhoto({name}) {
   const MAX_IMAGE_COUNT = 5;
