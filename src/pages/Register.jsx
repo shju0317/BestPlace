@@ -1,7 +1,7 @@
 import { pb, read, create, update, setLogIn } from "@/api/pocketbase";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { isEmailRegVaild, alertMessage } from '@u/index';
+import { isEmailRegVaild, isPwRegVaild, isIdRegVaild, alertMessage } from "@u/index";
 
 import SignTitle from "@c/SignInUp/SignTitle";
 import SignInput from "@c/SignInUp/SignInput";
@@ -47,26 +47,24 @@ function Register() {
   };
 
   async function handleRegister() {
-    try {
-      await create("users", createData);
-      await setLogIn([id, pw]);
-      globalThis.location.href = "/";
-    } catch {
-      switch (true) {
-        case isEmailRegVaild:
-          alertMessage();
-          break;
-        case switcherCharacter === "웨이드 포스터":
-          chosenCharacter = 1;
-          break;
-        case switcherCharacter === "클로드 포스터":
-          chosenCharacter = 2;
-          break;
-        case switcherCharacter === "게일 포스터":
-          chosenCharacter = 3;
-          break;
-      }
+    switch (true) {
+      case !isIdRegVaild(id):
+        alertMessage("아이디는 소문자/대문자/숫자로 이루어진 4~20자리 문자여야 합니다");
+        break;
+      case !isEmailRegVaild(email):
+        alertMessage("사용가능한 이메일 양식이 아닙니다");
+        break;
+      case !isPwRegVaild(pw):
+        alertMessage("비밀번호는 숫자/영어/특수문자를 포함하는 8~16자리 양식이어야 합니다");
+        break;
+      case !(pw === pwCheck):
+        alertMessage("비밀번호가 일치하지 않습니다");
+        break;
     }
+
+    await create("users", createData);
+    await setLogIn([id, pw]);
+    globalThis.location.href = "/";
   }
 
   return (
