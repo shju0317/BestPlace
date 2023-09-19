@@ -1,13 +1,14 @@
+import { pb, read, create, update, setLogIn } from "@/api/pocketbase";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { isEmailRegVaild, alertMessage } from '@u/index';
 
 import SignTitle from "@c/SignInUp/SignTitle";
 import SignInput from "@c/SignInUp/SignInput";
 import SignButton from "@c/SignInUp/SignButton";
 import SignForm from "@c/SignInUp/SignForm";
 import SignContents from "@c/SignInUp/SignContents";
-import { pb, read, create, update, setLogIn } from "@/api/pocketbase";
 import SignLogo from "@c/SignInUp/SignLogo";
-import { useNavigate } from "react-router-dom";
 
 function Register() {
   const navigate = useNavigate();
@@ -46,11 +47,25 @@ function Register() {
   };
 
   async function handleRegister() {
-    await create("users", createData);
-    await setLogIn([id, pw]);
-
-    if (pb.authStore.isValid) {
+    try {
+      await create("users", createData);
+      await setLogIn([id, pw]);
       globalThis.location.href = "/";
+    } catch {
+      switch (true) {
+        case isEmailRegVaild:
+          alertMessage();
+          break;
+        case switcherCharacter === "웨이드 포스터":
+          chosenCharacter = 1;
+          break;
+        case switcherCharacter === "클로드 포스터":
+          chosenCharacter = 2;
+          break;
+        case switcherCharacter === "게일 포스터":
+          chosenCharacter = 3;
+          break;
+      }
     }
   }
 
@@ -59,12 +74,7 @@ function Register() {
       <SignLogo />
       <SignTitle value="회원가입" />
       <SignForm>
-        <SignInput
-          labelValue="아이디"
-          ariaText="아이디 입력창"
-          placeHolder="아이디를 입력하세요"
-          inputValue={setId}
-        />
+        <SignInput labelValue="아이디" ariaText="아이디 입력창" placeHolder="아이디를 입력하세요" inputValue={setId} />
         <SignInput
           labelValue="이메일"
           ariaText="이메일 입력창"
