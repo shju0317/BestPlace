@@ -29,10 +29,10 @@ const routerConfig = isValidUser
           { path: "favorite", element: <Region /> },
           { path: "reviewwrite", element: <ReviewWrite /> },
           { path: "updateUserData", element: <UpdateUserData /> },
-          { path: "place/:placeId/:recordId", element: <Place /> },
           { path: "userReview/:userId", element: <UserReview /> },
         ],
       },
+      { path: "place/:placeId/:recordId", element: <Place /> },
     ]
   : [
       {
