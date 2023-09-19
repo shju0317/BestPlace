@@ -1,13 +1,13 @@
 import { pb, read, setLogIn } from "@/api/pocketbase";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import SignTitle from "@c/SignInUp/SignTitle";
 import SignInput from "@c/SignInUp/SignInput";
 import SignButton from "@c/SignInUp/SignButton";
 import SignForm from "@c/SignInUp/SignForm";
 import SignLogo from "@c/SignInUp/SignLogo";
 import SignContents from "@c/SignInUp/SignContents";
+import alertMessage from "@u/alertMessage";
 
 function Login() {
   const navigate = useNavigate();
@@ -16,21 +16,30 @@ function Login() {
   const [pw, setPw] = useState("");
   let idPw = [id, pw];
 
-  console.log(idPw);
+  // console.log(idPw);
 
-  async function getIds() {
-    const users = read("users");
-    const ids = users.items.map((item) => item.username);
-    const isValidId = ids.include(id);
-    console.log(isValidId);
-    return isValidId;
+  async function isValidId() {
+    const usernameData = await read("users", "username");
+    const usernamesObj = usernameData.items;
+    const usernames = usernamesObj.map((item) => item.username);
+    // console.log(usernamesObj);
+    console.log(usernames);
+    console.log(usernames.includes(id));
+    return usernames.includes(id);
+
+    // return isValidId;
   }
 
   async function handleLogin() {
-    await setLogIn(idPw);
-
-    if (pb.authStore.isValid) {
+    try {
+      await setLogIn(idPw);
       globalThis.location.href = "/";
+    } catch {
+      if (await isValidId()) {
+        alertMessage("비밀번호가 일치하지 않습니다", "❌");
+      } else {
+        alertMessage("사용자 정보가 없습니다", "❌");
+      }
     }
   }
 
@@ -40,12 +49,7 @@ function Login() {
       <SignTitle value="로그인" />
 
       <SignForm>
-        <SignInput
-          labelValue="아이디"
-          ariaText="아이디 입력창"
-          placeHolder="아이디를 입력하세요"
-          inputValue={setId}
-        />
+        <SignInput labelValue="아이디" ariaText="아이디 입력창" placeHolder="아이디를 입력하세요" inputValue={setId} />
 
         <SignInput
           labelValue="비밀번호"
