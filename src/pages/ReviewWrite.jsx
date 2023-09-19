@@ -20,15 +20,11 @@ function ReviewWrite() {
   
     for (const [key, value] of Object.entries(reviewData)) {
       if (value) {
-        if (key === "photos") {
+        if (key === "photos" || key === "keywords") {
           // - 파일 리스트를 순환해 파일 정보 추가 설정 
           //   (여러 데이터의 경우 아래처럼 추가해야 함)
-          for (let file of value) {
-            formData.append(key, file);
-          }
-        } else if(key === "keywords"){
-          for (let k of value) {
-            formData.append(key, k);
+          for (let item of value) {
+            formData.append(key, item);
           }
         }else {
           formData.append(key, value);
