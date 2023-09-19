@@ -1,7 +1,6 @@
 import { pb } from '@/api/pocketbase';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import Calendar from 'react-calendar';
 import DatePicker from 'react-datepicker';
 import { setHours, setMinutes } from 'date-fns';
 import toast from 'react-hot-toast';
@@ -9,30 +8,12 @@ import Button from '@c/Review/Button';
 import VisitedPlace from '@c/Review/VisitedPlace';
 import Input from '@c/Review/Input';
 // import PhotoLayout from '@c/Feed/FeedItem/PhotoLayout';
-import 'react-calendar/dist/Calendar.css';
 import useReservation from '@h/useReservation';
+import ReservationDate from '@c/Reservation/ReservationDate';
 
 function ReservationWrite() {
   const navigate = useNavigate();
-  // const [startDate, setStartDate] = useState(new Date());
-  const [value, setValue] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  
-  const maxSelectableDate = new Date();
-  maxSelectableDate.setDate(maxSelectableDate.getDate() + 21); // 현재 날짜로부터 3주 이내
-
   const {handleInputChange, reservationData, setReservationData} = useReservation();
-
-  function onChange(nextValue) {
-    setValue(nextValue);
-  }
-
-  const handleDateClick = (date) => {
-    setSelectedDate(date);
-    console.log('날짜g:', date);
-    console.log('날짜:', date.toLocaleDateString());
-    setReservationData({ [date]: selectedDate });
-  };
 
   const [time, setTime] = useState(
     setHours(setMinutes(new Date(), 0), 9) // 9:00 AM
@@ -87,7 +68,6 @@ function ReservationWrite() {
 
   useEffect(() => {
     console.log(guestCount);
-    console.log('여기',selectedDate);
     },[guestCount]
   )
 
@@ -105,33 +85,7 @@ function ReservationWrite() {
       <h1 className="text-lg text-center font-semibold mb-4">예약정보를 입력하세요</h1>
       <form method="POST" className="flex flex-col">
         {/* 캘린더 */}
-        <div>
-          <label htmlFor="date" className="hidden">캘린더</label>
-          <Calendar id="date" 
-            fortmatShortWeekday={true}
-            minDate={new Date()}
-            maxDate={maxSelectableDate} 
-            dateFormat = "yyyy.MM.dd(eee)"
-            onChange={onChange}  
-            onClickDay={handleDateClick}
-            // locale="en-US"
-            prevAriaLabel="이전달"
-            prevLabel="<"
-            nextAriaLabel="다음달"
-            nextLabel=">"
-            navigationAriaLive="polite"
-            prev2Label={null}
-            next2Label={null}
-            className="border border-primary p-4 text-center"
-          />
-        </div>  
-        {/* 날짜 */}
-        <div className="flex flex-row gap-4 border-b p-4 items-center">
-          <label htmlFor="date" className="text-lg font-semibold">날짜</label>
-          <input id="date" name="date"
-            value={selectedDate && selectedDate.toLocaleDateString()}
-            onChange={handleInputChange}/>
-        </div>
+        <ReservationDate/>
         {/* 시간 */}
         <div className="flex flex-row gap-4 border-b p-4 items-center">
           <label htmlFor="time" className="text-lg font-semibold">시간</label>
