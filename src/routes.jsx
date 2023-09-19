@@ -13,6 +13,7 @@ import Register from "@p/Register";
 import ReservationWrite from "@p/ReservationWrite";
 import Place from "./pages/Place";
 import UserReview from "./pages/UserReview";
+import UserReviewList from "./pages/UserReviewList";
 
 let isValidUser = pb.authStore.isValid;
 
@@ -31,9 +32,10 @@ const routerConfig = isValidUser
           { path: "reviewwrite", element: <ReviewWrite /> },
           { path: "updateUserData", element: <UpdateUserData /> },
           { path: "place/:placeId/:recordId", element: <Place /> },
-          { path: "userReview/:userId", element: <UserReview /> },
         ],
       },
+      { path: "userReview/:userId", element: <UserReview /> },
+      { path: "userReviewList/:userId", element: <UserReviewList /> },
     ]
   : [
       {
