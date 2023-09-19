@@ -13,6 +13,7 @@ import Register from "@p/Register";
 import ReservationWrite from "@p/ReservationWrite";
 import Place from "./pages/Place";
 import UserReview from "./pages/UserReview";
+import DontAccess from "@p/DontAccess";
 import UserReviewList from "./pages/UserReviewList";
 
 let isValidUser = pb.authStore.isValid;
@@ -30,12 +31,12 @@ const routerConfig = isValidUser
           { path: "reservation", element: <ReservationWrite /> },
           { path: "favorite", element: <Region /> },
           { path: "reviewwrite", element: <ReviewWrite /> },
-          { path: "updateUserData", element: <UpdateUserData /> },
         ],
       },
       { path: "place/:placeId/:recordId", element: <Place /> },
       { path: "userReview/:userId", element: <UserReview /> },
       { path: "userReviewList/:userId", element: <UserReviewList /> },
+      { path: "updateUserData", element: <UpdateUserData /> },
     ]
   : [
       {
@@ -45,6 +46,7 @@ const routerConfig = isValidUser
           { path: "login", element: <Login /> },
           { path: "register", element: <Register /> },
         ],
+        errorElement: <DontAccess />,
       },
     ];
 
