@@ -31,12 +31,12 @@ const routerConfig = isValidUser
           { path: "reservation", element: <ReservationWrite /> },
           { path: "favorite", element: <Region /> },
           { path: "reviewwrite", element: <ReviewWrite /> },
-          { path: "place/:placeId/:recordId", element: <Place /> },
         ],
       },
-      { path: "updateUserData", element: <UpdateUserData /> },
+      { path: "place/:placeId/:recordId", element: <Place /> },
       { path: "userReview/:userId", element: <UserReview /> },
       { path: "userReviewList/:userId", element: <UserReviewList /> },
+      { path: "updateUserData", element: <UpdateUserData /> },
     ]
   : [
       {
