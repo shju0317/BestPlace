@@ -56,15 +56,6 @@ function ReviewPhoto({name}) {
     }));    
 };
 
-useEffect(() => {
-  if (image.imageCount <= 0) {
-    showElement(labelRef);
-    hideElement(divRef);
-  } else {
-    showElement(divRef);
-    hideElement(labelRef);
-  }
-}, [image]);
   
   // 업로드한 이미지 파일 삭제하기
   const handleDeleteImage = (index) => {
@@ -79,6 +70,16 @@ useEffect(() => {
     }
  };
   
+
+ useEffect(() => {
+  if (image.imageCount <= 0) {
+    showElement(labelRef);
+    hideElement(divRef);
+  } else {
+    showElement(divRef);
+    hideElement(labelRef);
+  }
+}, [image]);
 
 
 
@@ -105,7 +106,7 @@ useEffect(() => {
         }}
         className="absolute z-10 h-full w-full cursor-pointer opacity-0"
       />
-        <div className="hidden flex gap-4" ref={divRef}>
+        <div className="flex gap-4" ref={divRef}>
         <div 
           className="flex border border-primary rounded gap-2 overflow-x-auto p-2 h-36 w-full"
         >

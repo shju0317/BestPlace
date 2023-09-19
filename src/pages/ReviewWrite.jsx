@@ -26,7 +26,11 @@ function ReviewWrite() {
           for (let file of value) {
             formData.append(key, file);
           }
-        } else {
+        } else if(key === "keywords"){
+          for (let k of value) {
+            formData.append(key, k);
+          }
+        }else {
           formData.append(key, value);
         }
       }
@@ -36,15 +40,14 @@ function ReviewWrite() {
     // - 로그인 사용자 ID 필요
     formData.append("writer", "puppy0123456789"); // 댕이, users59138
     // - 키워드 선택 필요 (여러 데이터의 경우 아래처럼 추가해야 함 또는 파일리스트처럼 반복문 활용)
-    formData.append("keywords", "kind");
-    formData.append("keywords", "tasty");
+    // formData.append("keywords", "kind");
+    // formData.append("keywords", "tasty");
     // - 장소 정보 추가 필요
     formData.append("place", "zxuv5vm0v8b5wph"); // 치히로 서울홍대점
   
     try {
       await pb.collection("reviews").create(formData);
   
-      // 토스트 추가하기
       toast("리뷰가 등록되었습니다.",{
         duration: 2000,
         icon: "✔",
@@ -60,9 +63,24 @@ function ReviewWrite() {
         }
       });
   
-      navigate("/리뷰"); // 리디렉션
+      navigate("/review"); // 리디렉션
     } catch (error) {
-      console.error("데이터 전송 실패:", error);
+      toast("요청하신 작업을 수행하지 못했습니다.",{
+        duration: 2000,
+        icon: "❗",
+        style:{
+          background: "#e0f2fe",
+          color: "#000",
+          borderRadius: "28px",
+          padding: "12px"
+        },
+        ariaProps:{
+          role: "alert",
+          'aria-live': 'polite'
+        }
+      });
+
+      console.log(error);
     }
   };
   

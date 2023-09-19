@@ -1,6 +1,6 @@
 import toast from 'react-hot-toast';
 import { produce } from 'immer';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import KEYWORDS from '@d/keywords';
 import useReview from '@h/useReview';
 import { string } from 'prop-types';
@@ -8,19 +8,19 @@ import { string } from 'prop-types';
 function ReviewKeyword({name}) {
 
   const [selectedKeyword, setSelectedKeyword] = useState([]);
-  const {handleInputChange, reviewData} = useReview();
+  const {handleInputChange, reviewData, setReviewData} = useReview();
 
-  const handleKeywordClick = (keywordId) => {
-    if (selectedKeyword.includes(keywordId)) {
+  const handleKeywordClick = (keywordName) => {
+    if (selectedKeyword.includes(keywordName)) {
       setSelectedKeyword(
         produce(selectedKeyword, (draft) => {
-          draft.splice(draft.indexOf(keywordId), 1);
+          draft.splice(draft.indexOf(keywordName), 1);
         })
       );
     } else if (selectedKeyword.length < 5) { // 최대 개수 제한
       setSelectedKeyword(
         produce(selectedKeyword, (draft) => {
-          draft.push(keywordId);
+          draft.push(keywordName);
         })
       );
     } else { // 선택 개수가 이미 최대값(5)인 경우 경고 메시지 표시
@@ -39,21 +39,19 @@ function ReviewKeyword({name}) {
         }
       });
     }
+    console.log('selectedKey!!!',selectedKeyword)
   };
 
   const listItems = KEYWORDS.map(keyword => (
     <li key={keyword.id} className="mb-2" >
       <button type="button"
       className={`min-w-max px-3 py-2 rounded shadow-sm shadow-slate-300 
-      ${selectedKeyword.includes(keyword.id) ? 'bg-primary text-white' : 'bg-gray-100 text-black'}`}
+      ${selectedKeyword.includes(keyword.name) ? 'bg-primary text-white' : 'bg-gray-100 text-black'}`}
       onClick={(e) => {
-        handleKeywordClick(keyword.id)
-        handleInputChange({target: { name: name, value: e.target.value }})
+        handleKeywordClick(keyword.name)
+        handleInputChange({target: { name: "keywords", value: selectedKeyword}})
         }
-      }
-      >
-        <span className="mr-2">{keyword.emoji}</span>{keyword.name}
-      </button>
+      }>{keyword.name}</button>
     </li>
   ));
 

@@ -10,7 +10,7 @@ function useReview() {
     console.log('value는', value);
     
     setReviewData({ [name]: value });
-    console.log(reviewData);
+    console.log('reviewData!!',reviewData);
   };
 
   return {reviewData, setReviewData, handleInputChange};
