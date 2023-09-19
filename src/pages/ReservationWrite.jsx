@@ -10,6 +10,7 @@ import Input from '@c/Review/Input';
 // import PhotoLayout from '@c/Feed/FeedItem/PhotoLayout';
 import useReservation from '@h/useReservation';
 import ReservationDate from '@c/Reservation/ReservationDate';
+import alertMessage from '@/utils/alertMessage';
 
 function ReservationWrite() {
   const navigate = useNavigate();
@@ -34,22 +35,9 @@ function ReservationWrite() {
     try {
       await pb.collection('reservation').create(reservationData);
 
-      toast("예약되었습니다.",{
-        duration: 2000,
-        icon: "✔",
-        style:{
-          background: "#e0f2fe",
-          color: "#000",
-          borderRadius: "28px",
-          padding: "12px"
-        },
-        ariaProps:{
-          role: "alert",
-          'aria-live': 'polite'
-        }
-      });
+      alertMessage("예약되었습니다.");
 
-      navigate("/예약"); // 리디렉션
+      navigate("/feed"); // 리디렉션
 
     } catch (error) {
       console.error('데이터 전송 실패:', error);
