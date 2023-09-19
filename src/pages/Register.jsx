@@ -5,7 +5,7 @@ import SignInput from "@c/SignInUp/SignInput";
 import SignButton from "@c/SignInUp/SignButton";
 import SignForm from "@c/SignInUp/SignForm";
 import SignContents from "@c/SignInUp/SignContents";
-import { pb, read, create, update } from "@/api/pocketbase";
+import { pb, read, create, update, setLogIn } from "@/api/pocketbase";
 import SignLogo from "@c/SignInUp/SignLogo";
 import { useNavigate } from "react-router-dom";
 
@@ -38,24 +38,33 @@ function Register() {
     regions: [],
   };
 
-  const userData = {
+  const createData = {
     username: id,
     email: email,
     password: pw,
     passwordConfirm: pwCheck,
   };
-  const updateData = {
-    nickname: "업데이트된 닉네임",
-    //email이 업데이트 되지 않는 이슈
-    // email: "ccc@ccc.com"
-  };
+
+  async function handleRegister() {
+    await create("users", createData);
+    await setLogIn([id, pw]);
+
+    if (pb.authStore.isValid) {
+      globalThis.location.href = "/";
+    }
+  }
 
   return (
     <SignContents>
       <SignLogo />
       <SignTitle value="회원가입" />
       <SignForm>
-        <SignInput labelValue="아이디" ariaText="아이디 입력창" placeHolder="아이디를 입력하세요" inputValue={setId} />
+        <SignInput
+          labelValue="아이디"
+          ariaText="아이디 입력창"
+          placeHolder="아이디를 입력하세요"
+          inputValue={setId}
+        />
         <SignInput
           labelValue="이메일"
           ariaText="이메일 입력창"
@@ -77,7 +86,7 @@ function Register() {
       </SignForm>
 
       <div className="flex flex-col gap-2">
-        <SignButton value="회원가입" handleEvent={() => read()} bgColor="bg-white" textColor="text-black" />
+        <SignButton value="회원가입" handleEvent={() => handleRegister()} bgColor="bg-white" textColor="text-black" />
         <SignButton value="로그인" handleEvent={() => navigate("/Login")} />
       </div>
     </SignContents>
