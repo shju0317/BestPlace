@@ -12,10 +12,10 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-function FeedItem({ item, isPlace }) {
+function FeedItem({ item, isPlace, isLink, hiddenHeader, hiddenFooter }) {
   return (
     <div className="flex flex-col gap-3 bg-white py-8">
-      <FeedItemHeader item={item} />
+      {hiddenHeader || <FeedItemHeader item={item} />}
       {isPlace ? (
         <figure>
           <Swiper
@@ -42,7 +42,7 @@ function FeedItem({ item, isPlace }) {
             <p className="mt-3 text-gray-700">{item.contents}</p>
           </figcaption>
         </figure>
-      ) : (
+      ) : isLink ? (
         <Link to={`/place/${item.expand.place.id}/${item.id}`}>
           <figure>
             <PhotoLayout item={item} />
@@ -51,6 +51,13 @@ function FeedItem({ item, isPlace }) {
             </figcaption>
           </figure>
         </Link>
+      ) : (
+        <figure>
+          <PhotoLayout item={item} />
+          <figcaption>
+            <p className="mt-3  text-gray-700">{item.contents}</p>
+          </figcaption>
+        </figure>
       )}
       <div className="flex items-center justify-between">
         <ul className="flex gap-2">
@@ -62,7 +69,7 @@ function FeedItem({ item, isPlace }) {
           {getDate(item.created, "mm.dd day 방문")}
         </time>
       </div>
-      {isPlace || <FeedItemFooter item={item} />}
+      {hiddenFooter || <FeedItemFooter item={item} />}
     </div>
   );
 }
@@ -75,6 +82,9 @@ FeedItem.propTypes = {
     created: string,
   }),
   isPlace: bool,
+  isLink: bool,
+  hiddenHeader: bool,
+  hiddenFooter: bool,
 };
 
 export default FeedItem;
