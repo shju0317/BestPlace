@@ -34,12 +34,12 @@ function ReviewWrite() {
   
     // 현재 UI에서 정보를 받는 기능이 없어 더미 데이터 추가 필요
     // - 로그인 사용자 ID 필요
-    formData.append("writer", "puppy0123456789"); // 댕이, users59138
+    // formData.append("writer", "puppy0123456789"); // 댕이, users59138
     // - 키워드 선택 필요 (여러 데이터의 경우 아래처럼 추가해야 함 또는 파일리스트처럼 반복문 활용)
     // formData.append("keywords", "kind");
     // formData.append("keywords", "tasty");
     // - 장소 정보 추가 필요
-    formData.append("place", "zxuv5vm0v8b5wph"); // 치히로 서울홍대점
+    // formData.append("place", "zxuv5vm0v8b5wph"); // 치히로 서울홍대점
   
     try {
       await pb.collection("reviews").create(formData);

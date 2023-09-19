@@ -3,6 +3,7 @@ import { useUserFavorites } from "@/hooks/useUserFavorites";
 import { bool, shape, string } from "prop-types";
 import { useState, useEffect } from "react";
 import { BsBookmarkStar } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 function FeedItemFooter({ item, isPlace = false }) {
   const userId = pb.authStore.model.id;
@@ -38,6 +39,13 @@ function FeedItemFooter({ item, isPlace = false }) {
   return (
     <div className={`${isPlace ? "" : "rounded-lg border"} mb-2 p-4`}>
       <div className={`flex items-center justify-between ${isPlace ? "mx-auto max-w-3xl px-2" : ""}`}>
+      <Link to={"/reviewwrite"} state={{
+          userId: userId,
+          placeId: item.expand.place.id,
+          title: item.expand.place.title,
+          category: item.expand.place.category,
+          address: item.expand.place.address
+      }}>
         <dl className="grid grid-cols-[36px_1fr] gap-1">
           <dt className="sr-only">플레이스 이름</dt>
           <dd className="col-start-1 col-end-3 overflow-hidden text-ellipsis whitespace-nowrap font-bold">
@@ -52,6 +60,7 @@ function FeedItemFooter({ item, isPlace = false }) {
             {item.expand.place.address}
           </dd>
         </dl>
+      </Link>
         {isSave ? (
           <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-yellow-500">
             <BsBookmarkStar className="text-2xl" onClick={handleSave} />
