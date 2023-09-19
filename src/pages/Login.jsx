@@ -26,13 +26,7 @@ function Login() {
     return isValidId;
   }
 
-  async function handleLogin() {
-    await setLogIn(idPw);
-    
-    if (pb.authStore.isValid) {
-      globalThis.location.href = "/";
-    }
-  }
+  function isId() {}
 
   return (
     <SignContents>
@@ -40,12 +34,7 @@ function Login() {
       <SignTitle value="로그인" />
 
       <SignForm>
-        <SignInput
-          labelValue="아이디"
-          ariaText="아이디 입력창"
-          placeHolder="아이디를 입력하세요"
-          inputValue={setId}
-        />
+        <SignInput labelValue="아이디" ariaText="아이디 입력창" placeHolder="아이디를 입력하세요" inputValue={setId} />
 
         <SignInput
           labelValue="비밀번호"
@@ -56,7 +45,7 @@ function Login() {
       </SignForm>
 
       <div className="flex flex-col gap-2">
-        <SignButton value="로그인" handleEvent={() => handleLogin()} bgColor="bg-white" textColor="text-black" />
+        <SignButton value="로그인" handleEvent={() => setLogIn(idPw)} bgColor="bg-white" textColor="text-black" />
         <SignButton value="회원가입" handleEvent={() => navigate("/Register")} />
       </div>
     </SignContents>
