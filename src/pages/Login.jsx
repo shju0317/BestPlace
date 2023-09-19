@@ -28,9 +28,9 @@ function Login() {
 
   async function handleLogin() {
     await setLogIn(idPw);
-
+    
     if (pb.authStore.isValid) {
-      globalThis.location.reload();
+      globalThis.location.href = "/";
     }
   }
 
