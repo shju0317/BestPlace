@@ -50,7 +50,7 @@ function Feed() {
         {data[0].items.length ? (
           result.map((item) => (
             <li key={item.id}>
-              <FeedItem item={item} />
+              <FeedItem item={item} isLink={true} />
             </li>
           ))
         ) : (
