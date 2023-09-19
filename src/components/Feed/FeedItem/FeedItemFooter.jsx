@@ -36,14 +36,8 @@ function FeedItemFooter({ item, isPlace = false }) {
   };
 
   return (
-    <div
-      className={`${
-        isPlace
-          ? "sticky top-0 z-10 rounded-none bg-white shadow-[0_6px_6px_-2px_rgba(0,0,0,0.1)]"
-          : "rounded-lg border"
-      } mb-2 p-4`}
-    >
-      <div className={`${isPlace ? "mx-auto flex max-w-3xl items-center justify-between" : ""}`}>
+    <div className={`${isPlace ? "" : "rounded-lg border"} mb-2 p-4`}>
+      <div className={`flex items-center justify-between ${isPlace ? "mx-auto max-w-3xl px-2" : ""}`}>
         <dl className="grid grid-cols-[36px_1fr] gap-1">
           <dt className="sr-only">플레이스 이름</dt>
           <dd className="col-start-1 col-end-3 overflow-hidden text-ellipsis whitespace-nowrap font-bold">
@@ -59,9 +53,9 @@ function FeedItemFooter({ item, isPlace = false }) {
           </dd>
         </dl>
         {isSave ? (
-          <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-yellow-400">
+          <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-yellow-500">
             <BsBookmarkStar className="text-2xl" onClick={handleSave} />
-            <span className="text-xs">저장</span>
+            <span className="text-xs">저장 됨</span>
           </button>
         ) : (
           <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-gray-400">
