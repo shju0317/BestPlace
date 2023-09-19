@@ -5,6 +5,7 @@ const useReservationStore = create((set) => ({
     booker: "",
     place:"",
     date:"",
+    guestCount:1,
     reservedName:"",
     email:"",
     tel: 0,
