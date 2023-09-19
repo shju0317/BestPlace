@@ -1,13 +1,14 @@
 import { pb, read, setLogIn } from "@/api/pocketbase";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { alertMessage } from "@u/index";
+
 import SignTitle from "@c/SignInUp/SignTitle";
 import SignInput from "@c/SignInUp/SignInput";
 import SignButton from "@c/SignInUp/SignButton";
 import SignForm from "@c/SignInUp/SignForm";
 import SignLogo from "@c/SignInUp/SignLogo";
 import SignContents from "@c/SignInUp/SignContents";
-import alertMessage from "@u/alertMessage";
 
 function Login() {
   const navigate = useNavigate();
@@ -49,7 +50,12 @@ function Login() {
       <SignTitle value="로그인" />
 
       <SignForm>
-        <SignInput labelValue="아이디" ariaText="아이디 입력창" placeHolder="아이디를 입력하세요" inputValue={setId} />
+        <SignInput
+          labelValue="아이디"
+          ariaText="아이디 입력창"
+          placeHolder="아이디를 입력하세요"
+          inputValue={setId}
+        />
 
         <SignInput
           labelValue="비밀번호"

@@ -10,7 +10,7 @@ import Input from '@c/Review/Input';
 // import PhotoLayout from '@c/Feed/FeedItem/PhotoLayout';
 import useReservation from '@h/useReservation';
 import ReservationDate from '@c/Reservation/ReservationDate';
-import alertMessage from '@/utils/alertMessage';
+import {alertMessage} from '@/utils/index';
 
 function ReservationWrite() {
   const navigate = useNavigate();
