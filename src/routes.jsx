@@ -10,6 +10,7 @@ import Reservation from "./pages/Reservation";
 import UpdateUserData from "@p/UpdateUserData";
 import Login from "@p/Login";
 import Register from "@p/Register";
+import ReservationWrite from "@p/ReservationWrite";
 import Place from "./pages/Place";
 import UserReview from "./pages/UserReview";
 
@@ -25,7 +26,7 @@ const routerConfig = isValidUser
           { index: true, element: <Feed /> },
           { path: "feed", element: <Feed /> },
           { path: "review", element: <ReviewList /> },
-          { path: "reservation", element: <Reservation /> },
+          { path: "reservation", element: <ReservationWrite /> },
           { path: "favorite", element: <Region /> },
           { path: "reviewwrite", element: <ReviewWrite /> },
           { path: "updateUserData", element: <UpdateUserData /> },
