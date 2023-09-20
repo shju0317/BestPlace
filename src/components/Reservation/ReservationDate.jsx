@@ -2,27 +2,40 @@ import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import useReservation from '@h/useReservation';
-import { format } from 'date-fns';
+import { format, setHours, setMinutes } from 'date-fns';
 
 function ReservationDate() {
 
-  const {handleInputChange, reservationData, setReservationData} = useReservation();
+  const { setReservationData } = useReservation();
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedTime, setSelectedTime] = useState(
+    // setHours(setMinutes(new Date(), 0), 9) // 9:00
+  );
 
   const maxSelectableDate = new Date();
   maxSelectableDate.setDate(maxSelectableDate.getDate() + 21); // 현재 날짜로부터 3주 이내
 
-  const handleDateClick = (date) => {
-    setSelectedDate(date);
-    const formattedDate = format(new Date(date), 'yyyy-MM-dd') // '2023-00-00' 형식으로 변환
-    setReservationData({ "date": formattedDate });
-  };
+  // 예약시간 09:00 ~ 20:00 option 선택
+  const options = [];
 
-  // useEffect((date) => {
-  //   let formattedDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split('T')[0]; // '2023-00-00' 형식으로 변환
-  //   setReservationData({ "date": formattedDate });
-  //   },[selectedDate]
-  // )
+  for (let hour = 9; hour <= 20; hour++) {
+    const timeString = `${hour.toString().padStart(2, '0')}:00`;
+    options.push(
+      <option key={timeString} value={timeString} className={"time-list-item"}>{timeString}</option>
+    );
+  }
+
+  const handleDateClick = (date) => setSelectedDate(date);
+  const handleTimeClick = (e) => setSelectedTime(e.target.value);
+
+  useEffect(() => {
+    const formattedDate = format(new Date(selectedDate), 'yyyy-MM-dd') // '2023-00-00' 형식으로 변환
+    const formattedTime = `${selectedTime}:00`; // // '09:00:00' 형식으로 변환
+    const mergeDateAndTime = `${formattedDate} ${formattedTime}`
+    
+    setReservationData({ "date": mergeDateAndTime });
+    },[selectedDate, selectedTime]
+  )
 
   return (
     <>
@@ -52,6 +65,17 @@ function ReservationDate() {
           value={selectedDate && selectedDate.toLocaleDateString()}
           readOnly
           />
+      </div>
+      {/* 시간 */}
+      <div className=" flex flex-row gap-4 border-b p-4 items-center">
+        <label htmlFor="time" className="text-lg font-semibold">시간</label>
+        <select
+          id="time" 
+          value={selectedTime}
+          className="rounded border border-primary px-4 py-2"
+          onChange={handleTimeClick}>
+          {options}
+        </select>
       </div>
     </>
   )

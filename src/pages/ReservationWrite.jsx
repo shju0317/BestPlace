@@ -41,7 +41,7 @@ function ReservationWrite() {
       <h1 className="text-lg text-center font-semibold mb-4">예약정보를 입력하세요</h1>
       <form method="POST" className="flex flex-col">
         <ReservationDate/>
-        <ReservationTime/>
+        {/* <ReservationTime/> */}
         <ReservationGuestCount/>
         <ReservationGuestInfo/>
         <div className="flex gap-2">
