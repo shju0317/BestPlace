@@ -1,12 +1,14 @@
 import { pb } from "@/api/pocketbase";
 import Spinner from "@/components/Spinner";
 import SwiperCategory from "@/components/SwiperCategory";
+import useFetchAllReviews from "@/hooks/useFetchWriteReview";
 import useReservationList from "@/hooks/useReservationList.js";
 import { dateFormat, timeFormat } from "@/utils";
-import { array, bool, func, string } from "prop-types";
+import { array, string } from "prop-types";
 import { useState } from "react";
-import { BsCalendarWeek, BsChevronDown, BsChevronUp } from "react-icons/bs";
-import { MdFoodBank, MdOutlineCheck } from "react-icons/md";
+import { BsCalendarWeek, BsChevronDown, BsChevronUp, BsPencilFill } from "react-icons/bs";
+import { GoStar } from "react-icons/go";
+import { MdFoodBank, MdMoreVert, MdOutlineCheck } from "react-icons/md";
 import { PiCalendarCheckBold, PiCalendarXBold } from "react-icons/pi";
 import { calcDay } from "./../utils/getDate";
 
@@ -106,11 +108,17 @@ ReservationCount.propTypes = {
 
 //@ 예약 리스트
 function ReservationList({ progressList, visitedList, canceledList }) {
+  const { data: writeReview } = useFetchAllReviews();
   let renderList = progressList;
   const [filter, setFilter] = useState("all");
+  const [isHoverMenu, setIsHoverMenu] = useState(false);
 
   function onChangeRadio(e) {
     setFilter(e.target.value);
+  }
+
+  function onHoverButton(e) {
+    setIsHoverMenu(true);
   }
 
   switch (filter) {
@@ -219,19 +227,53 @@ function ReservationList({ progressList, visitedList, canceledList }) {
       <ul>
         {renderList.map((item, index) => (
           <li key={index} className="my-8">
-            <div className="flex gap-2">
+            <div className="flex items-center gap-2">
               {!item.canceled ? <ReservationVisitIcon /> : <ReservationCancelIcon />}
-              <div>
+              <div className="grow">
                 <h4 className="font-bold">{item.expand.place.title}</h4>
                 <p className="text-sm font-light">
                   {dateFormat(item.date)} <span className="mx-1 font-normal opacity-40">|</span> {timeFormat(item.date)}
                 </p>
               </div>
+              <div className="flex gap-2 text-lg">
+                <button type="button">
+                  <GoStar />
+                </button>
+                <button type="button">
+                  <MdMoreVert />
+                </button>
+                {/* // TODO LINK 연동 필요 */}
+                <p className="text-sm font-semibold">
+                  <span className="text-primary">+ </span>재예약
+                </p>
+              </div>
             </div>
             <div className="my-2 w-full rounded-2xl border border-gray-200/50 px-4 shadow-md">
-              <div className="border-b border-dashed pb-3 pt-4">
-                <p className={!item.canceled ? "font-semibold" : "text-gray-500 font-semibold"}>
+              <div className="flex- flex justify-center border-b border-dashed pb-3 pt-4">
+                <p className={`grow ${!item.canceled ? "font-semibold" : "font-semibold text-gray-500"}`}>
                   {!item.canceled ? "15번째, 35일만에 예약" : "예약 취소"}
+                </p>
+
+                {/* // TODO LINK 연동 필요 */}
+                <p
+                  className={
+                    !item.canceled && !writeReview?.includes(item.id)
+                      ? "mr-2 flex items-center text-sm font-semibold text-gray-700"
+                      : "hidden"
+                  }
+                >
+                  <BsPencilFill className="mr-1 inline text-primary" /> 리뷰 작성하기
+                </p>
+
+                <p
+                  className={
+                    !item.canceled && writeReview?.includes(item.id)
+                      ? "mr-2 flex items-center text-sm font-medium text-gray-700"
+                      : "hidden"
+                  }
+                >
+                  <MdOutlineCheck className="mr-1 inline text-primary text-lg" />
+                  리뷰 등록됨
                 </p>
               </div>
               <div className="pb-4 pt-3">
