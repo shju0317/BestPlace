@@ -107,7 +107,25 @@ ReservationCount.propTypes = {
 //@ 예약 리스트
 function ReservationList({ progressList, visitedList, canceledList }) {
   let renderList = progressList;
-  let filter = "all";
+  const [filter, setFilter] = useState("all");
+
+  function onChangeRadio(e) {
+    setFilter(e.target.value);
+  }
+
+  switch (filter) {
+    case "visit":
+      renderList = visitedList;
+      break;
+    case "cancel":
+      renderList = canceledList;
+      break;
+    case "date":
+      renderList = visitedList;
+      break;
+    default:
+      renderList = progressList;
+  }
 
   function ReservationVisitIcon() {
     return (
@@ -128,13 +146,75 @@ function ReservationList({ progressList, visitedList, canceledList }) {
 
   return (
     <>
-      <button type="button">전체</button>
-      <button type="button">방문</button>
-      <button type="button">예약 취소</button>
-      <button type="button" className="flex items-center">
-        기간 선택
-        <BsCalendarWeek className="ml-2 text-primary"/>
-      </button>
+      <div className="flex gap-2">
+        <label
+          htmlFor="filterAllButton"
+          className={`rounded-xl border border-gray-200/50 px-4 py-2 text-sm font-semibold ${
+            filter === "all" ? `border-0 bg-primary text-white shadow-md` : `border text-gray-600 shadow-md`
+          }`}
+        >
+          <input
+            type="radio"
+            name="filter"
+            value="all"
+            id="filterAllButton"
+            onChange={onChangeRadio}
+            className="sr-only"
+          />
+          <p>전체</p>
+        </label>
+        <label
+          htmlFor="filterVisitButton"
+          className={`rounded-xl border border-gray-200/50 px-4 py-2 text-sm font-semibold ${
+            filter === "visit" ? `border-0 bg-primary text-white shadow-md` : `border text-gray-600 shadow-md`
+          }`}
+        >
+          <input
+            type="radio"
+            name="filter"
+            id="filterVisitButton"
+            value="visit"
+            onChange={onChangeRadio}
+            className="sr-only"
+          />
+          <p>
+            방문 <span className="pl-0.5 font-medium">{visitedList.length}</span>
+          </p>
+        </label>
+        <label
+          htmlFor="filterCancelButton"
+          className={`rounded-xl border border-gray-200/50 px-4 py-2 text-sm font-semibold ${
+            filter === "cancel" ? `border-0 bg-primary text-white shadow-md` : `border text-gray-600 shadow-md`
+          }`}
+        >
+          <input
+            type="radio"
+            name="filter"
+            id="filterCancelButton"
+            value="cancel"
+            onChange={onChangeRadio}
+            className="sr-only"
+          />
+          <p>
+            예약 취소 <span className="pl-0.5">{canceledList.length}</span>
+          </p>
+        </label>
+
+        {/* <label
+          htmlFor="filterDateButton"
+          className={`rounded-xl border border-gray-200/50 px-4 py-2 text-sm ${
+            filter === "date"
+              ? `border-0 bg-primary text-white shadow-md`
+              : `border text-gray-600 shadow-md`
+          }`}
+        >
+          <input type="radio" name="filter" id="filterDateButton" value="date" onChange={onChangeRadio} />
+          <p className="flex items-center">
+            기간 선택
+            <BsCalendarWeek className="ml-2 text-primary" />
+          </p>
+        </label> */}
+      </div>
 
       <ul>
         {renderList.map((item, index) => (
@@ -150,11 +230,13 @@ function ReservationList({ progressList, visitedList, canceledList }) {
             </div>
             <div className="my-2 w-full rounded-2xl border border-gray-200/50 px-4 shadow-md">
               <div className="border-b border-dashed pb-3 pt-4">
-                <p className="font-semibold">15번째, 35일만에 예약</p>
+                <p className={!item.canceled ? "font-semibold" : "text-gray-500 font-semibold"}>
+                  {!item.canceled ? "15번째, 35일만에 예약" : "예약 취소"}
+                </p>
               </div>
               <div className="pb-4 pt-3">
-                <p className="font-semibold text-gray-600">{item.expand.place.category}</p>
                 <p className="font-bold">{item.expand.place.title}</p>
+                <p className="font-semibold text-gray-600">{item.expand.place.category}</p>
               </div>
             </div>
           </li>
