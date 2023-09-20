@@ -2,7 +2,7 @@ import { pb } from '@/api/pocketbase';
 import { useNavigate } from 'react-router-dom';
 import Button from '@c/Button';
 import useReservation from '@h/useReservation';
-import PlaceInfo from '@c/Review/PlaceInfo';
+import PlaceInfo from '@c/Reservation/PlaceInfo';
 import ReservationDate from '@c/Reservation/ReservationDate';
 import ReservationTime from '@c/Reservation/ReservationTime';
 import ReservationGuestCount from '@c/Reservation/ReservationGuestCount';

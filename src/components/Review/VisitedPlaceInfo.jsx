@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import useReviewStore from '@s/review';
 
-function VisitedPlace() {
+function VisitedPlaceInfo() {
   const { userId, placeId, title, category, address } = useLocation().state || {};
   const { setReviewData } = useReviewStore();
 
@@ -19,4 +19,4 @@ function VisitedPlace() {
   );
 }
 
-export default VisitedPlace;
+export default VisitedPlaceInfo;
