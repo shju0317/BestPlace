@@ -2,8 +2,8 @@ import { pb } from "@/api/pocketbase";
 import { useUserFavorites } from "@/hooks/useUserFavorites";
 import { bool, shape, string } from "prop-types";
 import { useState, useEffect } from "react";
-import { BsBookmarkStar } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { BsBookmarkStar, BsFillBookmarkStarFill } from "react-icons/bs";
 
 function FeedItemFooter({ item, isPlace = false }) {
   const userId = pb.authStore.model.id;
@@ -62,8 +62,8 @@ function FeedItemFooter({ item, isPlace = false }) {
         </dl>
       </Link>
         {isSave ? (
-          <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-yellow-500">
-            <BsBookmarkStar className="text-2xl" onClick={handleSave} />
+          <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-primary">
+            <BsFillBookmarkStarFill className="text-2xl" onClick={handleSave} />
             <span className="text-xs">저장 됨</span>
           </button>
         ) : (

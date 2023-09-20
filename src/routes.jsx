@@ -28,8 +28,8 @@ const routerConfig = isValidUser
           { index: true, element: <Feed /> },
           { path: "feed", element: <Feed /> },
           { path: "review", element: <ReviewList /> },
-          { path: "reservation", element: <Reservation /> },
-          { path: "favorite", element: <Region /> },
+          { path: "reservation", element: <ReservationWrite /> },
+          { path: "region", element: <Region /> },
           { path: "reviewwrite", element: <ReviewWrite /> },
           { path: "reservation-write", element: <ReservationWrite /> }
         ],
