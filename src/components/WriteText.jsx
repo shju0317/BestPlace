@@ -2,7 +2,7 @@ import { string, func } from 'prop-types';
 import { useId, useState } from "react"
 
 
-function Input({label, placeholder, name, onChange}) {
+function WriteText({label, placeholder, name, onChange}) {
   const INPUT_MAX_LENGTH = 200;
 
   const inputId = useId();
@@ -25,7 +25,7 @@ function Input({label, placeholder, name, onChange}) {
   )
 }
 
-Input.propTypes = {
+WriteText.propTypes = {
   label: string,
   placeholder: string,
   name: string,
@@ -33,4 +33,4 @@ Input.propTypes = {
 };
 
 
-export default Input
+export default WriteText

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import useReservation from '@h/useReservation';
+import { format } from 'date-fns';
 
 function ReservationDate() {
 
@@ -13,10 +14,15 @@ function ReservationDate() {
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
-    console.log('날짜g:', date);
-    console.log('날짜:', date.toLocaleDateString());
-    setReservationData({ [date]: selectedDate });
+    const formattedDate = format(new Date(date), 'yyyy-MM-dd') // '2023-00-00' 형식으로 변환
+    setReservationData({ "date": formattedDate });
   };
+
+  // useEffect((date) => {
+  //   let formattedDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split('T')[0]; // '2023-00-00' 형식으로 변환
+  //   setReservationData({ "date": formattedDate });
+  //   },[selectedDate]
+  // )
 
   return (
     <>
@@ -44,7 +50,8 @@ function ReservationDate() {
         <label htmlFor="date" className="text-lg font-semibold">날짜</label>
         <input id="date" name="date"
           value={selectedDate && selectedDate.toLocaleDateString()}
-          onChange={handleInputChange}/>
+          readOnly
+          />
       </div>
     </>
   )

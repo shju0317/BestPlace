@@ -1,14 +1,14 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
- const useReviewStore = create((set) => ({
+const useReviewStore = create((set) => ({
   reviewData: {
-    writer: '',
-    contents: '',
-    photos: [],
-    keywords: [],
-    place: ''
+    writer: "",
+    contents: "",
+    photos: null,
+    keywords: null,
+    place: "",
   },
-  setReviewData: (data) => set((state) => ({ reviewData: {...state.reviewData, ...data} })),
+  setReviewData: (data) => set((state) => ({ reviewData: { ...state.reviewData, ...data } })),
 }));
 
-export default useReviewStore
+export default useReviewStore;
