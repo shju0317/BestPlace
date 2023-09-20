@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import { setHours, setMinutes } from 'date-fns';
 import toast from 'react-hot-toast';
-import Button from '@c/Review/Button';
+import Button from '@c/Button';
 import VisitedPlace from '@c/Review/VisitedPlace';
-import Input from '@c/Review/Input';
+import WriteText from '@c/WriteText';
 // import PhotoLayout from '@c/Feed/FeedItem/PhotoLayout';
 import useReservation from '@h/useReservation';
 import ReservationDate from '@c/Reservation/ReservationDate';
@@ -134,7 +134,7 @@ function ReservationWrite() {
             </div>
             <div className="flex items-center gap-8">
               <label htmlFor="requirements" className="w-1/6">요청사항</label>
-              <Input id="requirements" name="requirements" placeholder="업체에 요청하실 내용을 적어주세요"
+              <WriteText id="requirements" name="requirements" placeholder="업체에 요청하실 내용을 적어주세요"
               inputMode="text" 
               onChange={handleInputChange}
               />

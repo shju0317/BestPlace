@@ -1,5 +1,5 @@
 import SignLogo from '@c/SignInUp/SignLogo';
-import Button from '@c/Review/Button';
+import Button from '@c/Button';
 import { useNavigate } from 'react-router-dom';
 
 function NotFound() {
