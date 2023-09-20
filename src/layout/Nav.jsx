@@ -3,8 +3,8 @@ import { NavLink } from "react-router-dom";
 const NAV_MENU = [
   { title: "피드", url: "feed" },
   { title: "방문", url: "visit" },
-  { title: "리뷰", url: "review" },
-  { title: "예약", url: "reservation-write" },
+  { title: "리뷰", url: "my-review" },
+  { title: "예약", url: "reservation" },
   { title: "저장", url: "favorite" },
 ];
 
@@ -18,7 +18,7 @@ function Nav() {
               <NavLink
                 to={`/${item.url}`}
                 className={({ isActive }) => {
-                  const baseClassName = "p-2 text-lg";
+                  const baseClassName = "p-2";
                   return isActive
                     ? `${baseClassName} block border-b-4 border-secondary pb-1 font-bold text-secondary`
                     : `${baseClassName} font-light text-gray-200`;
