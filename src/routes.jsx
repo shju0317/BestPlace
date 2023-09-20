@@ -29,7 +29,7 @@ const routerConfig = isValidUser
           { path: "feed", element: <Feed /> },
           { path: "review", element: <ReviewList /> },
           { path: "reservation", element: <ReservationWrite /> },
-          { path: "favorite", element: <Region /> },
+          { path: "region", element: <Region /> },
           { path: "reviewwrite", element: <ReviewWrite /> },
         ],
       },

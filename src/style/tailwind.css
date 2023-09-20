@@ -6,20 +6,42 @@ html {
   @apply font-suit;
 }
 
-.swiper-button-prev,
-.swiper-button-next {
-  background-color: #fff;
-  opacity: 0.7;
-  height: 30px;
-  width: 30px;
+.photo-swiper {
+  width: clamp(290px, 90%, 500px);
+  aspect-ratio: 4/3;
+}
+
+.photo-swiper .swiper-button-prev,
+.photo-swiper .swiper-button-next {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 34px;
+  width: 34px;
   border-radius: 100%;
-  color: black;
+  color: #fff;
+}
+
+.swiper-button-prev {
+  left: 0;
+  justify-content: left;
+  background: linear-gradient(270deg, rgba(255, 255, 255, 0.3), #fff 20px);
+  @apply text-secondary;
+}
+
+.swiper-button-next {
+  right: 0;
+  justify-content: right;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.3), #fff 20px);
+  @apply text-secondary;
 }
 
 .swiper-button-prev:after,
 .swiper-button-next:after {
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 1rem;
+}
+
+.swiper-button-disabled,
+.swiper-button-disabled:after {
+  opacity: 0 !important;
 }
 
 .swiper-pagination {
