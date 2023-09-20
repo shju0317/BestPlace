@@ -1,15 +1,19 @@
-import { produce } from 'immer';
-import { useState, useEffect } from 'react';
-import KEYWORDS from '@d/keywords';
-import useReview from '@h/useReview';
-import { string } from 'prop-types';
-import { alertMessage } from '@u/index';
+import KEYWORDS from "@d/keywords";
+import useReview from "@h/useReview";
+import { alertMessage } from "@u/index";
+import { produce } from "immer";
+import { string } from "prop-types";
+import { useEffect, useState } from "react";
 
-
-function ReviewKeyword({name}) {
+function ReviewKeyword({ name }) {
+  const { handleInputChange } = useReview();
 
   const [selectedKeyword, setSelectedKeyword] = useState([]);
-  const {handleInputChange, reviewData, setReviewData} = useReview();
+
+  useEffect(() => {
+    handleInputChange({ target: { name: "keywords", value: selectedKeyword } });
+    
+  }, [handleInputChange, selectedKeyword]);
 
   const handleKeywordClick = (keywordName) => {
     if (selectedKeyword.includes(keywordName)) {
@@ -18,41 +22,43 @@ function ReviewKeyword({name}) {
           draft.splice(draft.indexOf(keywordName), 1);
         })
       );
-    } else if (selectedKeyword.length < 5) { // 최대 5개 선택 제한
+    } else if (selectedKeyword.length < 5) {
+      // 최대 5개 선택 제한
       setSelectedKeyword(
         produce(selectedKeyword, (draft) => {
           draft.push(keywordName);
         })
       );
     } else {
-      alertMessage("최대 5개까지만 선택할 수 있습니다.","❗");
+      alertMessage("최대 5개까지만 선택할 수 있습니다.", "❗");
     }
-    console.log('selectedKey!!!',selectedKeyword)
   };
 
-  const listItems = KEYWORDS.map(keyword => (
-    <li key={keyword.id} className="mb-2" >
-      <button type="button"
-      className={`min-w-max px-3 py-2 rounded shadow-sm shadow-slate-300 
-      ${selectedKeyword.includes(keyword.name) ? 'bg-primary text-white' : 'bg-gray-100 text-black'}`}
-      onClick={(e) => {
-        handleKeywordClick(keyword.name)
-        handleInputChange({target: { name: "keywords", value: selectedKeyword}})
-        }
-      }>{keyword.name}</button>
+  const listItems = KEYWORDS.map((keyword) => (
+    <li key={keyword.id} className="mb-2">
+      <button
+        type="button"
+        className={`min-w-max rounded px-3 py-2 shadow-sm shadow-slate-300 
+        ${selectedKeyword.includes(keyword.name) ? "bg-primary text-white" : "bg-gray-100 text-black"}`}
+        onClick={() => handleKeywordClick(keyword.name)}
+      >
+        {keyword.name}
+      </button>
     </li>
   ));
 
   return (
-    <div className="flex flex-col flex-wrap gap-2 w-full self-center">
-      <p className="text-lg text-center font-semibold mt-5">어떤 점이 좋았나요?<span className="text-sm">(1개~5개)</span></p>
-      <ul className="text-white text-xs flex flex-wrap gap-x-1 justify-center">{listItems}</ul>
+    <div className="flex w-full flex-col flex-wrap gap-2 self-center">
+      <p className="mt-5 text-center text-lg font-semibold">
+        어떤 점이 좋았나요?<span className="text-sm">(1개~5개)</span>
+      </p>
+      <ul className="flex flex-wrap justify-center gap-x-1 text-xs text-white">{listItems}</ul>
     </div>
-  )
+  );
 }
 
 ReviewKeyword.propTypes = {
-  name: string
+  name: string,
 };
 
-export default ReviewKeyword
+export default ReviewKeyword;

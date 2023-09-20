@@ -36,6 +36,12 @@ html {
   @apply sr-only;
 }
 
+.react-datepicker__time-list{
+  height: 200px;
+  overflow: auto;
+  
+}
+
 .react-datepicker__time-list-item {
-  @apply cursor-pointer p-2 hover:bg-teal-700/20;
+  @apply cursor-pointer p-2 hover:bg-primary;
 }

@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import useReservation from '@h/useReservation';
+import { alertMessage } from '@/utils';
 
 function ReservationGuestCount() {
   const {setReservationData} = useReservation();
-  const [guestCount, setGuestCount] = useState(1);
+  const [guestCount, setGuestCount] = useState(0);
 
   const handleGuestCountChange = (e) => {
     const count = +e.target.value;
-    setGuestCount(count);
-    
+    setGuestCount(count);    
   };  
 
   useEffect(() => {

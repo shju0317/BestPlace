@@ -20,7 +20,7 @@ function ReservationWrite() {
     try {
       await pb.collection('reservation').create(reservationData);
       alertMessage("예약되었습니다.");
-      navigate("/feed"); // 리디렉션
+      navigate("/"); // 리디렉션
     } catch (error) {
       alertMessage("요청하신 작업을 수행하지 못했습니다.","❗");
       console.error('데이터 전송 실패:', error);
