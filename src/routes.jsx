@@ -31,6 +31,7 @@ const routerConfig = isValidUser
           { path: "reservation", element: <Reservation /> },
           { path: "favorite", element: <Region /> },
           { path: "reviewwrite", element: <ReviewWrite /> },
+          { path: "reservation-write", element: <ReservationWrite /> }
         ],
       },
       { path: "place/:placeId/:recordId", element: <Place /> },

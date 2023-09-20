@@ -1,14 +1,16 @@
 import { useLocation } from 'react-router-dom';
 // import useReview from '@h/useReview';
-import useReviewStore from '@s/review';
 import { useEffect } from 'react';
+import useReservationStore from '@/store/reservation';
 
 function PlaceInfo() {
-  const { title, category, address } = useLocation().state || {};
-  const { setReviewData } = useReviewStore();
-  
+  const { userId, placeId, title, category, address } = useLocation().state || {};
+  const { setReservationData } = useReservationStore();
+
   useEffect(() => {
-    setReviewData({ title: title });
+    setReservationData({ title: title });
+    setReservationData({ booker: userId });
+    setReservationData({ place: placeId });
   }, []);
 
   return (

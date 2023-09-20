@@ -39,7 +39,7 @@ function FeedItemFooter({ item, isPlace = false }) {
   return (
     <div className={`${isPlace ? "" : "rounded-lg border"} mb-2 p-4`}>
       <div className={`flex items-center justify-between ${isPlace ? "mx-auto max-w-3xl px-2" : ""}`}>
-      <Link to={"/reviewwrite"} state={{
+      <Link to={"/reservation-write"} state={{
           userId: userId,
           placeId: item.expand.place.id,
           title: item.expand.place.title,
