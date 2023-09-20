@@ -9,7 +9,7 @@ function useReservationList() {
       const reservation = await pb.collection("reservation").getFullList({
         filter: `booker = '${userInfo.id}'`,
         expand: "place",
-        sort: "+date",
+        sort: "-date",
       });
       return reservation;
     } catch (error) {
