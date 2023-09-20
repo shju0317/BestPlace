@@ -2,16 +2,15 @@ import { CiImageOn } from "react-icons/ci";
 import { PiPlusCircle} from "react-icons/pi";
 import { MdOutlineCancel } from "react-icons/md";
 import { useRef, useState, useEffect } from 'react';
-import toast from 'react-hot-toast';
 import { produce } from 'immer';
 import useReview from '@h/useReview';
 import { string } from 'prop-types';
-
+import { alertMessage } from '@u/index';
 
 function ReviewPhoto({name}) {
   const MAX_IMAGE_COUNT = 5;
 
-  const {handleInputChange, reviewData} = useReview();
+  const {handleInputChange} = useReview();
 
   const [image, setImage] = useState({
     fileImages: [],
@@ -29,22 +28,10 @@ function ReviewPhoto({name}) {
   const handleUploadImage = (e) => {
     const { files } = e.target;
 
-    if (files.length + image.fileImages.length > MAX_IMAGE_COUNT) {
-      toast("최대 5장까지 추가할 수 있습니다.",{
-        duration: 2000,
-        icon: "❗",
-        style:{
-          background: "#e0f2fe",
-          color: "#000",
-          borderRadius: "28px",
-          padding: "12px"
-        },
-        ariaProps:{
-          role: "alert",
-          'aria-live': 'polite'
-        }
-      });
-      return; // 이미지 개수가 최대 값을 초과하면 업로드 중단
+    // 이미지 개수가 최대 값을 초과하면 업로드 중단
+    if (files.length + image.fileImages.length > MAX_IMAGE_COUNT) { 
+      alertMessage("최대 5장까지 추가할 수 있습니다.","❗");
+      return;
     }
   
     setImage(produce((draftImage) => {
@@ -56,15 +43,6 @@ function ReviewPhoto({name}) {
     }));    
 };
 
-useEffect(() => {
-  if (image.imageCount <= 0) {
-    showElement(labelRef);
-    hideElement(divRef);
-  } else {
-    showElement(divRef);
-    hideElement(labelRef);
-  }
-}, [image]);
   
   // 업로드한 이미지 파일 삭제하기
   const handleDeleteImage = (index) => {
@@ -80,6 +58,16 @@ useEffect(() => {
  };
   
 
+ useEffect(() => {
+  if (image.imageCount <= 0) {
+    showElement(labelRef);
+    hideElement(divRef);
+  } else {
+    showElement(divRef);
+    hideElement(labelRef);
+  }
+}, [image]);
+
 
 
   return (
@@ -92,20 +80,20 @@ useEffect(() => {
         <span className="text-slate-400 text-xs">최대 {MAX_IMAGE_COUNT}장</span>
       </label>
       <div className="relative">
-        <input
-          type="file"
-          accept="*.jpg,*.png,*.jpeg,*.webp,*.avif"
-          ref={photoRef}
-          name="photos"
-          id="photos"
-          onChange={ (e)=>{
-            handleUploadImage(e)
-            handleInputChange({target: { name: name, value: e.target.value }})
-          }
-            }
-          className="absolute z-10 w-full h-full opacity-0 cursor-pointer"
-        />
-        <div className="hidden flex gap-4" ref={divRef}>
+      <input
+        type="file"
+        accept="*.jpg,*.png,*.jpeg,*.webp,*.avif"
+        ref={photoRef}
+        multiple
+        name="photos"
+        id="photos"
+        onChange={(e) => {
+          handleUploadImage(e);
+          handleInputChange({ target: { name: name, value: e.target.files } });
+        }}
+        className="absolute z-10 h-full w-full cursor-pointer opacity-0"
+      />
+        <div className="flex gap-4" ref={divRef}>
         <div 
           className="flex border border-primary rounded gap-2 overflow-x-auto p-2 h-36 w-full"
         >
