@@ -44,7 +44,7 @@ function SetRegion() {
   // 관심지역 설정 서버에 등록
   const setRegionList = () => {
     update("users", userInfo.id, { regions: checkedRegionList });
-    navigate("/피드");
+    navigate("/feed");
   };
 
   return (
