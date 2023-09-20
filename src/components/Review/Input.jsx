@@ -17,7 +17,7 @@ function Input({label, placeholder, name, onChange}) {
         onChange={
           (e)=>{
             setLetterCount(e.target.value.length);
-            onChange({target: { name: name, value: e.target.value }});
+            onChange?.({target: { name: name, value: e.target.value }});
           }}>
       </textarea>
       <span className="text-xs text-right">{letterCount}/{INPUT_MAX_LENGTH}</span>

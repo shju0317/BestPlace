@@ -19,7 +19,7 @@ function VisitedPlace() {
   }, []);
 
   return (
-    <div className="border-b-[1px] pb-2 w-full self-center">
+    <div className="border-b pb-2 w-full">
       <h1 className="text-lg font-semibold">{data.title}</h1>
       <p>{data.category}<span className="mx-1">|</span>{data.address}</p>
     </div>
