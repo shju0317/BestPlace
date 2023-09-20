@@ -18,13 +18,16 @@ export const getDay = (date) => {
 
 // 날짜 포맷
 export function dateFormat(datetime) {
+  const todayDate = new Date();
+  const todayYear = todayDate.getFullYear().toString().slice(-2);
   const reservationDate = new Date(datetime);
   const week = ["일", "월", "화", "수", "목", "금", "토"];
+  const year = reservationDate.getFullYear().toString().slice(-2);
   const month = reservationDate.getMonth() + 1;
   const day = reservationDate.getDate();
   const dayOfWeek = week[reservationDate.getDay()];
 
-  return `${month}. ${day} ${dayOfWeek}`;
+  return `${todayYear !== year ? year + "." : ""} ${month}. ${day} ${dayOfWeek}`;
 }
 
 // 시간 포맷
@@ -34,15 +37,15 @@ export function timeFormat(datetime) {
   const minute = reservationDate.getMinutes();
   const ampm = hour < 12 ? "오전" : "오후";
 
-  return `${ampm} ${hour < 12 ? hour : hour - 12}:${minute < 10 ? '0' + minute : minute}`;
+  return `${ampm} ${hour <= 12 ? hour : hour - 12}:${minute < 10 ? "0" + minute : minute}`;
 }
 
 // 날짜 계산
-export function calcDay(datetime) {
-  const reservationDate = new Date(datetime);
-  const todayDate = new Date();
+export function calcDay(firstDatetime, secondDatetime = null) {
+  const firstDate = new Date(firstDatetime);
+  const secondDate = secondDatetime ? new Date(secondDatetime) : new Date();
 
-  const betweenTime = Math.floor((reservationDate.getTime() - todayDate.getTime()) / 1000 / 60);
+  const betweenTime = Math.floor((firstDate.getTime() - secondDate.getTime()) / 1000 / 60);
   if (betweenTime < 1) return "방금전";
   if (betweenTime < 60) {
     return `${betweenTime}분전`;
