@@ -53,7 +53,7 @@ function UserReviewHeader({ item }) {
   return (
     <header className="sticky top-0 z-10 bg-white py-4 shadow-[0_6px_6px_-2px_rgba(0,0,0,0.1)]">
       <div className="mx-auto flex max-w-3xl items-center justify-between px-2">
-        <Link to={`/userReview/${userId}`}>
+        <Link to={myId === userId ? "/my-review" : `/userReview/${userId}`}>
           <dl className="flex items-center gap-1">
             <dt className="sr-only">작성자 프로필</dt>
             <dd className="mr-1 h-7 w-7 rounded-full bg-gray-300">
@@ -68,13 +68,21 @@ function UserReviewHeader({ item }) {
               )}
             </dd>
             <dt className="sr-only">작성자</dt>
-            <dd className="text-xl font-bold">
-              {item.expand.writer.nickname}
-              <span className="text-base font-semibold"> 님의 플레이스</span>
-            </dd>
+            {myId === userId ? (
+              <dd className="text-xl font-bold">
+                <span className="text-base font-semibold">MY 플레이스</span>
+              </dd>
+            ) : (
+              <dd className="text-xl font-bold">
+                {item.expand.writer.nickname}
+                <span className="text-base font-semibold"> 님의 플레이스</span>
+              </dd>
+            )}
           </dl>
         </Link>
-        {isFollow ? (
+        {myId === userId ? (
+          <div></div>
+        ) : isFollow ? (
           <button className="h-8 rounded-md bg-gray-100 px-3 text-sm text-gray-500" onClick={handleFollow}>
             팔로우 취소
           </button>
