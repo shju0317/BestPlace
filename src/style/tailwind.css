@@ -11,15 +11,6 @@ html {
   aspect-ratio: 4/3;
 }
 
-.photo-swiper .swiper-button-prev,
-.photo-swiper .swiper-button-next {
-  background-color: rgba(0, 0, 0, 0.5);
-  height: 34px;
-  width: 34px;
-  border-radius: 100%;
-  color: #fff;
-}
-
 .swiper-button-prev {
   left: 0;
   justify-content: left;
@@ -32,6 +23,34 @@ html {
   justify-content: right;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.3), #fff 20px);
   @apply text-secondary;
+}
+
+.photo-swiper .swiper-button-prev,
+.photo-swiper .swiper-button-next {
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  height: 34px;
+  width: 34px;
+  border-radius: 100%;
+  color: #fff;
+}
+
+.photo-swiper .swiper-button-prev,
+.photo-swiper .swiper-button-next {
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  height: 34px;
+  width: 34px;
+  border-radius: 100%;
+  color: #fff;
+}
+
+.photo-swiper .swiper-button-prev {
+  left: 10px;
+}
+
+.photo-swiper .swiper-button-next {
+  right: 10px;
 }
 
 .swiper-button-prev:after,

@@ -15,6 +15,7 @@ import Place from "./pages/Place";
 import UserReview from "./pages/UserReview";
 import DontAccess from "@p/DontAccess";
 import UserReviewList from "./pages/UserReviewList";
+import MyReview from "./pages/MyReview";
 
 let isValidUser = pb.authStore.isValid;
 
@@ -36,6 +37,7 @@ const routerConfig = isValidUser
       { path: "place/:placeId/:recordId", element: <Place /> },
       { path: "userReview/:userId", element: <UserReview /> },
       { path: "userReviewList/:userId", element: <UserReviewList /> },
+      { path: "my-review", element: <MyReview /> },
       { path: "updateUserData", element: <UpdateUserData /> },
     ]
   : [
