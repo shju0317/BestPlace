@@ -1,15 +1,14 @@
-import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
 import { Link } from "react-router-dom";
-import { useFeedList, useIntersect } from "@/hooks";
+import { useInfiniteList, useIntersect } from "@/hooks";
 import Spinner from "@/components/Spinner";
 import { getPbImageURL } from "@/utils";
-import Profile from "@/components/Profile";
 import { pb } from "@/api/pocketbase";
+import ScrollToTop from "@/components/ScrollTop";
 
 function MyReview() {
   const myId = pb.authStore.model.id;
-  const { data, isLoading, hasNextPage, fetchNextPage } = useFeedList();
+  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteList("reviews");
   const result = data?.flatMap((el) => el.items).filter((el) => el.writer === myId) || null;
 
   // 인피니트 스크롤
@@ -34,9 +33,7 @@ function MyReview() {
 
   return (
     <div className="relative min-h-screen pb-28">
-      <Header />
-      <div className="pb-4"></div>
-      <Profile />
+      <ScrollToTop />
       <main className="mx-auto max-w-3xl p-3">
         <h2 className="sr-only">나의 리뷰 페이지</h2>
         <ul className="my-4 grid grid-cols-3 gap-1.5">
