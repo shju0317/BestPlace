@@ -1,11 +1,11 @@
-import { useIntersect, useFilterCategory } from "@h";
+import { useIntersect } from "@h";
 import FeedItem from "@c/Feed/FeedItem/FeedItem";
 import Spinner from "@c/Spinner";
 import NoResult from "@c/Feed/NoResult";
 import FilterRegion from "@/components/Feed/FilterRegion";
 import SwiperCategory from "@/components/SwiperCategory";
-import { useFilterRegion } from "@/hooks/useFilterRegion";
-import { useInfiniteList } from "@/hooks";
+import { useFilterRegion } from "@/hooks"; 
+import { useFilterCategory, useInfiniteList } from "@/hooks";
 import ScrollToTop from "@/components/ScrollTop";
 
 function Feed() {

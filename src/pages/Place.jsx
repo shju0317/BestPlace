@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 function Place() {
   const { recordId, placeId } = useParams();
   const { data: record } = useFetchRecord(recordId);
-  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteList("reviews", `place.id='${placeId}'`);
+  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteList("reviews", {filter: `place.id='${placeId}'`});
   const result = data?.flatMap((el) => el.items).filter((el) => el.id !== record?.id) || null;
 
   // 인피니트 스크롤
