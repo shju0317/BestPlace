@@ -7,11 +7,10 @@ import { dateFormat, timeFormat } from "@/utils";
 import { array, string } from "prop-types";
 import { useState } from "react";
 import { BsCalendarWeek, BsChevronDown, BsChevronUp, BsPencilFill } from "react-icons/bs";
-import { GoStar } from "react-icons/go";
 import { MdFoodBank, MdMoreVert, MdOutlineCheck } from "react-icons/md";
 import { PiCalendarCheckBold, PiCalendarXBold } from "react-icons/pi";
-import { calcDay } from "./../utils/getDate";
 import { Link } from "react-router-dom";
+import { calcDay } from "@/utils/getDate";
 
 /* -------------------------------------------------------------------------- */
 
@@ -44,7 +43,7 @@ function ReservedList({ reservedList, nickname }) {
 
 ReservedList.propTypes = {
   reservedList: array,
-  nickname: string
+  nickname: string,
 };
 
 /* -------------------------------------------------------------------------- */
@@ -109,18 +108,12 @@ ReservationCount.propTypes = {
 
 //@ 예약 리스트
 function ReservationList({ userId, progressList, visitedList, canceledList }) {
-  const { data: visitData } = useFetchVisitData();
   const { data: writeReview } = useFetchAllReviews();
   let renderList = progressList;
   const [filter, setFilter] = useState("all");
-  const [isHoverMenu, setIsHoverMenu] = useState(false);
 
   function onChangeRadio(e) {
     setFilter(e.target.value);
-  }
-
-  function onHoverButton(e) {
-    setIsHoverMenu(true);
   }
 
   switch (filter) {
@@ -242,13 +235,16 @@ function ReservationList({ userId, progressList, visitedList, canceledList }) {
                   <MdMoreVert />
                 </button>
                 {/* // TODO LINK 연동 필요 */}
-                <Link to={"/reservation-write"} state={{
-                  userId: userId,
-                  placeId: item.expand.place.id,
-                  title: item.expand.place.title,
-                  category: item.expand.place.category,
-                  address: item.expand.place.address
-                }}>
+                <Link
+                  to={"/reservation-write"}
+                  state={{
+                    userId: userId,
+                    placeId: item.expand.place.id,
+                    title: item.expand.place.title,
+                    category: item.expand.place.category,
+                    address: item.expand.place.address,
+                  }}
+                >
                   <p className="text-sm font-semibold">
                     <span className="text-primary">+ </span>재예약
                   </p>
@@ -261,23 +257,26 @@ function ReservationList({ userId, progressList, visitedList, canceledList }) {
                 <p className={`grow ${!item.canceled ? "font-semibold" : "font-semibold text-gray-500"}`}>
                   {!item.canceled ? "방문 완료" : "예약 취소"}
                 </p>
-                <Link to={"/review-write"} state={{
+                <Link
+                  to={"/review-write"}
+                  state={{
                     userId: userId,
                     placeId: item.expand.place.id,
                     title: item.expand.place.title,
                     category: item.expand.place.category,
-                    address: item.expand.place.address
-                }}>
-                <p
-                  className={
-                    !item.canceled && !writeReview?.includes(item.id)
-                      ? "mr-2 flex items-center text-sm font-semibold text-gray-700"
-                      : "hidden"
-                  }
+                    address: item.expand.place.address,
+                  }}
                 >
-                  <BsPencilFill className="mr-1 inline text-primary" /> 리뷰 작성하기
-                </p>
-                </Link>    
+                  <p
+                    className={
+                      !item.canceled && !writeReview?.includes(item.id)
+                        ? "mr-2 flex items-center text-sm font-semibold text-gray-700"
+                        : "hidden"
+                    }
+                  >
+                    <BsPencilFill className="mr-1 inline text-primary" /> 리뷰 작성하기
+                  </p>
+                </Link>
                 <p
                   className={
                     !item.canceled && writeReview?.includes(item.id)
@@ -358,7 +357,12 @@ function Reservation() {
       <ReservationCount nickname={nickname} visitedList={visitedList} />
 
       {/* 예약 리스트 */}
-      <ReservationList userId={userId} progressList={progressList} visitedList={visitedList} canceledList={canceledList} />
+      <ReservationList
+        userId={userId}
+        progressList={progressList}
+        visitedList={visitedList}
+        canceledList={canceledList}
+      />
     </div>
   );
 }
