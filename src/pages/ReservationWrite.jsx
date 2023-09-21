@@ -14,6 +14,10 @@ function ReservationWrite() {
   const navigate = useNavigate();
   const {reservationData} = useReservation();
 
+  const isValid = () =>{
+    window.confirm("확인")
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -31,7 +35,7 @@ function ReservationWrite() {
     if (window.confirm("정말 취소하시겠습니까?")) {
       navigate(-1);
     }
-  }
+  };
 
   return (
     <>
@@ -48,7 +52,7 @@ function ReservationWrite() {
         <ReservationGuestInfo/>
         <div className="flex gap-2">
           <Button text="취소하기" onClick={handleGoBack} bgColor="bg-gray-100" textColor="text-red-500"/>
-          <Button type="submit" text="등록하기" onClick={handleSubmit}/>
+          <Button type="submit" text="등록하기" onClick={handleSubmit} disabled={!isValid}/>
         </div>
       </form>
     </section>
