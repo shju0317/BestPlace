@@ -11,6 +11,7 @@ import { GoStar } from "react-icons/go";
 import { MdFoodBank, MdMoreVert, MdOutlineCheck } from "react-icons/md";
 import { PiCalendarCheckBold, PiCalendarXBold } from "react-icons/pi";
 import { calcDay } from "./../utils/getDate";
+import { Link } from "react-router-dom";
 
 /* -------------------------------------------------------------------------- */
 
@@ -43,7 +44,7 @@ function ReservedList({ reservedList, nickname }) {
 
 ReservedList.propTypes = {
   reservedList: array,
-  nickname: string,
+  nickname: string
 };
 
 /* -------------------------------------------------------------------------- */
@@ -107,7 +108,7 @@ ReservationCount.propTypes = {
 /* -------------------------------------------------------------------------- */
 
 //@ 예약 리스트
-function ReservationList({ progressList, visitedList, canceledList }) {
+function ReservationList({ userId, progressList, visitedList, canceledList }) {
   const { data: writeReview } = useFetchAllReviews();
   let renderList = progressList;
   const [filter, setFilter] = useState("all");
@@ -243,9 +244,17 @@ function ReservationList({ progressList, visitedList, canceledList }) {
                   <MdMoreVert />
                 </button>
                 {/* // TODO LINK 연동 필요 */}
-                <p className="text-sm font-semibold">
-                  <span className="text-primary">+ </span>재예약
-                </p>
+                <Link to={"/reservation-write"} state={{
+                  userId: userId,
+                  placeId: item.expand.place.id,
+                  title: item.expand.place.title,
+                  category: item.expand.place.category,
+                  address: item.expand.place.address
+                }}>
+                  <p className="text-sm font-semibold">
+                    <span className="text-primary">+ </span>재예약
+                  </p>
+                </Link>
               </div>
             </div>
             <div className="my-2 w-full rounded-2xl border border-gray-200/50 px-4 shadow-md">
@@ -255,6 +264,13 @@ function ReservationList({ progressList, visitedList, canceledList }) {
                 </p>
 
                 {/* // TODO LINK 연동 필요 */}
+                <Link to={"/review-write"} state={{
+                    // userId: userId,
+                    placeId: item.expand.place.id,
+                    title: item.expand.place.title,
+                    category: item.expand.place.category,
+                    address: item.expand.place.address
+                }}>
                 <p
                   className={
                     !item.canceled && !writeReview?.includes(item.id)
@@ -264,7 +280,7 @@ function ReservationList({ progressList, visitedList, canceledList }) {
                 >
                   <BsPencilFill className="mr-1 inline text-primary" /> 리뷰 작성하기
                 </p>
-
+                </Link>    
                 <p
                   className={
                     !item.canceled && writeReview?.includes(item.id)
@@ -296,6 +312,7 @@ function ReservationList({ progressList, visitedList, canceledList }) {
 }
 
 ReservationList.propTypes = {
+  userId: string,
   progressList: array,
   visitedList: array,
   canceledList: array,
@@ -305,6 +322,7 @@ ReservationList.propTypes = {
 
 //@ 예약 페이지 컴포넌트
 function Reservation() {
+  let userId = pb.authStore.model.id;
   let nickname = pb.authStore.model.nickname;
   const { data: reservation, isLoading } = useReservationList();
   let reservedList = [];
@@ -341,7 +359,7 @@ function Reservation() {
       <ReservationCount nickname={nickname} visitedList={visitedList} />
 
       {/* 예약 리스트 */}
-      <ReservationList progressList={progressList} visitedList={visitedList} canceledList={canceledList} />
+      <ReservationList userId={userId} progressList={progressList} visitedList={visitedList} canceledList={canceledList} />
     </div>
   );
 }
