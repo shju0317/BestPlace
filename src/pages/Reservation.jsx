@@ -1,16 +1,17 @@
 import { pb } from "@/api/pocketbase";
 import Spinner from "@/components/Spinner";
 import SwiperCategory from "@/components/SwiperCategory";
+import { useFilterCategory, useInfiniteList, useIntersect } from "@/hooks";
 import useFetchAllReviews from "@/hooks/useFetchWriteReview";
 import useReservationList, { useFetchVisitData } from "@/hooks/useReservationList.js";
 import { dateFormat, timeFormat } from "@/utils";
-import { array, string } from "prop-types";
+import { calcDay } from "@/utils/getDate";
+import { array, string, object } from "prop-types";
 import { useState } from "react";
 import { BsCalendarWeek, BsChevronDown, BsChevronUp, BsPencilFill } from "react-icons/bs";
 import { MdFoodBank, MdMoreVert, MdOutlineCheck } from "react-icons/md";
 import { PiCalendarCheckBold, PiCalendarXBold } from "react-icons/pi";
 import { Link } from "react-router-dom";
-import { calcDay } from "@/utils/getDate";
 
 /* -------------------------------------------------------------------------- */
 
@@ -49,20 +50,22 @@ ReservedList.propTypes = {
 /* -------------------------------------------------------------------------- */
 
 //@ 예약 횟수 컴포넌트
-function ReservationCount({ nickname, visitedList }) {
+function ReservationCount({ userInfo, visitedList }) {
   const { data: visitData } = useFetchVisitData();
   const [isSeeMore, setIsSeeMore] = useState(false);
   let renderList = !isSeeMore ? visitData?.slice(0, 3) : visitData?.slice(0, 9);
+  // const filterRegion = useFilterCategory(infiniteRenderList);
 
   function handleClickButton() {
     setIsSeeMore(!isSeeMore);
   }
+  
 
   return (
-    <div className="my-12">
+    <div className="mb-12">
       <h3 className="my-5 text-lg font-bold">
         <MdOutlineCheck className="mr-2 inline align-bottom text-3xl" />
-        <span className="mx-0.5 text-secondary">{nickname}</span>님은 LION PLACE로
+        <span className="mx-0.5 text-secondary">{userInfo.nickname}</span>님은 LION PLACE로
         <span className="text-secondary"> {visitedList?.length}회 </span>
         예약했어요
       </h3>
@@ -100,34 +103,60 @@ function ReservationCount({ nickname, visitedList }) {
 }
 
 ReservationCount.propTypes = {
-  nickname: string,
+  userInfo: object,
   visitedList: array,
 };
 
 /* -------------------------------------------------------------------------- */
 
 //@ 예약 리스트
-function ReservationList({ userId, progressList, visitedList, canceledList }) {
+function ReservationList({ userInfo, visitedList, canceledList }) {
+  let renderList;
   const { data: writeReview } = useFetchAllReviews();
-  let renderList = progressList;
   const [filter, setFilter] = useState("all");
 
-  function onChangeRadio(e) {
-    setFilter(e.target.value);
-  }
+  const {
+    data: infiniteRenderList,
+    isLoading,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteList("reservation", {
+    filter: `booker="${userInfo.id}" && (visited=true || canceled=true)`,
+    sort: "-date",
+  });
+
+  // 관심지역 필터링
+  const filterRegion = useFilterCategory(infiniteRenderList);
+
+  let infiniteList = filterRegion?.flatMap((list) => list.items).filter((i) => i.canceled || i.visited) || null;
 
   switch (filter) {
     case "visit":
-      renderList = visitedList;
+      renderList = infiniteList.filter((i) => i.visited) || null;
       break;
     case "cancel":
-      renderList = canceledList;
+      renderList = infiniteList.filter((i) => i.canceled) || null;
       break;
-    case "date":
-      renderList = visitedList;
-      break;
+    // case "date":
+    // renderList = infiniteList.filter((i) => );
+    // break;
     default:
-      renderList = progressList;
+      renderList = infiniteList;
+  }
+
+  // 인피니트 스크롤
+  const ref = useIntersect(
+    async (entry, observer) => {
+      observer.unobserve(entry.target);
+      if (hasNextPage && !isLoading) {
+        fetchNextPage();
+      }
+    },
+    { threshold: 1 }
+  );
+
+  function onChangeRadio(e) {
+    setFilter(e.target.value);
   }
 
   function ReservationVisitIcon() {
@@ -219,8 +248,8 @@ function ReservationList({ userId, progressList, visitedList, canceledList }) {
         </label> */}
       </div>
 
-      <ul>
-        {renderList.map((item, index) => (
+      <ul className="mb-8">
+        {renderList?.map((item, index) => (
           <li key={index} className="my-8">
             <div className="flex items-center gap-2">
               {!item.canceled ? <ReservationVisitIcon /> : <ReservationCancelIcon />}
@@ -234,11 +263,10 @@ function ReservationList({ userId, progressList, visitedList, canceledList }) {
                 <button type="button">
                   <MdMoreVert />
                 </button>
-                {/* // TODO LINK 연동 필요 */}
                 <Link
                   to={"/reservation-write"}
                   state={{
-                    userId: userId,
+                    userInfo: userInfo.id,
                     placeId: item.expand.place.id,
                     title: item.expand.place.title,
                     category: item.expand.place.category,
@@ -260,7 +288,7 @@ function ReservationList({ userId, progressList, visitedList, canceledList }) {
                 <Link
                   to={"/review-write"}
                   state={{
-                    userId: userId,
+                    userInfo: userInfo.id,
                     placeId: item.expand.place.id,
                     title: item.expand.place.title,
                     category: item.expand.place.category,
@@ -299,18 +327,14 @@ function ReservationList({ userId, progressList, visitedList, canceledList }) {
         ))}
       </ul>
 
-      <button
-        type="button"
-        className="mx-auto my-5 flex items-center gap-1 rounded-3xl border border-gray-200 px-4 py-2 text-sm shadow-sm"
-      >
-        <span>내역 더보기</span> <BsChevronDown />
-      </button>
+      {/* 인피니티 스크롤시 필요한 요소 */}
+      <div ref={ref} className="h-[1px]"></div>
     </>
   );
 }
 
 ReservationList.propTypes = {
-  userId: string,
+  userInfo: object,
   progressList: array,
   visitedList: array,
   canceledList: array,
@@ -320,8 +344,7 @@ ReservationList.propTypes = {
 
 //@ 예약 페이지 컴포넌트
 function Reservation() {
-  let userId = pb.authStore.model.id;
-  let nickname = pb.authStore.model.nickname;
+  let userInfo = pb.authStore.model;
   const { data: reservation, isLoading } = useReservationList();
   let reservedList = [];
   let progressList = [];
@@ -343,7 +366,7 @@ function Reservation() {
   return (
     <div>
       {/* 현재 예약중 리스트 */}
-      <ReservedList nickname={nickname} reservedList={reservedList.reverse()} />
+      <ReservedList userInfo={userInfo} reservedList={reservedList.reverse()} />
       {/* 카테고리 선택 */}
       <div className="my-6">
         <h3 className="mb-2 text-lg font-bold">
@@ -354,11 +377,11 @@ function Reservation() {
       </div>
 
       {/* 예약 횟수 */}
-      <ReservationCount nickname={nickname} visitedList={visitedList} />
+      <ReservationCount userInfo={userInfo} visitedList={visitedList} />
 
       {/* 예약 리스트 */}
       <ReservationList
-        userId={userId}
+        userInfo={userInfo}
         progressList={progressList}
         visitedList={visitedList}
         canceledList={canceledList}
