@@ -5,12 +5,10 @@ import { Link } from "react-router-dom";
 
 function Profile() {
   const userInfo = pb.authStore.model;
-  console.log(userInfo);
-  // const { data: user } = useUserInfo(userInfo.id);
 
   return (
-    <div className="mx-auto pt-8 pb-6 flex max-w-3xl justify-start px-6">
-      <div className="flex flex-col items-center mx-auto sm:mx-0">
+    <div className="mx-auto flex max-w-3xl justify-start px-6 pb-6 pt-8">
+      <div className="mx-auto flex flex-col items-center sm:mx-0">
         <dl className="flex items-center justify-center gap-x-6 gap-y-2">
           <div>
             <dt className="sr-only">내 프로필 사진</dt>
@@ -25,7 +23,7 @@ function Profile() {
           <div className="flex grow flex-col gap-3">
             <div className="flex items-center justify-center">
               <dt className="sr-only">내 닉네임</dt>
-              <dd className="grow items-center justify-between text-2xl mx-2 font-bold">{userInfo.nickname}</dd>
+              <dd className="mx-2 grow items-center justify-between text-2xl font-bold">{userInfo.nickname}</dd>
               <Link to="/login" aria-label="로그아웃" title="로그아웃">
                 <IoLogOutOutline className="text-2xl" />
               </Link>

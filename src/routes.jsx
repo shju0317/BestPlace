@@ -31,17 +31,17 @@ const routerConfig = isValidUser
           { path: "feed", element: <Feed /> },
           { path: "review", element: <ReviewList /> },
           { path: "reservation", element: <Reservation /> },
-          { path: "region", element: <Region /> },
           { path: "review-write", element: <ReviewWrite /> },
           { path: "reservation-write", element: <ReservationWrite /> },
           { path: "favorite", element: <Favorites /> },
+          { path: "my-review", element: <MyReview /> },
         ],
       },
       { path: "place/:placeId/:recordId", element: <Place /> },
       { path: "userReview/:userId", element: <UserReview /> },
       { path: "userReviewList/:userId", element: <UserReviewList /> },
-      { path: "my-review", element: <MyReview /> },
       { path: "updateUserData", element: <UpdateUserData /> },
+      { path: "region", element: <Region /> },
     ]
   : [
       {

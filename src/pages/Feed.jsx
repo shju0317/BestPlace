@@ -1,13 +1,15 @@
-import { useFeedList, useIntersect, useFilterCategory } from "@h";
+import { useIntersect, useFilterCategory } from "@h";
 import FeedItem from "@c/Feed/FeedItem/FeedItem";
 import Spinner from "@c/Spinner";
 import NoResult from "@c/Feed/NoResult";
 import FilterRegion from "@/components/Feed/FilterRegion";
 import SwiperCategory from "@/components/SwiperCategory";
 import { useFilterRegion } from "@/hooks/useFilterRegion";
+import { useInfiniteList } from "@/hooks";
+import ScrollToTop from "@/components/ScrollTop";
 
 function Feed() {
-  const { data: fetchData, isLoading, hasNextPage, fetchNextPage } = useFeedList();
+  const { data: fetchData, isLoading, hasNextPage, fetchNextPage } = useInfiniteList("reviews");
 
   // 인피니트 스크롤
   const ref = useIntersect(
@@ -38,6 +40,7 @@ function Feed() {
 
   return (
     <>
+      <ScrollToTop />
       <h2 className="sr-only">피드 페이지</h2>
       <ul>
         <FilterRegion />
@@ -57,6 +60,7 @@ function Feed() {
           <NoResult title="일치하는 결과가 없습니다." contents="필터를 바꾸고 다시 시도해 보세요." />
         )}
       </ul>
+      {/* 인피니티 스크롤시 필요한 요소 */}
       <div ref={ref} className="h-[1px]"></div>
     </>
   );

@@ -63,9 +63,9 @@ function SearchRegion({ ...props }) {
 
   return (
     <>
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1 mt-3">
         {!isFocusSearchBar || (
-          <button type="button" onClick={handleClickPageBack} className="ml-1 px-1 text-4xl">
+          <button type="button" onClick={handleClickPageBack} className="ml-1 px-1 text-4xl" aria-label="뒤로 가기">
             <GoChevronLeft />
           </button>
         )}
@@ -88,8 +88,8 @@ function SearchRegion({ ...props }) {
             role="searchbox"
           />
           {!isFocusSearchBar || (
-            <button type="button" onClick={handleClickRemoveText}>
-              <GoX className="text-xl" />
+            <button type="button" onClick={handleClickRemoveText} aria-label="텍스트 삭제하기">
+              <GoX className="text-2xl" />
             </button>
           )}
         </div>

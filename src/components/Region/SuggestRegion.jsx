@@ -1,6 +1,5 @@
-
-import { suggestRegionList } from '@/data/regions';
-import { array, func, object } from 'prop-types';
+import { suggestRegionList } from "@/data/regions";
+import { array, func, object } from "prop-types";
 
 //@ '이런 지역 어때요' 리스트
 function SuggestRegion({ ...props }) {
@@ -27,12 +26,12 @@ function SuggestRegion({ ...props }) {
         {suggestRegionList.map((region, index) => (
           <li
             key={index}
-            className={`relative rounded-lg ${
+            className={`relative rounded-lg rounded-xl ${
               !checkedRegionList.includes(region.name) ? "bg-neutral-100" : "bg-sky-100 shadow-md"
             }`}
             aria-label={region.name + "를 관심 지역에 추가"}
           >
-            <label htmlFor={"suggest " + region.name} className="block p-4">
+            <label htmlFor={"suggest " + region.name} className="block cursor-pointer p-4">
               <p
                 className={`text-xs text-gray-500 ${
                   !checkedRegionList.includes(region.name) ? "font-semibold " : "font-bold"
@@ -63,4 +62,4 @@ SuggestRegion.propTypes = {
   onUpdate: func,
 };
 
-export default SuggestRegion
+export default SuggestRegion;
