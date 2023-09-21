@@ -1,13 +1,14 @@
 import { pb } from '@/api/pocketbase';
 import { useNavigate } from 'react-router-dom';
-import Button from '@c/Button';
-import useReservation from '@h/useReservation';
-import PlaceInfo from '@c/Reservation/PlaceInfo';
-import ReservationDate from '@c/Reservation/ReservationDate';
 import ReservationGuestCount from '@c/Reservation/ReservationGuestCount';
 import ReservationGuestInfo from '@c/Reservation/ReservationGuestInfo';
-import { alertMessage } from '@u/index';
+import ReservationDate from '@c/Reservation/ReservationDate';
+import PlaceInfo from '@c/Reservation/PlaceInfo';
 import ScrollToTop from '@c/ScrollTop';
+import Button from '@c/Button';
+import useReservation from '@h/useReservation';
+import { alertMessage } from '@u/index';
+
 
 function ReservationWrite() {
   const navigate = useNavigate();
@@ -43,7 +44,6 @@ function ReservationWrite() {
       <h1 className="text-lg text-center font-semibold mb-4">예약정보를 입력하세요</h1>
       <form method="POST" className="flex flex-col">
         <ReservationDate/>
-        {/* <ReservationTime/> */}
         <ReservationGuestCount/>
         <ReservationGuestInfo/>
         <div className="flex gap-2">
