@@ -54,7 +54,7 @@ function FeedItemFooter({ item, isPlace = false }) {
           </dd>
         </dl>
         <div className="flex gap-2">
-          <Link to={"/reservation-write"} state={{ userId, item }}>
+          <Link to={"/reservation-write"} state={{ userId, item }} className="flex flex-col items-center gap-2">
             <BsCalendarCheck className="text-xl" />
             <span className="text-xs">예약하기</span>
           </Link>
