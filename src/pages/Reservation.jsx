@@ -242,13 +242,7 @@ function ReservationList({ userId, progressList, visitedList, canceledList }) {
                   <MdMoreVert />
                 </button>
                 {/* // TODO LINK 연동 필요 */}
-                <Link to={"/reservation-write"} state={{
-                  userId: userId,
-                  placeId: item.expand.place.id,
-                  title: item.expand.place.title,
-                  category: item.expand.place.category,
-                  address: item.expand.place.address
-                }}>
+                <Link to={"/reservation-write"} state={{ userId, item }}>
                   <p className="text-sm font-semibold">
                     <span className="text-primary">+ </span>재예약
                   </p>
@@ -261,13 +255,7 @@ function ReservationList({ userId, progressList, visitedList, canceledList }) {
                 <p className={`grow ${!item.canceled ? "font-semibold" : "font-semibold text-gray-500"}`}>
                   {!item.canceled ? "방문 완료" : "예약 취소"}
                 </p>
-                <Link to={"/review-write"} state={{
-                    userId: userId,
-                    placeId: item.expand.place.id,
-                    title: item.expand.place.title,
-                    category: item.expand.place.category,
-                    address: item.expand.place.address
-                }}>
+                <Link to={"/review-write"} state={{ userId, item }}>
                 <p
                   className={
                     !item.canceled && !writeReview?.includes(item.id)
