@@ -2,7 +2,7 @@ import { string, func } from 'prop-types';
 import { useId, useState } from "react"
 
 
-function Input({label, placeholder, name, onChange}) {
+function WriteText({label, placeholder, name, onChange}) {
   const INPUT_MAX_LENGTH = 200;
 
   const inputId = useId();
@@ -17,7 +17,7 @@ function Input({label, placeholder, name, onChange}) {
         onChange={
           (e)=>{
             setLetterCount(e.target.value.length);
-            onChange({target: { name: name, value: e.target.value }});
+            onChange?.({target: { name: name, value: e.target.value }});
           }}>
       </textarea>
       <span className="text-xs text-right">{letterCount}/{INPUT_MAX_LENGTH}</span>
@@ -25,7 +25,7 @@ function Input({label, placeholder, name, onChange}) {
   )
 }
 
-Input.propTypes = {
+WriteText.propTypes = {
   label: string,
   placeholder: string,
   name: string,
@@ -33,4 +33,4 @@ Input.propTypes = {
 };
 
 
-export default Input
+export default WriteText

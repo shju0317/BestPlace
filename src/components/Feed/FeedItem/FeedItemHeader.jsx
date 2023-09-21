@@ -1,5 +1,5 @@
 import { pb } from "@/api/pocketbase";
-import { useUserInfo } from "@/hooks/useUserInfo";
+import { useFollowList } from "@/hooks/useFollowList";
 import { getPbImageURL } from "@u";
 import { shape, string } from "prop-types";
 import { useState, useEffect } from "react";
@@ -8,27 +8,38 @@ import { Link } from "react-router-dom";
 
 function FeedItemHeader({ item }) {
   const [isFollow, setIsFollow] = useState(false);
-  const userId = pb.authStore.model.id;
-  const { data: user, refetch } = useUserInfo(userId);
+  const myId = pb.authStore.model.id;
+  const { data, refetch } = useFollowList();
 
   useEffect(() => {
-    user?.following.includes(item.expand.writer.id) ? setIsFollow(true) : setIsFollow(false);
-  }, [item.expand.writer.id, user]);
+    const myFollowings = data?.filter((el) => el.expand.owner.id === myId)[0].followings;
+    myFollowings?.includes(item.expand.writer.id) ? setIsFollow(true) : setIsFollow(false);
+  }, [data, myId, item]);
 
-  const handleFollow = async () => {
-    let following;
+  const handleFollow = async (e) => {
+    let followings;
+    let followers;
+    const myRecordId = data?.filter((el) => el.expand.owner.id === myId)[0].id;
+    const myFollowings = data?.filter((el) => el.expand.owner.id === myId)[0].followings;
+    const writerRecordId = data?.filter((el) => el.expand.owner.id === e.target.id)[0].id;
+    const writerFollowers = data?.filter((el) => el.expand.owner.id === e.target.id)[0].followers;
 
     if (isFollow) {
-      following = user.following.filter((el) => el !== item.expand.writer.id);
+      followings = myFollowings.filter((el) => el !== item.expand.writer.id);
+      followers = writerFollowers.filter((el) => el !== myId);
       setIsFollow(false);
     } else {
-      following = [...user.following, item.expand.writer.id];
+      followings = [...myFollowings, item.expand.writer.id];
+      followers = [...writerFollowers, myId];
       setIsFollow(true);
     }
 
     try {
-      await pb.collection("users").update(userId, {
-        following,
+      await pb.collection("follow").update(myRecordId, {
+        followings,
+      });
+      await pb.collection("follow").update(writerRecordId, {
+        followers,
       });
     } catch (error) {
       console.error(error);
@@ -61,14 +72,24 @@ function FeedItemHeader({ item }) {
           <dd className="col-start-5 row-start-2 text-xs text-gray-500">8</dd>
         </dl>
       </Link>
-      {userId === item.expand.writer.id ? (
-        <div></div>
+      {myId === item.expand.writer.id ? (
+        <div aria-label="내가 쓴 리뷰" className="text-sm text-gray-500">
+          내가 쓴 리뷰
+        </div>
       ) : isFollow ? (
-        <button className="h-8 rounded-md bg-gray-100 px-3 text-sm text-gray-500" onClick={handleFollow}>
+        <button
+          className="h-8 rounded-md bg-gray-100 px-3 text-sm text-gray-500"
+          id={item.expand.writer.id}
+          onClick={handleFollow}
+        >
           팔로우 취소
         </button>
       ) : (
-        <button className="h-8 rounded-md bg-secondary px-3 text-sm text-white" onClick={handleFollow}>
+        <button
+          className="h-8 rounded-md bg-secondary px-3 text-sm text-white"
+          id={item.expand.writer.id}
+          onClick={handleFollow}
+        >
           팔로우
         </button>
       )}

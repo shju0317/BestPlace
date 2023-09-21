@@ -1,15 +1,16 @@
 import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useFeedList, useIntersect } from "@/hooks";
 import Spinner from "@/components/Spinner";
 import { getPbImageURL } from "@/utils";
 import Profile from "@/components/Profile";
+import { pb } from "@/api/pocketbase";
 
-function UserReview() {
-  const { userId } = useParams();
+function MyReview() {
+  const myId = pb.authStore.model.id;
   const { data, isLoading, hasNextPage, fetchNextPage } = useFeedList();
-  const result = data?.flatMap((el) => el.items).filter((el) => el.writer === userId) || null;
+  const result = data?.flatMap((el) => el.items).filter((el) => el.writer === myId) || null;
 
   // 인피니트 스크롤
   const ref = useIntersect(
@@ -37,15 +38,15 @@ function UserReview() {
       <div className="pb-4"></div>
       <Profile />
       <main className="mx-auto max-w-3xl p-3">
-        <h2 className="sr-only">유저 리뷰 페이지</h2>
+        <h2 className="sr-only">나의 리뷰 페이지</h2>
         <ul className="my-4 grid grid-cols-3 gap-1.5">
           {result?.map((item) => (
-            <Link to={`/userReviewList/${userId}`} key={item.id}>
+            <Link to={`/userReviewList/${myId}`} key={item.id}>
               <li>
                 <figure className="relative">
                   <img
                     src={getPbImageURL(item, item.photos[0])}
-                    alt={`${item.expand.writer.nickname}님의 ${item.expand.place.title} 리뷰`}
+                    alt={`나의 ${item.expand.place.title} 리뷰`}
                     className="h-[280px] w-full rounded-lg object-cover"
                   />
                   <figcaption className="absolute bottom-0 flex w-3/4 flex-col rounded-bl-lg rounded-tr-lg  p-2 text-white">
@@ -71,4 +72,4 @@ function UserReview() {
   );
 }
 
-export default UserReview;
+export default MyReview;

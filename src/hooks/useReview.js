@@ -1,19 +1,22 @@
-import useReviewStore from '@/store/review';
+import useReviewStore from "@s/review";
+import { useCallback, useMemo } from "react";
 
 function useReview() {
+  const reviewData = useReviewStore((state) => state.reviewData);
+  const setReviewData = useReviewStore((state) => state.setReviewData);
 
-  const { reviewData, setReviewData } = useReviewStore();
-  
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    console.log('name은', name);
-    console.log('value는', value);
-    
-    setReviewData({ [name]: value });
-    console.log(reviewData);
-  };
+  const handleInputChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setReviewData({ [name]: value });
+    },
+    [setReviewData]
+  );
 
-  return {reviewData, setReviewData, handleInputChange};
+  return useMemo(
+    () => ({ reviewData, setReviewData, handleInputChange }),
+    [handleInputChange, reviewData, setReviewData]
+  );
 }
 
-export default useReview
+export default useReview;

@@ -1,13 +1,17 @@
+import Profile from "@/components/Profile";
 import Footer from "./Footer";
 import Nav from "./Nav";
 import Header from "./header";
 import { Outlet } from "react-router-dom";
+import {divide} from 'ramda';
 
 function RootLayout() {
   return (
     <div>
-      <h1 className="sr-only">베스트 플레이스</h1>
       <Header />
+      <div className="bg-gray-50">
+        <Profile />
+      </div>
       <Nav />
       <main className="mx-auto max-w-3xl p-3">
         <Outlet />
