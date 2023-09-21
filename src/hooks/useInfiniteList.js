@@ -1,14 +1,21 @@
 import { pb } from "@/api/pocketbase";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-export const useInfiniteList = (collection, filterPrams = "") => {
-  const fetchReviews = async ({ pageParam = 1 }) => {
+const defaultOptions = {
+  expand: "writer,place",
+};
+
+/**
+ * 인피니티 쿼리 훅
+ * @param {*} collection (Stirng) 콜렉션 이름
+ * @param {*} options (Object) PocketBase Params 입력
+ * @returns Infitite Query 객체
+ */
+export const useInfiniteList = (collection, options) => {
+  const fetchData = async ({ pageParam = 1 }) => {
     try {
-      const reviews = await pb.collection(collection).getList(pageParam, 5, {
-        expand: "writer,place",
-        filter: filterPrams,
-      });
-      return reviews;
+      const data = await pb.collection(collection).getList(pageParam, 5, { ...defaultOptions, ...options });
+      return data;
     } catch (error) {
       console.error("tryCatch-" + error);
     }
@@ -16,7 +23,7 @@ export const useInfiniteList = (collection, filterPrams = "") => {
 
   const { data, isLoading, error, fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: [collection],
-    queryFn: fetchReviews,
+    queryFn: fetchData,
     keepPreviousData: true,
     getNextPageParam: (lastPage) => {
       if (lastPage.page >= lastPage.totalPages) return undefined;

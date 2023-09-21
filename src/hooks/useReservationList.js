@@ -18,7 +18,7 @@ function useReservationList() {
   }
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["reservation"],
+    queryKey: ["reservationList"],
     queryFn: fetchReservation,
   });
 
