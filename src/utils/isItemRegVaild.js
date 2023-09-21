@@ -1,3 +1,5 @@
+import { alertMessage } from '@/utils';
+
 //이메일 양식에 맞는지 판별하는 정규표현식
 const emailReg =
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -18,4 +20,28 @@ export function isEmailRegVaild(text) {
 
 export function isPwRegVaild(text) {
   return pwReg.test(text);
+}
+
+export function isRegValid(key, value) {
+  switch (true) {
+    case key === "username":
+      return idReg.test(value);
+    case key === "email":
+      return emailReg.test(value);
+    case key === "pw":
+      return pwReg.test(value);
+  }
+}
+export function alertReg(isValid,key) {
+  switch (isValid) {
+    case key === "username":
+      alertMessage("아이디는 소문자/대문자/숫자로 이루어진 4~20자리 문자여야 합니다");
+      break;
+    case key === "email":
+      alertMessage("사용가능한 이메일 양식이 아닙니다");
+      break;
+    case key === "pw":
+      alertMessage("비밀번호는 숫자/영어/특수문자를 포함하는 8~16자리 양식이어야 합니다");
+      break;
+  }
 }
