@@ -10,7 +10,7 @@ function Profile() {
 
   return (
     <div className="mx-auto my-8 flex max-w-3xl justify-start px-6">
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center mx-auto sm:mx-0">
         <dl className="flex items-center justify-center gap-x-6 gap-y-2">
           <div>
             <dt className="sr-only">내 프로필 사진</dt>
