@@ -1,14 +1,14 @@
 import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
 import { Link, useParams } from "react-router-dom";
-import { useFeedList, useIntersect } from "@/hooks";
+import { useInfiniteList, useIntersect } from "@/hooks";
 import Spinner from "@/components/Spinner";
 import { getPbImageURL } from "@/utils";
 import Profile from "@/components/Profile";
 
 function UserReview() {
   const { userId } = useParams();
-  const { data, isLoading, hasNextPage, fetchNextPage } = useFeedList();
+  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteList("reviews");
   const result = data?.flatMap((el) => el.items).filter((el) => el.writer === userId) || null;
 
   // 인피니트 스크롤
