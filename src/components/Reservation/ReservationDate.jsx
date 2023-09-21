@@ -10,7 +10,7 @@ function ReservationDate() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   // const [selectedDate, setSelectedDate] = useState();
   const [selectedTime, setSelectedTime] = useState(
-    // setHours(setMinutes(new Date(), 0), 9) // 9:00
+    setHours(setMinutes(new Date(), 0), 9) // 9:00
   );
 
   const maxSelectableDate = new Date();
@@ -33,10 +33,7 @@ function ReservationDate() {
     console.log('선택시간', selectedDate);
     const formattedDate = format(new Date(selectedDate), 'yyyy-MM-dd') // '2023-00-00' 형식으로 변환
     const formattedTime = `${selectedTime}:00`; // // '09:00:00' 형식으로 변환
-    // const mergeDateAndTime = `${formattedDate} ${formattedTime}`
-    const mergeDateAndTime = new Date(`${formattedDate} ${formattedTime}`)
-    console.log('머지',mergeDateAndTime)
-    console.log('날짜',new Date(mergeDateAndTime))
+    const mergeDateAndTime = new Date(`${formattedDate} ${formattedTime}`) // 한국표준시 GMT로 변환
     setReservationData({ "date": mergeDateAndTime });
     },[selectedDate, selectedTime]
   )

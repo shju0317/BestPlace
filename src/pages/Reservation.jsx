@@ -112,6 +112,7 @@ ReservationCount.propTypes = {
 //@ 예약 리스트
 function ReservationList({ userInfo, visitedList, canceledList }) {
   let renderList;
+  let userId = userInfo.id
   const { data: writeReview } = useFetchAllReviews();
   const [filter, setFilter] = useState("all");
 
@@ -263,16 +264,7 @@ function ReservationList({ userInfo, visitedList, canceledList }) {
                 <button type="button">
                   <MdMoreVert />
                 </button>
-                <Link
-                  to={"/reservation-write"}
-                  state={{
-                    userInfo: userInfo.id,
-                    placeId: item.expand.place.id,
-                    title: item.expand.place.title,
-                    category: item.expand.place.category,
-                    address: item.expand.place.address,
-                  }}
-                >
+                <Link to={"/reservation-write"} state={{ userId, item }}>
                   <p className="text-sm font-semibold">
                     <span className="text-primary">+ </span>재예약
                   </p>
@@ -285,26 +277,17 @@ function ReservationList({ userInfo, visitedList, canceledList }) {
                 <p className={`grow ${!item.canceled ? "font-semibold" : "font-semibold text-gray-500"}`}>
                   {!item.canceled ? "방문 완료" : "예약 취소"}
                 </p>
-                <Link
-                  to={"/review-write"}
-                  state={{
-                    userInfo: userInfo.id,
-                    placeId: item.expand.place.id,
-                    title: item.expand.place.title,
-                    category: item.expand.place.category,
-                    address: item.expand.place.address,
-                  }}
+                <Link to={"/review-write"} state={{ userId, item }}>
+                <p
+                  className={
+                    !item.canceled && !writeReview?.includes(item.id)
+                      ? "mr-2 flex items-center text-sm font-semibold text-gray-700"
+                      : "hidden"
+                  }
                 >
-                  <p
-                    className={
-                      !item.canceled && !writeReview?.includes(item.id)
-                        ? "mr-2 flex items-center text-sm font-semibold text-gray-700"
-                        : "hidden"
-                    }
-                  >
-                    <BsPencilFill className="mr-1 inline text-primary" /> 리뷰 작성하기
-                  </p>
-                </Link>
+                  <BsPencilFill className="mr-1 inline text-primary" /> 리뷰 작성하기
+                </p>
+                </Link>    
                 <p
                   className={
                     !item.canceled && writeReview?.includes(item.id)
