@@ -39,13 +39,7 @@ function FeedItemFooter({ item, isPlace = false }) {
   return (
     <div className={`${isPlace ? "" : "rounded-lg border"} mb-2 p-4`}>
       <div className={`flex items-center justify-between ${isPlace ? "mx-auto max-w-3xl px-2" : ""}`}>
-      <Link to={"/reservation-write"} state={{
-          userId: userId,
-          placeId: item.expand.place.id,
-          title: item.expand.place.title,
-          category: item.expand.place.category,
-          address: item.expand.place.address
-      }}>
+      <Link to={"/reservation-write"} state={{ userId, item }}>
         <dl className="grid grid-cols-[36px_1fr] gap-1">
           <dt className="sr-only">플레이스 이름</dt>
           <dd className="col-start-1 col-end-3 overflow-hidden text-ellipsis whitespace-nowrap font-bold">

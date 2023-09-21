@@ -25,10 +25,13 @@ function ReviewWrite() {
           //   (여러 데이터의 경우 아래처럼 추가해야 함)
           for (let item of value) {
             formData.append(key, item);
+            console.log('아이템',item);
+            console.log('아이템타입',typeof item);
           }
         }else {
           formData.append(key, value);
         }
+        console.log('여기',formData);
       }
     }
   
