@@ -13,6 +13,8 @@ function useReview() {
     [setReviewData]
   );
 
+  console.log("으음",reviewData);
+
   return useMemo(
     () => ({ reviewData, setReviewData, handleInputChange }),
     [handleInputChange, reviewData, setReviewData]

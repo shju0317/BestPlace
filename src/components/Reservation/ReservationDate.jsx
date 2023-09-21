@@ -8,10 +8,9 @@ function ReservationDate() {
 
   const { setReservationData } = useReservation();
   const [selectedDate, setSelectedDate] = useState(new Date());
-  // const [selectedDate, setSelectedDate] = useState();
-  const [selectedTime, setSelectedTime] = useState(
-    setHours(setMinutes(new Date(), 0), 9) // 9:00
-  );
+  const [selectedTime, setSelectedTime] = useState("09:00");
+
+  console.log('셀렉트타임',selectedTime)
 
   const maxSelectableDate = new Date();
   maxSelectableDate.setDate(maxSelectableDate.getDate() + 21); // 현재 날짜로부터 3주 이내
@@ -26,7 +25,7 @@ function ReservationDate() {
     );
   }
 
-  const handleDateClick = (date) => setSelectedDate(date);
+  const handleDateClick = (e) => setSelectedDate(e);
   const handleTimeClick = (e) => setSelectedTime(e.target.value);
 
   useEffect(() => {

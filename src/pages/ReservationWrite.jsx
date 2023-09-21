@@ -7,21 +7,44 @@ import PlaceInfo from '@c/Reservation/PlaceInfo';
 import ScrollToTop from '@c/ScrollTop';
 import Button from '@c/Button';
 import useReservation from '@h/useReservation';
-import { alertMessage } from '@u/index';
-
+import { alertMessage, isEmailRegValid, isTelRegValid } from '@u/index';
 
 function ReservationWrite() {
   const navigate = useNavigate();
   const {reservationData} = useReservation();
 
-  const isValid = () =>{
-    window.confirm("확인")
+  const isValid = (reservationData) => {
+    for (const key in reservationData) {
+      if(key === "canceled" || key === "visited") break;
+
+      const value = reservationData[key];
+
+      if (!value && value !== 0) {
+        return false;
+      }
+    }
+    return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+      if(!isValid(reservationData)){
+        alertMessage("공백란이 있습니다.","❗");
+        return;
+      }
+
+      if(!isEmailRegValid(reservationData.email)){
+        alertMessage("이메일 정보가 올바르지 않습니다.","❗");
+        return;
+      }
+
+      if(!isTelRegValid(reservationData.tel)){
+        alertMessage("전화번호 정보가 올바르지 않습니다.","❗");
+        return;
+      }
+
       await pb.collection('reservation').create(reservationData);
       alertMessage("예약이 등록되었습니다.");
       navigate("/reservation");
@@ -52,7 +75,7 @@ function ReservationWrite() {
         <ReservationGuestInfo/>
         <div className="flex gap-2">
           <Button text="취소하기" onClick={handleGoBack} bgColor="bg-gray-100" textColor="text-red-500"/>
-          <Button type="submit" text="등록하기" onClick={handleSubmit} disabled={!isValid}/>
+          <Button type="submit" text="등록하기" onClick={handleSubmit}/>
         </div>
       </form>
     </section>

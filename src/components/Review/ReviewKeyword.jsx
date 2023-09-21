@@ -5,7 +5,7 @@ import { produce } from "immer";
 import { string } from "prop-types";
 import { useEffect, useState } from "react";
 
-function ReviewKeyword({ name }) {
+function ReviewKeyword() {
   const { handleInputChange } = useReview();
 
   const [selectedKeyword, setSelectedKeyword] = useState([]);
@@ -50,15 +50,15 @@ function ReviewKeyword({ name }) {
   return (
     <div className="flex w-full flex-col flex-wrap gap-2 self-center">
       <p className="mt-5 text-center text-lg font-semibold">
-        어떤 점이 좋았나요?<span className="text-sm">(최대 5개)</span>
+        어떤 점이 좋았나요?<span className="text-sm">(1개~5개)</span>
       </p>
       <ul className="flex flex-wrap justify-center gap-x-1 text-xs text-white">{listItems}</ul>
     </div>
   );
 }
 
-ReviewKeyword.propTypes = {
-  name: string,
-};
+// ReviewKeyword.propTypes = {
+//   name: string,
+// };
 
 export default ReviewKeyword;
