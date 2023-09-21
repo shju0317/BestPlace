@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { useCategoryStore } from "@s/category";
-import { useRegionStore, useReserveStateStore } from "@/store/region";
+import { useRegionStore } from "@/store/region";
 
 // 카테고리 필터링
 export const useFilterCategory = (fetchData) => {
