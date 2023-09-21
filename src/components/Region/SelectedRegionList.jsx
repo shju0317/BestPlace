@@ -28,7 +28,7 @@ function SelectedRegionList({ ...props }) {
           <li key={index} className="my-1 flex items-center justify-between rounded-lg border border-primary px-4 py-2">
             <FaLocationArrow className="mr-2 inline-block text-primary" />
             <h4 className="grow text-base font-bold">{region}</h4>
-            <button type="button" onClick={handleRemoveButton}>
+            <button type="button" onClick={handleRemoveButton} aria-label="항목 삭제">
               <GoX className="text-xl" />
             </button>
           </li>
