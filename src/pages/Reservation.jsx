@@ -238,9 +238,6 @@ function ReservationList({ progressList, visitedList, canceledList }) {
               </div>
               <div className="flex gap-2 text-lg">
                 <button type="button">
-                  <GoStar />
-                </button>
-                <button type="button">
                   <MdMoreVert />
                 </button>
                 {/* // TODO LINK 연동 필요 */}
@@ -253,7 +250,7 @@ function ReservationList({ progressList, visitedList, canceledList }) {
             <div className="my-2 w-full rounded-2xl border border-gray-200/50 px-4 shadow-md">
               <div className="flex- flex justify-center border-b border-dashed pb-3 pt-4">
                 <p className={`grow ${!item.canceled ? "font-semibold" : "font-semibold text-gray-500"}`}>
-                  {!item.canceled ? `번째, 35일만에 예약` : "예약 취소"}
+                  {!item.canceled ? "방문 완료" : "예약 취소"}
                 </p>
 
                 {/* // TODO LINK 연동 필요 */}
@@ -279,8 +276,10 @@ function ReservationList({ progressList, visitedList, canceledList }) {
                 </p>
               </div>
               <div className="pb-4 pt-3">
-                <p className="font-bold">{item.expand.place.title}</p>
-                <p className="font-semibold text-gray-600">{item.expand.place.category}</p>
+                <dt className="sr-only">주소</dt>
+                <dd className="font-semibold">{item.expand.place.address}</dd>
+                <dt className="sr-only">카테고리</dt>
+                <dd className="font-semibold text-gray-600">{item.expand.place.category}</dd>
               </div>
             </div>
           </li>
