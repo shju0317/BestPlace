@@ -3,7 +3,7 @@ import { useUserAuth } from "@/hooks/useUserAuth";
 import { bool, shape, string } from "prop-types";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { BsBookmarkStar, BsFillBookmarkStarFill } from "react-icons/bs";
+import { BsBookmarkStar, BsCalendarCheck, BsFillBookmarkStarFill } from "react-icons/bs";
 
 function FeedItemFooter({ item, isPlace = false }) {
   const userId = pb.authStore.model.id;
@@ -39,13 +39,6 @@ function FeedItemFooter({ item, isPlace = false }) {
   return (
     <div className={`${isPlace ? "" : "rounded-lg border"} mb-2 p-4`}>
       <div className={`flex items-center justify-between ${isPlace ? "mx-auto max-w-3xl px-2" : ""}`}>
-      <Link to={"/reservation-write"} state={{
-          userId: userId,
-          placeId: item.expand.place.id,
-          title: item.expand.place.title,
-          category: item.expand.place.category,
-          address: item.expand.place.address
-      }}>
         <dl className="grid grid-cols-[36px_1fr] gap-1">
           <dt className="sr-only">플레이스 이름</dt>
           <dd className="col-start-1 col-end-3 overflow-hidden text-ellipsis whitespace-nowrap font-bold">
@@ -60,18 +53,34 @@ function FeedItemFooter({ item, isPlace = false }) {
             {item.expand.place.address}
           </dd>
         </dl>
-      </Link>
-        {isSave ? (
-          <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-primary">
-            <BsFillBookmarkStarFill className="text-2xl" onClick={handleSave} />
-            <span className="text-xs">저장됨</span>
-          </button>
-        ) : (
-          <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-gray-400">
-            <BsBookmarkStar className="text-2xl" onClick={handleSave} />
-            <span className="text-xs">저장</span>
-          </button>
-        )}
+        <div className="flex gap-2">
+          <Link
+            to={"/reservation-write"}
+            className="flex flex-col items-center justify-between text-secondary"
+            state={{
+              userId: userId,
+              placeId: item.expand.place.id,
+              title: item.expand.place.title,
+              category: item.expand.place.category,
+              address: item.expand.place.address,
+            }}
+          >
+            <BsCalendarCheck className="text-xl" />
+            <span className="text-xs">예약하기</span>
+          </Link>
+          <div className="ml-2 border-r"></div>
+          {isSave ? (
+            <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-primary">
+              <BsFillBookmarkStarFill className="text-2xl" onClick={handleSave} />
+              <span className="text-xs">저장됨</span>
+            </button>
+          ) : (
+            <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-gray-400">
+              <BsBookmarkStar className="text-2xl" onClick={handleSave} />
+              <span className="text-xs">저장</span>
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

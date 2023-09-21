@@ -1,14 +1,14 @@
 import FeedItem from "@/components/Feed/FeedItem/FeedItem";
 import Spinner from "@/components/Spinner";
 import UserReviewHeader from "@/components/UserReviewList/UserReviewHeader";
-import { useFeedList, useIntersect } from "@/hooks";
+import { useInfiniteList, useIntersect } from "@/hooks";
 import Footer from "@/layout/Footer";
 import Header from "@/layout/header";
 import { useParams } from "react-router-dom";
 
 function UserReviewList() {
   const { userId } = useParams();
-  const { data, isLoading, hasNextPage, fetchNextPage } = useFeedList();
+  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteList("reviews");
   const result = data?.flatMap((el) => el.items).filter((el) => el.writer === userId) || null;
 
   // 인피니트 스크롤

@@ -3,7 +3,7 @@ import FeedItemFooter from "@/components/Feed/FeedItem/FeedItemFooter";
 import NoResult from "@/components/Feed/NoResult";
 import ScrollToTop from "@/components/ScrollTop";
 import Spinner from "@/components/Spinner";
-import { useFeedList, useIntersect } from "@/hooks";
+import { useInfiniteList, useIntersect } from "@/hooks";
 import { useFetchRecord } from "@/hooks/useFetchRecord";
 import Footer from "@/layout/Footer";
 import Header from "@/layout/header";
@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 function Place() {
   const { recordId, placeId } = useParams();
   const { data: record } = useFetchRecord(recordId);
-  const { data, isLoading, hasNextPage, fetchNextPage } = useFeedList(`place.id='${placeId}'`);
+  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteList("reviews", `place.id='${placeId}'`);
   const result = data?.flatMap((el) => el.items).filter((el) => el.id !== record?.id) || null;
 
   // 인피니트 스크롤
