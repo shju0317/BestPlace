@@ -17,8 +17,8 @@ function PlaceInfo() {
   useEffect(() => {
     setReservationData({ 
       booker: userId,
-      place: item.expand.place.id,
-      title: item.expand.place.title
+      place: item.expand.place.id
+      // title: item.expand.place.title
     });
   }, []);
 
