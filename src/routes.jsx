@@ -16,6 +16,7 @@ import UserReview from "./pages/UserReview";
 import DontAccess from "@p/DontAccess";
 import UserReviewList from "./pages/UserReviewList";
 import MyReview from "./pages/MyReview";
+import Favorites from "./pages/Favorites";
 
 let isValidUser = pb.authStore.isValid;
 
@@ -32,7 +33,8 @@ const routerConfig = isValidUser
           { path: "reservation", element: <Reservation /> },
           { path: "region", element: <Region /> },
           { path: "review-write", element: <ReviewWrite /> },
-          { path: "reservation-write", element: <ReservationWrite /> }
+          { path: "reservation-write", element: <ReservationWrite /> },
+          { path: "favorite", element: <Favorites /> },
         ],
       },
       { path: "place/:placeId/:recordId", element: <Place /> },
