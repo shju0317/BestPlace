@@ -5,6 +5,7 @@ import { useInfiniteList, useIntersect } from "@/hooks";
 import Spinner from "@/components/Spinner";
 import { getPbImageURL } from "@/utils";
 import Profile from "@/components/Profile";
+import FeedItemHeader from "@/components/Feed/FeedItem/FeedItemHeader";
 
 function UserReview() {
   const { userId } = useParams();
@@ -34,8 +35,9 @@ function UserReview() {
   return (
     <div className="relative min-h-screen pb-28">
       <Header />
-      <div className="pb-4"></div>
-      <Profile />
+      <header className="bg-gray-50 py-4 shadow-[0_6px_6px_-2px_rgba(0,0,0,0.1)]">
+        <FeedItemHeader item={result[0]} isUser={true} />
+      </header>
       <main className="mx-auto max-w-3xl p-3">
         <h2 className="sr-only">유저 리뷰 페이지</h2>
         <ul className="my-4 grid grid-cols-3 gap-1.5">
@@ -48,7 +50,7 @@ function UserReview() {
                     alt={`${item.expand.writer.nickname}님의 ${item.expand.place.title} 리뷰`}
                     className="h-[280px] w-full rounded-lg object-cover"
                   />
-                  <figcaption className="absolute bottom-0 flex w-full flex-col rounded-bl-lg rounded-tr-lg  bg-black bg-opacity-50 p-2 text-white">
+                  <figcaption className="absolute bottom-0 flex w-full flex-col rounded-b-lg bg-black bg-opacity-50 p-2 text-white">
                     <span
                       className="overflow-hidden text-ellipsis whitespace-nowrap text-sm font-light"
                       title={item.expand.place.address}

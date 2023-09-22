@@ -13,7 +13,7 @@ export const useUserInfo = (userId, expand = "") => {
     }
   };
 
-  const { data, error, refetch } = useQuery({
+  const { data, error, refetch, isLoading } = useQuery({
     queryKey: ["user", userId],
     queryFn: () => fetchUser(userId),
   });
@@ -23,5 +23,6 @@ export const useUserInfo = (userId, expand = "") => {
   return {
     data,
     refetch,
+    isLoading,
   };
 };
