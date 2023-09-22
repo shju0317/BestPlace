@@ -30,7 +30,7 @@ function SignInput({
       </label>
       
       <div className="border">
-        {fileUrl ? <img className="mx-5 mt-3 h-20 w-20 rounded-full" src={fileUrl} /> : null}
+        {fileUrl ? <img className="mx-5 mt-3 h-20 w-20 rounded-full border  border-primary" src={fileUrl} /> : null}
         <input
           type="file"
           accept="*.jpg,*.png,*.jpeg,*.webp,*.avif"
