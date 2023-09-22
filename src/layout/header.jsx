@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 function Header() {
   return (
     <header className="bg-primary text-white">
-      <div className="mx-auto flex max-w-3xl items-center justify-between p-2">
+      <div className="mx-auto flex max-w-3xl items-center justify-between px-3 py-2">
         <h1>
-          <Link to="/feed" className="flex items-center">
+          <Link to="/" className="flex items-center">
             <img src="/logo.svg" alt="베스트 플레이스" className="h-6 w-6" />
             <div className="ml-2 text-lg font-bold">
               <span className="font-black text-secondary">B</span>est{" "}

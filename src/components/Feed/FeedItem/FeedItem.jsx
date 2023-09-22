@@ -17,7 +17,7 @@ function FeedItem({ item, isPlace, isLink, hiddenHeader, hiddenFooter }) {
     <div className="flex flex-col gap-3 bg-white py-8">
       {hiddenHeader || <FeedItemHeader item={item} />}
       {isPlace ? (
-        <figure>
+        <figure className={`${isPlace && "pt-3"}`}>
           <Swiper
             className="photo-swiper"
             spaceBetween={30}
@@ -38,7 +38,7 @@ function FeedItem({ item, isPlace, isLink, hiddenHeader, hiddenFooter }) {
               </SwiperSlide>
             ))}
           </Swiper>
-          <figcaption>
+          <figcaption className={`${isPlace && "pt-3"}`}>
             <p className="mt-3 text-gray-700">{item.contents}</p>
           </figcaption>
         </figure>

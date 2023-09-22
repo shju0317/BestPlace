@@ -35,7 +35,7 @@ function UserReviewList() {
     <>
       <Header />
       <UserReviewHeader item={result[0]} />
-      <main className="mx-auto max-w-3xl p-2">
+      <main className="mx-auto max-w-3xl p-3">
         <h2 className="sr-only">유저 리뷰리스트 페이지</h2>
         <ul className="flex flex-col gap-1 bg-gray-50">
           {result.map((item) => (
