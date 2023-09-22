@@ -1,27 +1,27 @@
 import { pb } from "@/api/pocketbase";
 import Spinner from "@/components/Spinner";
-import SwiperCategory from "@/components/SwiperCategory";
-import { useFilterCategory, useInfiniteList, useIntersect } from "@/hooks";
+import { useInfiniteList, useIntersect } from "@/hooks";
 import useFetchAllReviews from "@/hooks/useFetchWriteReview";
 import useReservationList, { useFetchVisitData } from "@/hooks/useReservationList.js";
 import { dateFormat, timeFormat } from "@/utils";
 import { calcDay } from "@/utils/getDate";
-import { array, string, object } from "prop-types";
+import { Dropdown } from "flowbite-react";
+import { array, object } from "prop-types";
 import { useState } from "react";
 import { BsCalendarWeek, BsChevronDown, BsChevronUp, BsPencilFill } from "react-icons/bs";
-import { MdFoodBank, MdMoreVert, MdOutlineCheck } from "react-icons/md";
+import { MdMoreVert, MdOutlineCheck } from "react-icons/md";
 import { PiCalendarCheckBold, PiCalendarXBold } from "react-icons/pi";
 import { Link } from "react-router-dom";
 
 /* -------------------------------------------------------------------------- */
 
 //@ 현재 예약중 리스트
-function ReservedList({ reservedList, nickname }) {
+function ReservedList({ reservedList, userInfo }) {
   return (
-    <div className="border-b border-dashed border-gray-500/50 pb-6">
+    <div className="border-b border-dashed border-gray-500/50 pb-8 mb-8">
       <h3 className="mb-4 mt-2 text-lg font-bold">
         <BsCalendarWeek className="mr-2 inline align-bottom text-3xl" />
-        <span className="mx-0.5 text-secondary">{nickname}</span>님이 현재 예약한 정보에요
+        <span className="mx-0.5 text-secondary">{userInfo.nickname}</span>님이 현재 예약한 정보에요
       </h3>
 
       <ul>
@@ -44,7 +44,7 @@ function ReservedList({ reservedList, nickname }) {
 
 ReservedList.propTypes = {
   reservedList: array,
-  nickname: string,
+  userInfo: object,
 };
 
 /* -------------------------------------------------------------------------- */
@@ -52,18 +52,19 @@ ReservedList.propTypes = {
 //@ 예약 횟수 컴포넌트
 function ReservationCount({ userInfo, visitedList }) {
   const { data: visitData } = useFetchVisitData();
+  console.log(visitData);
   const [isSeeMore, setIsSeeMore] = useState(false);
   let renderList = !isSeeMore ? visitData?.slice(0, 3) : visitData?.slice(0, 9);
+  let firstCount = renderList ? renderList[0][1] : 0;
   // const filterRegion = useFilterCategory(infiniteRenderList);
 
   function handleClickButton() {
     setIsSeeMore(!isSeeMore);
   }
-  
 
   return (
-    <div className="mb-12">
-      <h3 className="my-5 text-lg font-bold">
+    <div className="border-b border-dashed border-gray-500/50 pb-8 mb-8">
+      <h3 className="mb-6 text-lg font-bold">
         <MdOutlineCheck className="mr-2 inline align-bottom text-3xl" />
         <span className="mx-0.5 text-secondary">{userInfo.nickname}</span>님은 LION PLACE로
         <span className="text-secondary"> {visitedList?.length}회 </span>
@@ -80,9 +81,11 @@ function ReservationCount({ userInfo, visitedList }) {
               <h4 className="grow font-semibold">{item[0]}</h4>
               <p className="font-bold">{item[1]}회</p>
             </div>
-            <div className="mt-2 h-1 w-full rounded-md bg-gray-200">
-              <div className={`h-1 w-[50%] rounded-md bg-primary`} />
-              {/* ${Math.floor((2 / filterList?.length) * 100)} */}
+            <div className="mt-2 h-0.5 w-full rounded-md bg-gray-200">
+              <div
+                className={`h-0.5 rounded-md bg-primary`}
+                style={{ width: `${Math.floor((item[1] / firstCount) * 100)}%` }}
+              ></div>
             </div>
           </li>
         ))}
@@ -90,7 +93,7 @@ function ReservationCount({ userInfo, visitedList }) {
 
       <label
         htmlFor="seeMoreButton"
-        className={`mx-auto my-5 flex cursor-pointer items-center justify-center gap-1 ${
+        className={`mx-auto flex cursor-pointer items-center justify-center gap-1 ${
           renderList?.length < 3 ? "hidden" : ""
         }`}
       >
@@ -112,7 +115,7 @@ ReservationCount.propTypes = {
 //@ 예약 리스트
 function ReservationList({ userInfo, visitedList, canceledList }) {
   let renderList;
-  let userId = userInfo.id
+  let userId = userInfo.id;
   const { data: writeReview } = useFetchAllReviews();
   const [filter, setFilter] = useState("all");
 
@@ -126,10 +129,7 @@ function ReservationList({ userInfo, visitedList, canceledList }) {
     sort: "-date",
   });
 
-  // 관심지역 필터링
-  const filterRegion = useFilterCategory(infiniteRenderList);
-
-  let infiniteList = filterRegion?.flatMap((list) => list.items).filter((i) => i.canceled || i.visited) || null;
+  let infiniteList = infiniteRenderList?.flatMap((list) => list.items).filter((i) => i.canceled || i.visited) || null;
 
   switch (filter) {
     case "visit":
@@ -182,7 +182,7 @@ function ReservationList({ userInfo, visitedList, canceledList }) {
       <div className="flex gap-2">
         <label
           htmlFor="filterAllButton"
-          className={`rounded-xl border border-gray-200/50 px-4 py-2 text-sm font-semibold ${
+          className={`rounded-xl border border-gray-200/50 px-4 py-2 text-sm font-semibold cursor-pointer ${
             filter === "all" ? `border-0 bg-primary text-white shadow-md` : `border text-gray-600 shadow-md`
           }`}
         >
@@ -198,7 +198,7 @@ function ReservationList({ userInfo, visitedList, canceledList }) {
         </label>
         <label
           htmlFor="filterVisitButton"
-          className={`rounded-xl border border-gray-200/50 px-4 py-2 text-sm font-semibold ${
+          className={`rounded-xl border border-gray-200/50 px-4 py-2 text-sm font-semibold cursor-pointer ${
             filter === "visit" ? `border-0 bg-primary text-white shadow-md` : `border text-gray-600 shadow-md`
           }`}
         >
@@ -216,7 +216,7 @@ function ReservationList({ userInfo, visitedList, canceledList }) {
         </label>
         <label
           htmlFor="filterCancelButton"
-          className={`rounded-xl border border-gray-200/50 px-4 py-2 text-sm font-semibold ${
+          className={`rounded-xl border border-gray-200/50 px-4 py-2 text-sm font-semibold cursor-pointer ${
             filter === "cancel" ? `border-0 bg-primary text-white shadow-md` : `border text-gray-600 shadow-md`
           }`}
         >
@@ -261,14 +261,11 @@ function ReservationList({ userInfo, visitedList, canceledList }) {
                 </p>
               </div>
               <div className="flex gap-2 text-lg">
-                <button type="button">
-                  <MdMoreVert />
-                </button>
-                <Link to={"/reservation-write"} state={{ userId, item }}>
-                  <p className="text-sm font-semibold">
-                    <span className="text-primary">+ </span>재예약
-                  </p>
-                </Link>
+                <Dropdown inline arrowIcon={null} label={<MdMoreVert />} style={null}>
+                  <Link to={"/reservation-write"} state={{ userId, item }}>
+                    <p className="mx-3 my-1 bg-transparent text-center  text-sm font-semibold">+ 재예약</p>
+                  </Link>
+                </Dropdown>
               </div>
             </div>
 
@@ -278,16 +275,16 @@ function ReservationList({ userInfo, visitedList, canceledList }) {
                   {!item.canceled ? "방문 완료" : "예약 취소"}
                 </p>
                 <Link to={"/review-write"} state={{ userId, item }}>
-                <p
-                  className={
-                    !item.canceled && !writeReview?.includes(item.id)
-                      ? "mr-2 flex items-center text-sm font-semibold text-gray-700"
-                      : "hidden"
-                  }
-                >
-                  <BsPencilFill className="mr-1 inline text-primary" /> 리뷰 작성하기
-                </p>
-                </Link>    
+                  <p
+                    className={
+                      !item.canceled && !writeReview?.includes(item.id)
+                        ? "mr-2 flex items-center text-sm font-semibold text-gray-700"
+                        : "hidden"
+                    }
+                  >
+                    <BsPencilFill className="mr-1 inline text-primary" /> 리뷰 작성하기
+                  </p>
+                </Link>
                 <p
                   className={
                     !item.canceled && writeReview?.includes(item.id)
@@ -350,14 +347,6 @@ function Reservation() {
     <div>
       {/* 현재 예약중 리스트 */}
       <ReservedList userInfo={userInfo} reservedList={reservedList.reverse()} />
-      {/* 카테고리 선택 */}
-      <div className="my-6">
-        <h3 className="mb-2 text-lg font-bold">
-          <MdFoodBank className="mr-2 inline align-bottom text-3xl" />
-          카테고리를 선택하세요
-        </h3>
-        <SwiperCategory />
-      </div>
 
       {/* 예약 횟수 */}
       <ReservationCount userInfo={userInfo} visitedList={visitedList} />
