@@ -20,6 +20,23 @@ export const useFilterCategory = (fetchData) => {
   return data;
 };
 
+export const useFilterCategoryReservation = (fetchData) => {
+  let data = [];
+  let filteredData = [];
+  const category = useCategoryStore((state) => state.category);
+
+  fetchData && (filteredData = _.cloneDeep(fetchData));
+  filteredData.forEach((el) => {
+    const filteredItems = el.items.filter((el) => category.includes(el.expand.place.category));
+    el.items = [...filteredItems];
+  });
+
+  if (category.includes("전체")) data = fetchData;
+  else data = filteredData;
+
+  return data;
+};
+
 // 관심지역 필터링
 export const useFilterRegion = (fetchData) => {
   let data = [];
