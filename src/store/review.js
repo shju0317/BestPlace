@@ -7,6 +7,7 @@ const useReviewStore = create((set) => ({
     photos: null,
     keywords: null,
     place: "",
+    reservation: ""
   },
   setReviewData: (data) => set((state) => ({ reviewData: { ...state.reviewData, ...data } })),
 }));

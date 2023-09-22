@@ -6,11 +6,13 @@ function VisitedPlaceInfo() {
   const { userId, item } = useLocation().state || {};
   const { setReviewData } = useReviewStore();
 
-  console.log('아이템', item)
+  console.log('아이템', item);
+  console.log('아이템아이디', item.expand.id);
   useEffect(() => {
     setReviewData({ 
       writer: userId,
       place: item.expand.place.id,
+      reservation: item.id
       // title: item.expand.place.title
     });
   }, []);

@@ -41,7 +41,10 @@ function ReservationDate() {
     <>
       <div>
         <label htmlFor="date" className="hidden">캘린더</label>
-        <Calendar id="date" 
+        <Calendar id="date"
+          calendarType={"gregory"}
+          // view={"month"}
+          minDetail={"month"}
           fortmatShortWeekday={true}
           minDate={new Date()}
           maxDate={maxSelectableDate} 
