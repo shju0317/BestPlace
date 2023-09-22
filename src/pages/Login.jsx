@@ -62,10 +62,11 @@ function Login() {
           ariaText="비밀번호 입력창"
           placeHolder="비밀번호를 입력하세요"
           inputValue={setPw}
+          type= "password"
         />
       </SignForm>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 max-w-3xl w-full">
         <SignButton value="로그인" handleEvent={() => handleLogin()} bgColor="bg-white" textColor="text-black" />
         <SignButton value="회원가입" handleEvent={() => navigate("/Register")} />
       </div>

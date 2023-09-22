@@ -84,16 +84,18 @@ function Register() {
           ariaText="비밀번호 입력창"
           placeHolder="비밀번호의 길이는 8자리 이상"
           inputValue={setPw}
+          type= "password"
         />
         <SignInput
           labelValue="비밀번호 확인"
           ariaText="비밀번호 재입력창"
           placeHolder="비밀번호를 다시 입력하세요"
           inputValue={setPwCheck}
+          type= "password"
         />
       </SignForm>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 max-w-3xl w-full">
         <SignButton value="회원가입" handleEvent={() => handleRegister()} bgColor="bg-white" textColor="text-black" />
         <SignButton value="로그인" handleEvent={() => navigate("/Login")} />
       </div>
