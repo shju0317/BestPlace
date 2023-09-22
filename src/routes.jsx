@@ -13,7 +13,6 @@ import Register from "@p/Register";
 import ReservationWrite from "@p/ReservationWrite";
 import Place from "./pages/Place";
 import UserReview from "./pages/UserReview";
-import DontAccess from "@p/DontAccess";
 import UserReviewList from "./pages/UserReviewList";
 import MyReview from "./pages/MyReview";
 import Favorites from "./pages/Favorites";
@@ -50,7 +49,7 @@ const routerConfig = isValidUser
           { path: "login", element: <Login /> },
           { path: "register", element: <Register /> },
         ],
-        errorElement: <DontAccess />,
+        errorElement: <NotFound />,
       },
     ];
 
