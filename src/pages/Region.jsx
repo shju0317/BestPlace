@@ -46,7 +46,7 @@ function SetRegion() {
   // 관심지역 설정 서버에 등록
   const setRegionList = () => {
     update("users", userInfo.id, { regions: checkedRegionList });
-    navigate("/feed");
+    navigate("/");
   };
 
   return (
@@ -58,9 +58,9 @@ function SetRegion() {
           {isFocusSearchBar || (
             <div>
               {/* 창 닫기 */}
-                <Link to="/feed" className="float-right" title="설정 닫기">
-                  <GoX className="text-3xl mr-1 mt-3" />
-                </Link>
+              <Link to="/" className="float-right" title="설정 닫기">
+                <GoX className="mr-1 mt-3 text-3xl" />
+              </Link>
               {/* 제목 */}
               <h2 className="mb-3 pt-8 text-2xl font-bold">관심지역을 설정해주세요!</h2>
             </div>

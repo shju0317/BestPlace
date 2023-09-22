@@ -28,7 +28,6 @@ const routerConfig = isValidUser
         errorElement: <NotFound />,
         children: [
           { index: true, element: <Feed /> },
-          { path: "feed", element: <Feed /> },
           { path: "review", element: <ReviewList /> },
           { path: "reservation", element: <Reservation /> },
           { path: "review-write", element: <ReviewWrite /> },
@@ -39,8 +38,9 @@ const routerConfig = isValidUser
         ],
       },
       { path: "place/:placeId/:recordId", element: <Place /> },
-      { path: "userReview/:userId", element: <UserReview /> },
-      { path: "userReviewList/:userId", element: <UserReviewList /> },
+      { path: "user-review/:userId", element: <UserReview /> },
+      { path: "user-review-list/:userId", element: <UserReviewList /> },
+      { path: "update-user-data", element: <UpdateUserData /> },
       { path: "region", element: <Region /> },
     ]
   : [

@@ -1,5 +1,5 @@
 import { pb } from "@/api/pocketbase";
-import { useFollowList } from "@/hooks/useFollowList";
+import { useFetchList } from "@/hooks/useFetchList";
 import { getPbImageURL } from "@/utils";
 import { shape, string } from "prop-types";
 import { useState, useEffect } from "react";
@@ -11,7 +11,7 @@ function UserReviewHeader({ item }) {
   const { userId } = useParams();
   const myId = pb.authStore.model.id;
   const [isFollow, setIsFollow] = useState(false);
-  const { data, refetch } = useFollowList();
+  const { data, refetch } = useFetchList("follow", { expand: "owner" });
 
   useEffect(() => {
     const myFollowings = data?.filter((el) => el.expand.owner.id === myId)[0].followings;
@@ -51,9 +51,9 @@ function UserReviewHeader({ item }) {
   };
 
   return (
-    <header className="sticky top-0 z-10 bg-white py-4 shadow-[0_6px_6px_-2px_rgba(0,0,0,0.1)]">
-      <div className="mx-auto flex max-w-3xl items-center justify-between px-2">
-        <Link to={myId === userId ? "/my-review" : `/userReview/${userId}`}>
+    <header className="sticky top-0 z-10 bg-gray-50 py-4 shadow-[0_6px_6px_-2px_rgba(0,0,0,0.1)]">
+      <div className="mx-auto flex max-w-3xl items-center justify-between px-3">
+        <Link to={myId === userId ? "/my-review" : `/user-review/${userId}`}>
           <dl className="flex items-center gap-1">
             <dt className="sr-only">작성자 프로필</dt>
             <dd className="mr-1 h-7 w-7 rounded-full bg-gray-300">

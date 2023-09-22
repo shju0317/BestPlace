@@ -73,7 +73,7 @@ function Register() {
       </SignForm>
 
       <div className="flex gap-2">
-        <SignButton value="취소" handleEvent={() => navigate("/Feed")} bgColor="bg-white" textColor="text-red-600" />
+        <SignButton value="취소" handleEvent={() => navigate("/")} bgColor="bg-white" textColor="text-red-600" />
         <SignButton
           value="수정완료"
           handleEvent={() => handleUserDataUpdate()}

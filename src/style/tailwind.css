@@ -7,7 +7,7 @@ html {
 }
 
 .photo-swiper {
-  width: clamp(290px, 90%, 500px);
+  width: clamp(290px, 90%, 550px);
   aspect-ratio: 4/3;
 }
 
@@ -84,10 +84,6 @@ html {
   background: none;
   text-align: center;
   line-height: 16px;
-}
-
-.react-calendar {
-  min-width: 400px;
 }
 
 .react-calendar__navigation {
