@@ -1,4 +1,4 @@
-import { alertMessage } from '@/utils';
+import { alertMessage } from "@/utils";
 
 //이메일 양식에 맞는지 판별하는 정규표현식
 const emailReg =
@@ -24,18 +24,25 @@ export function isPwRegVaild(text) {
 
 export function isRegValid(key, value) {
   switch (true) {
+    case key === "nickname":
+      return idReg.test(value);
     case key === "username":
       return idReg.test(value);
     case key === "email":
       return emailReg.test(value);
     case key === "pw":
       return pwReg.test(value);
+    default:
+      return true;
   }
 }
-export function alertReg(isValid,key) {
-  switch (isValid) {
+export function alertReg(key) {
+  switch (true) {
     case key === "username":
       alertMessage("아이디는 소문자/대문자/숫자로 이루어진 4~20자리 문자여야 합니다");
+      break;
+    case key === "nickname":
+      alertMessage("별명은 소문자/대문자/숫자로 이루어진 4~20자리 문자여야 합니다");
       break;
     case key === "email":
       alertMessage("사용가능한 이메일 양식이 아닙니다");
