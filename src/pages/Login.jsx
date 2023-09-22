@@ -1,5 +1,5 @@
 import { pb, read, setLogIn } from "@/api/pocketbase";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { alertMessage } from "@u/index";
 
@@ -43,7 +43,20 @@ function Login() {
       alertMessage("사용자 정보가 없습니다", "❌");
     }
   }
+  
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Enter') {
+       handleLogin() 
+      }
+    };
 
+    window.addEventListener('keydown', handleKeyDown);
+    
+    // Don't forget to cleanup after component unmounts
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+  
   return (
     <SignContents>
       <SignLogo />
@@ -68,7 +81,7 @@ function Login() {
 
       <div className="flex flex-col gap-2 max-w-3xl w-full">
         <SignButton value="로그인" handleEvent={() => handleLogin()} bgColor="bg-white" textColor="text-black" />
-        <SignButton value="회원가입" handleEvent={() => navigate("/Register")} />
+        <SignButton value="회원가입" handleEvent={() => navigate("/Register")}/>
       </div>
     </SignContents>
   );
