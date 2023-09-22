@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 function Place() {
   const { recordId, placeId } = useParams();
   const { data: record } = useFetchRecord(recordId);
-  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteList("reviews", `place.id='${placeId}'`);
+  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteList("reviews", {filter: `place.id='${placeId}'`});
   const result = data?.flatMap((el) => el.items).filter((el) => el.id !== record?.id) || null;
 
   // 인피니트 스크롤
@@ -39,11 +39,11 @@ function Place() {
     <>
       <ScrollToTop />
       <Header />
-      <header className="sticky top-0 z-10 rounded-none bg-white shadow-[0_6px_6px_-2px_rgba(0,0,0,0.1)]">
+      <header className="sticky top-0 z-10 rounded-none bg-gray-50 shadow-[0_6px_6px_-2px_rgba(0,0,0,0.1)]">
         <h2 className="sr-only">플레이스 페이지</h2>
         {record && <FeedItemFooter item={record} isPlace={true} />}
       </header>
-      <main className="mx-auto max-w-3xl">
+      <main className="mx-auto max-w-3xl px-3">
         {record && <FeedItem key={record?.id} item={record} isPlace={true} hiddenFooter={true} />}
         <div className="border-t-2 pt-4 text-lg font-semibold">이 장소의 다른 리뷰</div>
         <ul className="flex flex-col gap-1 bg-gray-50">

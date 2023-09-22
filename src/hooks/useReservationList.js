@@ -18,7 +18,7 @@ function useReservationList() {
   }
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["reservation"],
+    queryKey: ["reservationList"],
     queryFn: fetchReservation,
   });
 
@@ -37,7 +37,7 @@ export function useFetchVisitData() {
   async function fetchVisitData() {
     try {
       const reservation = await pb.collection("reservation").getFullList({
-        filter: `booker = '${userInfo.id}'`,
+        filter: `booker="${userInfo.id}" && visited=true && canceled=false`,
         expand: "place",
         sort: "-date",
       });
