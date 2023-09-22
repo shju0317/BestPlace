@@ -48,9 +48,7 @@ function Register() {
   async function handleUserDataUpdate() {
     for (const [key, value] of Object.entries(updateData)) {
       console.log(value === pb.authStore.model[key]);
-      // console.log(value);
-      // console.log(pb.authStore.model[key]);
-
+      
       if (!(value === pb.authStore.model[key])) {
         if (await isUsed(key, value)) {
           alertMessage(`이미 사용된 ${key}입니다`);
