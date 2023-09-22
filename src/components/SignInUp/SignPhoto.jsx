@@ -23,8 +23,6 @@ function SignInput({
     inputValue(selectedFile);
   };
 
-  let pic = read("users", "", pb.authStore.model.id);
-
   return (
     <>
       <label className="" htmlFor="signInputId">

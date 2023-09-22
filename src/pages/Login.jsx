@@ -36,11 +36,11 @@ function Login() {
       await setLogIn(idPw);
       globalThis.location.href = "/";
     } catch {
-      if (await isValidId()) {
-        alertMessage("비밀번호가 일치하지 않습니다", "❌");
-      } else {
-        alertMessage("사용자 정보가 없습니다", "❌");
-      }
+      // if (await isValidId()) {
+      //   alertMessage("비밀번호가 일치하지 않습니다", "❌");
+      // } else {
+      // }
+      alertMessage("사용자 정보가 없습니다", "❌");
     }
   }
 
