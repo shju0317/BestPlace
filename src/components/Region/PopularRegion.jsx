@@ -18,7 +18,7 @@ function PopularRegion({ ...props }) {
   return (
     <div>
       <h3 className="mb-4 text-lg font-bold">요즘 많이 찾아봐요</h3>
-      <ul className="grid grid-cols-3 gap-3">
+      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {popularRegionList.map((region, index) => (
           <li
             key={index}
