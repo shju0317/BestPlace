@@ -71,13 +71,13 @@ function ReviewPhoto({name}) {
 
 
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex w-full border border-primary focus:border-b-2 rounded py-2 items-center justify-center" >
       <label htmlFor="photos" 
         ref={labelRef}
-        className="flex justify-center items-center gap-1 py-1 border border-primary rounded font-semibold w-full self-center">
+        className="flex justify-center items-center font-semibold">
         <CiImageOn />
         사진추가
-        <span className="text-slate-400 text-xs">최대 {MAX_IMAGE_COUNT}장</span>
+        <span className="text-slate-400 text-xs ml-2">최대 {MAX_IMAGE_COUNT}장</span>
       </label>
       <div className="relative">
       <input
@@ -91,11 +91,11 @@ function ReviewPhoto({name}) {
           handleUploadImage(e);
           handleInputChange({ target: { name: name, value: e.target.files } });
         }}
-        className="absolute z-10 h-full w-full cursor-pointer opacity-0"
+        className="absolute z-10 h-full w-full cursor-pointer opacity-0 focus:border-b-2"
       />
-        <div className="flex gap-4" ref={divRef}>
+      <div className="flex gap-4" ref={divRef}>
         <div 
-          className="flex border border-primary rounded gap-2 overflow-x-auto p-2 h-36 w-full"
+          className="flex rounded gap-2 overflow-x-auto p-2 h-36 w-full"
         >
         {image.fileImages.map((file,index)=> (
               <div key={index} className="relative">
@@ -104,7 +104,7 @@ function ReviewPhoto({name}) {
                 <button 
                   type="button"
                   onClick={() => handleDeleteImage(index)} 
-                  className="absolute top-[4px] right-[4px] text-primary z-10"
+                  className="absolute top-[2px] right-[2px] text-primary z-10"
                   aria-label={`이미지 ${index+1} 삭제`}>
                   <MdOutlineCancel size="20"/>
                 </button>
