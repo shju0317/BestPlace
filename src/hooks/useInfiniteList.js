@@ -22,7 +22,7 @@ export const useInfiniteList = (collection, options) => {
   };
 
   const { data, isLoading, error, fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: [collection],
+    queryKey: [collection, options],
     queryFn: fetchData,
     keepPreviousData: true,
     getNextPageParam: (lastPage) => {

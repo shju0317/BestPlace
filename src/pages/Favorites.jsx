@@ -2,11 +2,9 @@ import { pb } from "@/api/pocketbase";
 import NoResult from "@/components/Feed/NoResult";
 import PopUpModal from "@/components/PopupModal";
 import ScrollToTop from "@/components/ScrollTop";
-import Spinner from "@/components/Spinner";
 import Kakaomap from "@/components/kakaomap";
 import { useUserInfo } from "@/hooks/useUserInfo";
 import { getPbImageURL } from "@/utils";
-import { Button } from "flowbite-react";
 import { useState } from "react";
 import { BsTrashFill } from "react-icons/bs";
 
@@ -18,16 +16,29 @@ function Favorites() {
   const { data, refetch } = useUserInfo(myId, "favorites");
   const favorites = data?.expand?.favorites?.length && data?.expand.favorites;
 
+  const handleDelete = async () => {
+    const favorites = userFavorites.filter((el) => el !== itemId);
+    try {
+      await pb.collection("users").update(myId, {
+        favorites,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+
+    setOpenModal(false);
+    refetch();
+  };
+
   return (
     <>
       <ScrollToTop />
       <PopUpModal
-        myId={myId}
-        itemId={itemId}
-        refetch={refetch}
         openModal={openModal}
         setOpenModal={setOpenModal}
-        userFavorites={userFavorites}
+        modalTitle="이 장소를 리스트에서 삭제합니다."
+        actionTitle="삭제"
+        handleEvent={handleDelete}
       />
       {favorites ? (
         <main>
@@ -53,16 +64,16 @@ function Favorites() {
                     </dd>
                   </dl>
 
-                  <Button
+                  <button
+                    type="button"
                     onClick={() => {
                       setItemId(item.id);
                       setOpenModal(true);
                     }}
-                    className="bg-transparent enabled:hover:bg-transparent"
                     aria-label="장소 삭제하기"
                   >
                     <BsTrashFill className="text-xl text-secondary" aria-hidden />
-                  </Button>
+                  </button>
                 </div>
                 <figure className="flex h-28 gap-1 pt-3">
                   {item.photos.slice(0, 3).map((photo, index) => (
