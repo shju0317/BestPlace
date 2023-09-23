@@ -66,16 +66,16 @@ function Register() {
     appendFormData();
     await update("users", pb.authStore.model.id, formData);
     globalThis.location.href = "/updateUserData";
-    console.log("done");
+    // console.log("done");
   }
   async function getPw() {
     let pw0 = await read("users", "", pb.authStore.model.id);
     pw0 = pw0.items;
-    console.log(pw0);
+    // console.log(pw0);
   }
-  console.log(avatar);
+  // console.log(avatar);
   // console.log(pb.authStore.model.avatar);
-  console.log(getPbImageURL(pb.authStore.model, pb.authStore.model.avatar));
+  // console.log(getPbImageURL(pb.authStore.model, pb.authStore.model.avatar));
   return (
     <>
       <Header />
