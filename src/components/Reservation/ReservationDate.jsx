@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import useReservation from '@h/useReservation';
-import { format, setHours, setMinutes } from 'date-fns';
+import { useState, useEffect } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import useReservation from "@h/useReservation";
+import { format } from "date-fns";
 
 function ReservationDate() {
 
@@ -22,6 +22,12 @@ function ReservationDate() {
       <option key={timeString} value={timeString} className={"time-list-item"}>{timeString}</option>
     );
   }
+  // const filterPassedTime = (time) => {
+  //   const currentDate = new Date();
+  //   const selectedDate = new Date(time);
+    
+  //   return currentDate.getTime() < selectedDate.getTime();
+  // };
 
   const handleDateClick = (e) => setSelectedDate(e);
   const handleTimeClick = (e) => setSelectedTime(e.target.value);
@@ -31,7 +37,7 @@ function ReservationDate() {
     const formattedTime = `${selectedTime}:00`; // // '09:00:00' 형식으로 변환
     const mergeDateAndTime = new Date(`${formattedDate} ${formattedTime}`) // 한국표준시 GMT로 변환
     setReservationData({ "date": mergeDateAndTime });
-    },[selectedDate, selectedTime]
+    },[selectedDate, selectedTime, setReservationData]
   )
 
   return (
@@ -40,7 +46,6 @@ function ReservationDate() {
         <label htmlFor="date" className="hidden">캘린더</label>
         <Calendar id="date"
           calendarType={"gregory"}
-          // view={"month"}
           minDetail={"month"}
           fortmatShortWeekday={true}
           minDate={new Date()}

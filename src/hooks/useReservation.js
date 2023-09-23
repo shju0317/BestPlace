@@ -1,4 +1,4 @@
-import useReservationStore from '@s/reservation';
+import useReservationStore from "@s/reservation";
 import { useCallback, useMemo } from "react";
 
 function useReservation() {
@@ -15,7 +15,7 @@ function useReservation() {
     [setReservationData]
   );
 
-  console.log('reservationData:',reservationData);
+  // console.log('예약데이터:',reservationData);
 
   return useMemo(
     () => ({ reservationData, setReservationData, handleInputChange, resetReservationData }),

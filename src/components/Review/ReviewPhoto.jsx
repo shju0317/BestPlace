@@ -1,11 +1,11 @@
-import { CiImageOn } from "react-icons/ci";
-import { PiPlusCircle} from "react-icons/pi";
+import { useRef, useState, useEffect } from "react";
 import { MdOutlineCancel } from "react-icons/md";
-import { useRef, useState, useEffect } from 'react';
-import { produce } from 'immer';
-import useReview from '@h/useReview';
-import { string } from 'prop-types';
-import { alertMessage } from '@u/index';
+import { PiPlusCircle} from "react-icons/pi";
+import { CiImageOn } from "react-icons/ci";
+import { string } from "prop-types";
+import { produce } from "immer";
+import useReview from "@h/useReview";
+import { alertMessage } from "@u/index";
 
 function ReviewPhoto({name}) {
   const MAX_IMAGE_COUNT = 5;
@@ -16,6 +16,8 @@ function ReviewPhoto({name}) {
     fileImages: [],
     imageCount: 0,
   });
+
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
   const photoRef = useRef(null);
   const divRef = useRef(null);
@@ -71,34 +73,35 @@ function ReviewPhoto({name}) {
 
 
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col w-full">
       <label htmlFor="photos" 
         ref={labelRef}
-        className="flex justify-center items-center gap-1 py-1 border border-primary rounded font-semibold w-full self-center">
+        // className="flex justify-center items-center gap-1 py-1 border border-primary rounded font-semibold w-full self-center hover:cursor-pointer">
+        className={` flex justify-center items-center gap-1 py-1 border rounded font-semibold w-full self-center hover:cursor-pointer ${isInputFocused ? "border-black border-2" : "border-primary"}`}>
         <CiImageOn />
         사진추가
         <span className="text-slate-400 text-xs">최대 {MAX_IMAGE_COUNT}장</span>
       </label>
       <div className="relative">
-      <input
-        type="file"
-        accept="*.jpg,*.png,*.jpeg,*.webp,*.avif"
-        ref={photoRef}
-        multiple
-        name="photos"
-        id="photos"
-        onChange={(e) => {
-          handleUploadImage(e);
-          handleInputChange({ target: { name: name, value: e.target.files } });
-        }}
-        className="absolute z-10 h-full w-full cursor-pointer opacity-0"
-      />
-      <div className="flex gap-4" ref={divRef}>
-        <div 
-          className="flex border border-primary rounded gap-2 overflow-x-auto p-2 h-36 w-full"
-        >
-        {image.fileImages.map((file,index)=> (
-              <div key={index} className="relative">
+        <input
+          type="file"
+          accept="*.jpg,*.png,*.jpeg,*.webp,*.avif"
+          ref={photoRef}
+          multiple
+          name="photos"
+          id="photos"
+          onChange={(e) => {
+            handleUploadImage(e);
+            handleInputChange({ target: { name: name, value: e.target.files } });
+          }}
+          onFocus={() => setIsInputFocused(true)}
+          onBlur={() => setIsInputFocused(false)}
+          className="absolute z-10 h-4/5 w-full opacity-0 hover:cursor-pointer"
+        />
+        <div className="flex gap-4" ref={divRef}>
+          <div className="flex border border-primary rounded gap-2 p-2 h-36 w-full overflow-auto">
+            {image.fileImages.map((file,index)=> (
+              <div key={index} className="relative shrink-0">
                 <img src={file.image} alt={file.label} className="h-full"/>
                 {/* 삭제 버튼 */}
                 <button 
@@ -110,11 +113,11 @@ function ReviewPhoto({name}) {
                 </button>
               </div>
             ))}
-        </div>
-        <div className="flex flex-col justify-center items-center text-primary">
-          <PiPlusCircle className="w-20 h-20"/>
-          <p className="font-bold">{image.imageCount}/{MAX_IMAGE_COUNT}</p>
-        </div>
+          </div>
+          <div className="flex flex-col justify-center items-center text-primary">
+            <PiPlusCircle className="w-20 h-20"/>
+            <p className="font-bold">{image.imageCount}/{MAX_IMAGE_COUNT}</p>
+          </div>
         </div>
       </div>
   </div>

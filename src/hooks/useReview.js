@@ -14,7 +14,7 @@ function useReview() {
     [setReviewData]
   );
 
-  console.log("으음",reviewData);
+  // console.log("리뷰데이터:",reviewData);
 
   return useMemo(
     () => ({ reviewData, setReviewData, handleInputChange, resetReviewData }),

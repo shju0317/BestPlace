@@ -1,14 +1,15 @@
-import { pb } from '@/api/pocketbase';
-import { useNavigate } from 'react-router-dom';
-import Header from '@l/header';
-import ReservationGuestCount from '@c/Reservation/ReservationGuestCount';
-import ReservationGuestInfo from '@c/Reservation/ReservationGuestInfo';
-import ReservationDate from '@c/Reservation/ReservationDate';
-import PlaceInfo from '@c/Reservation/PlaceInfo';
-import ScrollToTop from '@c/ScrollTop';
-import Button from '@c/Button';
-import useReservation from '@h/useReservation';
-import { alertMessage, isEmailRegValid, isTelRegValid } from '@u/index';
+import { pb } from "@/api/pocketbase";
+import { useNavigate } from "react-router-dom";
+import Header from "@l/header";
+import { alertMessage, isEmailRegValid, isTelRegValid } from "@u/index";
+import ReservationGuestCount from "@c/Reservation/ReservationGuestCount";
+import ReservationGuestInfo from "@c/Reservation/ReservationGuestInfo";
+import ReservationDate from "@c/Reservation/ReservationDate";
+import PlaceInfo from "@c/Reservation/PlaceInfo";
+import ScrollToTop from "@c/ScrollTop";
+import Button from "@c/Button";
+import useReservation from "@h/useReservation";
+
 
 
 function ReservationWrite() {
@@ -17,7 +18,7 @@ function ReservationWrite() {
 
   const isValid = (reservationData) => {
     for (const key in reservationData) {
-      if(key === "canceled" || key === "visited") break;
+      if(key === "canceled" || key === "visited" || key === "requirements") break;
 
       const value = reservationData[key];
 
@@ -33,7 +34,7 @@ function ReservationWrite() {
 
     switch (true) {
       case !isValid(reservationData):
-        alertMessage("공백란이 있습니다.", "❗");
+        alertMessage("필수사항을 입력해주세요.", "❗");
         return;
     
       case !isEmailRegValid(reservationData.email):
@@ -65,26 +66,28 @@ function ReservationWrite() {
   };
 
   return (
-    <div className="mx-auto max-w-3xl">
-    <ScrollToTop/>
-    <Header/>
-    <section className="gap-4 flex-wrap mx-auto max-w-3xl mt-4 my-8">
-      <h2 className="hidden">가게정보</h2>
-      <PlaceInfo/>
-    </section>
-    <section>
-      <h2 className="text-lg text-center font-semibold mb-4">예약정보를 입력하세요</h2>
-      <form method="POST" className="flex flex-col">
-        <ReservationDate/>
-        <ReservationGuestCount/>
-        <ReservationGuestInfo/>
-        <div className="flex gap-2">
-          <Button text="취소하기" onClick={handleGoBack} bgColor="bg-gray-100" textColor="text-red-500"/>
-          <Button type="submit" text="등록하기" onClick={handleSubmit}/>
-        </div>
-      </form>
-    </section>
-  </div>
+    <>
+      <ScrollToTop/>
+      <Header/>
+      <main className="mx-auto max-w-3xl mb-10 px-3">  
+        <section className="gap-4 flex-wrap mx-auto max-w-3xl mt-4 my-8">
+          <h2 className="hidden">가게정보</h2>
+          <PlaceInfo/>
+        </section>
+        <section>
+          <h2 className="text-lg text-center font-semibold mb-4">예약정보를 입력하세요</h2>
+          <form method="POST" className="flex flex-col">
+            <ReservationDate/>
+            <ReservationGuestCount/>
+            <ReservationGuestInfo/>
+            <div className="flex gap-2 sticky bottom-0 z-10 bg-gradient-to-b from-white/10 from-10% to-white to-40% pb-3 pt-8">
+              <Button text="취소하기" onClick={handleGoBack} bgColor="bg-gray-100" textColor="text-red-500"/>
+              <Button type="submit" text="등록하기" onClick={handleSubmit}/>
+            </div>
+          </form>
+        </section>
+      </main>
+    </>
   )
 }
 

@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import useReviewStore from '@s/review';
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import useReviewStore from "@s/review";
 
 function VisitedPlaceInfo() {
   const { userId, item } = useLocation().state || {};
@@ -12,7 +12,7 @@ function VisitedPlaceInfo() {
       place: item.expand.place.id,
       reservation: item.id
     });
-  }, []);
+  }, [userId, item.expand.place.id, item.id, setReviewData]);
 
   return (
     <div className="border-b pb-2 w-full">
