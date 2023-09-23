@@ -3,10 +3,11 @@
 
 ## 🌎 Proejct : Best Place
 
-  <div align="center"><img src="BestPlace.png" width="40%"></div>
+  <div align="center"><img src="./public/BestPlace.png" width="40%"></div>
 
   ### 🚩 Goal
   ---
+
   🔖 **깨끗하게!** 클린 코드! 다른 팀원도 잘 알아볼 수 있도록 가독성 좋은 코드로 작성하기
   
   🔖 **즐겁게!** 시작부터 끝까지 불화 없이 서로 돕는 팀 분위기
@@ -27,7 +28,6 @@
   **백상호** | https://github.com/bigCoDult
   **신현주** | https://github.com/shju0317
   **차지훈** | https://github.com/cfgop23
-  |
 
 
 ## 🔨 Stack
