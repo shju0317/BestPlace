@@ -5,7 +5,7 @@ import { produce } from "immer";
 import { string } from "prop-types";
 import { useEffect, useState } from "react";
 
-function ReviewKeyword({ name }) {
+function ReviewKeyword() {
   const { handleInputChange } = useReview();
 
   const [selectedKeyword, setSelectedKeyword] = useState([]);
@@ -57,8 +57,8 @@ function ReviewKeyword({ name }) {
   );
 }
 
-ReviewKeyword.propTypes = {
-  name: string,
-};
+// ReviewKeyword.propTypes = {
+//   name: string,
+// };
 
 export default ReviewKeyword;
