@@ -32,6 +32,7 @@ function Login() {
   }
 
   async function handleLogin() {
+    console.log(idPw)
     try {
       await setLogIn(idPw);
       globalThis.location.href = "/";
