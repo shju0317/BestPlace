@@ -17,7 +17,7 @@ function Profile() {
 
   return (
     <div className="mx-auto flex max-w-3xl justify-start px-3 py-4">
-      <div className="mx-auto flex flex-col items-center sm:mx-0">
+      <div className="mx-auto flex flex-col items-center sm:mx-[12%]">
         <dl className="relative flex items-center justify-center gap-x-6 gap-y-2">
           <div>
             <dt className="sr-only">내 프로필 사진</dt>
@@ -53,16 +53,18 @@ function Profile() {
                     <span className="font-semibold">{reviewData && reviewData?.length}</span>
                   </div>
                 </Link>
-
-                <div className="flex flex-col items-center border-r border-primary px-4 text-sm">
-                  <span>팔로잉</span>
-                  <span className="font-semibold">{followData && followData[0].followings.length}</span>
-                </div>
-
-                <div className="flex flex-col items-center pl-4 text-sm">
-                  <span>팔로워</span>
-                  <span className="font-semibold">{followData && followData[0].followers.length}</span>
-                </div>
+                <Link to={"/follow"}>
+                  <div className="flex flex-col items-center border-r border-primary px-4 text-sm">
+                    <span>팔로잉</span>
+                    <span className="font-semibold">{followData && followData[0].followings.length}</span>
+                  </div>
+                </Link>
+                <Link to={"/follow"}>
+                  <div className="flex flex-col items-center pl-4 text-sm">
+                    <span>팔로워</span>
+                    <span className="font-semibold">{followData && followData[0].followers.length}</span>
+                  </div>
+                </Link>
               </div>
             </dd>
           </div>
