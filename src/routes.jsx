@@ -13,9 +13,10 @@ import Register from "@p/Register";
 import ReservationWrite from "@p/ReservationWrite";
 import Place from "./pages/Place";
 import UserReview from "./pages/UserReview";
-import DontAccess from "@p/DontAccess";
 import UserReviewList from "./pages/UserReviewList";
 import MyReview from "./pages/MyReview";
+import Favorites from "./pages/Favorites";
+import Follow from "./pages/Follow";
 
 let isValidUser = pb.authStore.isValid;
 
@@ -27,29 +28,29 @@ const routerConfig = isValidUser
         errorElement: <NotFound />,
         children: [
           { index: true, element: <Feed /> },
-          { path: "feed", element: <Feed /> },
           { path: "review", element: <ReviewList /> },
           { path: "reservation", element: <Reservation /> },
-          { path: "region", element: <Region /> },
-          { path: "reviewwrite", element: <ReviewWrite /> },
-          { path: "reservation-write", element: <ReservationWrite /> }
+          { path: "favorite", element: <Favorites /> },
+          { path: "my-review", element: <MyReview /> },
         ],
       },
+      { path: "update-user-data", element: <UpdateUserData /> },
       { path: "place/:placeId/:recordId", element: <Place /> },
-      { path: "userReview/:userId", element: <UserReview /> },
-      { path: "userReviewList/:userId", element: <UserReviewList /> },
-      { path: "my-review", element: <MyReview /> },
-      { path: "updateUserData", element: <UpdateUserData /> },
+      { path: "user-review/:userId", element: <UserReview /> },
+      { path: "user-review-list/:userId", element: <UserReviewList /> },
+      { path: "region", element: <Region /> },
+      { path: "review-write", element: <ReviewWrite /> },
+      { path: "reservation-write", element: <ReservationWrite /> },
+      { path: "follow", element: <Follow /> },
     ]
   : [
       {
         path: "/",
         children: [
           { index: true, element: <Login /> },
-          { path: "login", element: <Login /> },
           { path: "register", element: <Register /> },
         ],
-        errorElement: <DontAccess />,
+        errorElement: <NotFound />,
       },
     ];
 

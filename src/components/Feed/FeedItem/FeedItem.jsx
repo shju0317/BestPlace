@@ -12,12 +12,12 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-function FeedItem({ item, isPlace, isLink, hiddenHeader, hiddenFooter }) {
+function FeedItem({ item, isPlace, hiddenHeader, hiddenFooter }) {
   return (
     <div className="flex flex-col gap-3 bg-white py-8">
       {hiddenHeader || <FeedItemHeader item={item} />}
       {isPlace ? (
-        <figure>
+        <figure className={`${isPlace && "pt-3"}`}>
           <Swiper
             className="photo-swiper"
             spaceBetween={30}
@@ -38,11 +38,11 @@ function FeedItem({ item, isPlace, isLink, hiddenHeader, hiddenFooter }) {
               </SwiperSlide>
             ))}
           </Swiper>
-          <figcaption>
+          <figcaption className={`${isPlace && "pt-3"}`}>
             <p className="mt-3 text-gray-700">{item.contents}</p>
           </figcaption>
         </figure>
-      ) : isLink ? (
+      ) : (
         <Link to={`/place/${item.expand.place.id}/${item.id}`}>
           <figure>
             <PhotoLayout item={item} />
@@ -51,24 +51,15 @@ function FeedItem({ item, isPlace, isLink, hiddenHeader, hiddenFooter }) {
             </figcaption>
           </figure>
         </Link>
-      ) : (
-        <figure>
-          <PhotoLayout item={item} />
-          <figcaption>
-            <p className="mt-3  text-gray-700">{item.contents}</p>
-          </figcaption>
-        </figure>
       )}
-      <div className="flex items-center justify-between">
-        <ul className="flex gap-2">
-          {item.keywords.map((item) => (
-            <KeywordList key={crypto.randomUUID()} item={item} />
-          ))}
-        </ul>
-        <time dateTime={item.created} className="text-sm text-gray-500">
-          {getDate(item.created, "mm.dd day 방문")}
-        </time>
-      </div>
+      <ul className="flex flex-wrap gap-2">
+        {item.keywords.map((item) => (
+          <KeywordList key={crypto.randomUUID()} item={item} />
+        ))}
+      </ul>
+      <time dateTime={item.created} className="pr-1 text-right text-sm text-gray-500">
+        {getDate(item.expand.reservation.date, "mm.dd day 방문")}
+      </time>
       {hiddenFooter || <FeedItemFooter item={item} />}
     </div>
   );
@@ -82,7 +73,6 @@ FeedItem.propTypes = {
     created: string,
   }),
   isPlace: bool,
-  isLink: bool,
   hiddenHeader: bool,
   hiddenFooter: bool,
 };

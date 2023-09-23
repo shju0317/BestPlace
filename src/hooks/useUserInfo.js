@@ -1,17 +1,19 @@
 import { pb } from "@/api/pocketbase";
 import { useQuery } from "@tanstack/react-query";
 
-export const useUserInfo = (userId) => {
+export const useUserInfo = (userId, expand = "") => {
   const fetchUser = async () => {
     try {
-      const user = await pb.collection("users").getOne(userId);
+      const user = await pb.collection("users").getOne(userId, {
+        expand,
+      });
       return user;
     } catch (error) {
       console.error(error);
     }
   };
 
-  const { data, error, refetch } = useQuery({
+  const { data, error, refetch, isLoading } = useQuery({
     queryKey: ["user", userId],
     queryFn: () => fetchUser(userId),
   });
@@ -21,5 +23,6 @@ export const useUserInfo = (userId) => {
   return {
     data,
     refetch,
+    isLoading,
   };
 };

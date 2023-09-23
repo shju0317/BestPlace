@@ -18,7 +18,7 @@ function PopularRegion({ ...props }) {
   return (
     <div>
       <h3 className="mb-4 text-lg font-bold">요즘 많이 찾아봐요</h3>
-      <ul className="grid grid-cols-3 gap-3">
+      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {popularRegionList.map((region, index) => (
           <li
             key={index}
@@ -27,7 +27,7 @@ function PopularRegion({ ...props }) {
             }`}
             aria-label={region.name + "를 관심 지역에 추가"}
           >
-            <label htmlFor={"popular " + region.name} className="block flex flex-col items-center p-4">
+            <label htmlFor={"popular " + region.name} className="block flex cursor-pointer flex-col items-center p-4">
               {/* 사진 div */}
               <img src={region.image} alt="" className="h-12 w-12 rounded-full" />
               <h4

@@ -1,21 +1,19 @@
 import { pb } from "@/api/pocketbase";
 import { useQuery } from "@tanstack/react-query";
 
-export const useFollowList = () => {
-  const fetchFollows = async () => {
+export const useFetchList = (collection, options) => {
+  const fetchData = async () => {
     try {
-      const follows = await pb.collection("follow").getFullList({
-        expand: "owner",
-      });
-      return follows;
+      const data = await pb.collection(collection).getFullList(options);
+      return data;
     } catch (error) {
       console.error("tryCatch-" + error);
     }
   };
 
   const { data, error, refetch } = useQuery({
-    queryKey: ["follows"],
-    queryFn: fetchFollows,
+    queryKey: ["list", collection, options],
+    queryFn: fetchData,
   });
 
   if (error) console.error("useQuery-" + error);

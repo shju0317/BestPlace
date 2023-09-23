@@ -1,15 +1,24 @@
+import ScrollTopButton from "@/components/Button/ScrollTopButton";
 import FeedItem from "@/components/Feed/FeedItem/FeedItem";
-import Spinner from "@/components/Spinner";
 import UserReviewHeader from "@/components/UserReviewList/UserReviewHeader";
-import { useFeedList, useIntersect } from "@/hooks";
+import { useInfiniteList, useIntersect } from "@/hooks";
 import Footer from "@/layout/Footer";
-import Header from "@/layout/header";
+import Header from "@/layout/Header";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 function UserReviewList() {
   const { userId } = useParams();
-  const { data, isLoading, hasNextPage, fetchNextPage } = useFeedList();
+  const index = useLocation().state;
+  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteList("reviews");
   const result = data?.flatMap((el) => el.items).filter((el) => el.writer === userId) || null;
+
+  // 스크롤 이동
+  useEffect(() => {
+    const location = document.getElementById(index).offsetTop;
+    window.scrollTo({ top: location - 100 });
+  }, [index]);
 
   // 인피니트 스크롤
   const ref = useIntersect(
@@ -22,24 +31,16 @@ function UserReviewList() {
     { threshold: 1 }
   );
 
-  // 로딩 중
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center">
-        <Spinner size={160} />
-      </div>
-    );
-  }
-
   return (
-    <>
+    <div className="relative min-h-screen pb-28">
       <Header />
+
       <UserReviewHeader item={result[0]} />
-      <main className="mx-auto max-w-3xl p-2">
+      <main className="mx-auto max-w-3xl p-3">
         <h2 className="sr-only">유저 리뷰리스트 페이지</h2>
         <ul className="flex flex-col gap-1 bg-gray-50">
           {result.map((item) => (
-            <li key={item.id}>
+            <li key={item.id} id={item.id}>
               <FeedItem item={item} hiddenHeader={true} isPlace={true} />
             </li>
           ))}
@@ -47,7 +48,11 @@ function UserReviewList() {
         <div ref={ref} className="h-[1px]"></div>
       </main>
       <Footer />
-    </>
+
+      <div className="fixed bottom-4 right-4 z-10 flex flex-col gap-3 text-white">
+        <ScrollTopButton />
+      </div>
+    </div>
   );
 }
 

@@ -3,9 +3,11 @@ import RegionSaveButton from "@/components/Region/RegionSaveButton";
 import SearchRegion from "@/components/Region/SearchRegion";
 import SelectedRegionList from "@/components/Region/SelectedRegionList";
 import SuggestRegion from "@/components/Region/SuggestRegion";
+import ScrollToTop from "@/components/ScrollTop";
 import { useEffect, useState } from "react";
 import { GoX } from "react-icons/go";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Header from "../layout/Header";
 import PopularRegion from "./../components/Region/PopularRegion";
 
 //@ 관심지역 설정 컴포넌트
@@ -44,46 +46,54 @@ function SetRegion() {
   // 관심지역 설정 서버에 등록
   const setRegionList = () => {
     update("users", userInfo.id, { regions: checkedRegionList });
-    navigate("/feed");
+    navigate("/");
   };
 
   return (
-    <div className="max-w-3xl">
-      <div className="sticky top-0 z-10 bg-gradient-to-b from-white from-80% to-white/10 to-90% pb-8">
+    <div>
+      <ScrollToTop />
+      <Header />
+      <div className="mx-auto max-w-3xl">
+        <div className="sticky top-0 z-10 bg-gradient-to-b from-white from-80% to-white/10 to-90% pb-8">
+          {isFocusSearchBar || (
+            <div>
+              {/* 창 닫기 */}
+              <Link to="/" className="float-right" title="설정 닫기">
+                <GoX className="mr-1 mt-3 text-3xl" />
+              </Link>
+              {/* 제목 */}
+              <h2 className="mb-3 pt-8 text-2xl font-bold">관심지역을 설정해주세요!</h2>
+            </div>
+          )}
+          {/* 검색바 */}
+          <SearchRegion
+            checkedRegionList={checkedRegionList}
+            isFocusSearchBar={isFocusSearchBar}
+            onFocus={handleFocusSearchBar}
+            onUpdate={handleUpdateRegionList}
+          />
+        </div>
         {isFocusSearchBar || (
-          <div>
-            {/* 창 닫기 */}
-            <button type="button" className="float-right" onClick={navigate("/")}>
-              <GoX className="text-3xl" />
-            </button>
-            {/* 제목 */}
-            <h2 className="mb-3 pt-8 text-2xl font-bold">관심지역을 설정해주세요!</h2>
+          <div className="flex flex-col gap-8">
+            {/* 내 관심지역 */}
+            <SelectedRegionList
+              checkedRegionList={checkedRegionList}
+              onUpdate={handleUpdateRegionList}
+              onRemove={handleRemoveRegionList}
+            />
+            {/* '이런 지역 어때요' 리스트 */}
+            <SuggestRegion
+              userData={userData}
+              checkedRegionList={checkedRegionList}
+              onUpdate={handleUpdateRegionList}
+            />
+            {/* '요즘 많이 찾아봐요' 리스트 */}
+            <PopularRegion checkedRegionList={checkedRegionList} onUpdate={handleUpdateRegionList} />
+            {/* 저장하기 버튼 */}
+            <RegionSaveButton onClick={setRegionList} />
           </div>
         )}
-        {/* 검색바 */}
-        <SearchRegion
-          checkedRegionList={checkedRegionList}
-          isFocusSearchBar={isFocusSearchBar}
-          onFocus={handleFocusSearchBar}
-          onUpdate={handleUpdateRegionList}
-        />
       </div>
-      {isFocusSearchBar || (
-        <div className="flex flex-col gap-8">
-          {/* 내 관심지역 */}
-          <SelectedRegionList
-            checkedRegionList={checkedRegionList}
-            onUpdate={handleUpdateRegionList}
-            onRemove={handleRemoveRegionList}
-          />
-          {/* '이런 지역 어때요' 리스트 */}
-          <SuggestRegion userData={userData} checkedRegionList={checkedRegionList} onUpdate={handleUpdateRegionList} />
-          {/* '요즘 많이 찾아봐요' 리스트 */}
-          <PopularRegion checkedRegionList={checkedRegionList} onUpdate={handleUpdateRegionList} />
-          {/* 저장하기 버튼 */}
-          <RegionSaveButton onClick={setRegionList} />
-        </div>
-      )}
     </div>
   );
 }

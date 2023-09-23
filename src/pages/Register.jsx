@@ -1,7 +1,7 @@
 import { pb, read, create, update, setLogIn } from "@/api/pocketbase";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { isEmailRegVaild, isPwRegVaild, isIdRegVaild, alertMessage } from "@u/index";
+import { alertMessage, alertUnableInput, isRegValid } from "@u/index";
 
 import SignTitle from "@c/SignInUp/SignTitle";
 import SignInput from "@c/SignInUp/SignInput";
@@ -14,6 +14,7 @@ function Register() {
   const navigate = useNavigate();
 
   const [id, setId] = useState("");
+  const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [pwCheck, setPwCheck] = useState("");
@@ -40,6 +41,7 @@ function Register() {
   };
 
   const createData = {
+    nickname: nickname,
     username: id,
     email: email,
     password: pw,
@@ -47,31 +49,24 @@ function Register() {
   };
 
   async function handleRegister() {
-    switch (true) {
-      case !isIdRegVaild(id):
-        alertMessage("아이디는 소문자/대문자/숫자로 이루어진 4~20자리 문자여야 합니다");
-        break;
-      case !isEmailRegVaild(email):
-        alertMessage("사용가능한 이메일 양식이 아닙니다");
-        break;
-      case !isPwRegVaild(pw):
-        alertMessage("비밀번호는 숫자/영어/특수문자를 포함하는 8~16자리 양식이어야 합니다");
-        break;
-      case !(pw === pwCheck):
-        alertMessage("비밀번호가 일치하지 않습니다");
-        break;
-    }
+    alertUnableInput(createData)
 
+    if(pw !== pwCheck && isRegValid("password", pw)){
+      alertMessage("비밀번호가 일치하지 않습니다")
+    }
     await create("users", createData);
     await setLogIn([id, pw]);
+    await create("follow", { owner: pb.authStore.model.id});
     globalThis.location.href = "/";
+    
   }
-
+  
   return (
     <SignContents>
       <SignLogo />
       <SignTitle value="회원가입" />
       <SignForm>
+        <SignInput labelValue="별명" ariaText="별명 입력창" placeHolder="별명을 입력하세요" inputValue={setNickname} />
         <SignInput labelValue="아이디" ariaText="아이디 입력창" placeHolder="아이디를 입력하세요" inputValue={setId} />
         <SignInput
           labelValue="이메일"
@@ -82,20 +77,22 @@ function Register() {
         <SignInput
           labelValue="비밀번호"
           ariaText="비밀번호 입력창"
-          placeHolder="비밀번호의 길이는 8자리 이상"
+          placeHolder="비밀번호를 입력하세요"
           inputValue={setPw}
+          type= "password"
         />
         <SignInput
           labelValue="비밀번호 확인"
           ariaText="비밀번호 재입력창"
           placeHolder="비밀번호를 다시 입력하세요"
           inputValue={setPwCheck}
+          type= "password"
         />
       </SignForm>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 max-w-3xl w-full">
         <SignButton value="회원가입" handleEvent={() => handleRegister()} bgColor="bg-white" textColor="text-black" />
-        <SignButton value="로그인" handleEvent={() => navigate("/Login")} />
+        <SignButton value="로그인" handleEvent={() => navigate("/")} />
       </div>
     </SignContents>
   );
