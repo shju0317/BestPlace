@@ -1,5 +1,5 @@
 import { pb, read, setLogIn } from "@/api/pocketbase";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { alertMessage } from "@u/index";
 
@@ -32,18 +32,32 @@ function Login() {
   }
 
   async function handleLogin() {
+    console.log(idPw)
     try {
       await setLogIn(idPw);
       globalThis.location.href = "/";
     } catch {
-      if (await isValidId()) {
-        alertMessage("비밀번호가 일치하지 않습니다", "❌");
-      } else {
-        alertMessage("사용자 정보가 없습니다", "❌");
-      }
+      // if (await isValidId()) {
+      //   alertMessage("비밀번호가 일치하지 않습니다", "❌");
+      // } else {
+      // }
+      alertMessage("사용자 정보가 없습니다", "❌");
     }
   }
+  
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Enter') {
+       handleLogin() 
+      }
+    };
 
+    window.addEventListener('keydown', handleKeyDown);
+    
+    // Don't forget to cleanup after component unmounts
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+  
   return (
     <SignContents>
       <SignLogo />
@@ -62,12 +76,13 @@ function Login() {
           ariaText="비밀번호 입력창"
           placeHolder="비밀번호를 입력하세요"
           inputValue={setPw}
+          type= "password"
         />
       </SignForm>
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 max-w-3xl w-full">
         <SignButton value="로그인" handleEvent={() => handleLogin()} bgColor="bg-white" textColor="text-black" />
-        <SignButton value="회원가입" handleEvent={() => navigate("/Register")} />
+        <SignButton value="회원가입" handleEvent={() => navigate("/Register")}/>
       </div>
     </SignContents>
   );
