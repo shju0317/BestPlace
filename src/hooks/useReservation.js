@@ -15,7 +15,7 @@ function useReservation() {
     [setReservationData]
   );
 
-  console.log('예약데이터:',reservationData);
+  // console.log('예약데이터:',reservationData);
 
   return useMemo(
     () => ({ reservationData, setReservationData, handleInputChange, resetReservationData }),

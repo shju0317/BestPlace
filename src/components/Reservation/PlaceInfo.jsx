@@ -12,7 +12,7 @@ import "swiper/css/pagination";
 function PlaceInfo() {
   const { userInfo, item } = useLocation().state || {};
   const { setReservationData } = useReservationStore();
-  console.log("유저", userInfo);
+  
   useEffect(() => {
     setReservationData({ 
       booker: userInfo.id,
