@@ -8,6 +8,7 @@ import WriteText from '@c/WriteText';
 import Button from '@c/Button';
 import { alertMessage } from '@u/index';
 import useReview from '@h/useReview';
+import Header from '@l/header';
 
 
 function ReviewWrite() {
@@ -66,8 +67,9 @@ function ReviewWrite() {
   }
 
   return (
-    <>
+    <div className="mx-auto max-w-3xl">
     <ScrollToTop/>
+    <Header/>
     <form method="POST" className="flex flex-col gap-4 flex-wrap mx-auto max-w-3xl mt-4">
       <VisitedPlaceInfo/>
       <WriteText label="리뷰를 남겨주세요" 
@@ -84,7 +86,7 @@ function ReviewWrite() {
         {/* isValid={!isValid(reviewData)} */}
       </div>
     </form>
-    </>
+    </div>
   )
 }
 
