@@ -1,5 +1,6 @@
 import { pb } from '@/api/pocketbase';
 import { useNavigate } from 'react-router-dom';
+import Header from '@l/header';
 import ReservationGuestCount from '@c/Reservation/ReservationGuestCount';
 import ReservationGuestInfo from '@c/Reservation/ReservationGuestInfo';
 import ReservationDate from '@c/Reservation/ReservationDate';
@@ -8,6 +9,7 @@ import ScrollToTop from '@c/ScrollTop';
 import Button from '@c/Button';
 import useReservation from '@h/useReservation';
 import { alertMessage, isEmailRegValid, isTelRegValid } from '@u/index';
+
 
 function ReservationWrite() {
   const navigate = useNavigate();
@@ -63,8 +65,9 @@ function ReservationWrite() {
   };
 
   return (
-    <>
+    <div className="mx-auto max-w-3xl">
     <ScrollToTop/>
+    <Header/>
     <section className="gap-4 flex-wrap mx-auto max-w-3xl mt-4 my-8">
       <h2 className="hidden">가게정보</h2>
       <PlaceInfo/>
@@ -81,7 +84,7 @@ function ReservationWrite() {
         </div>
       </form>
     </section>
-  </>
+  </div>
   )
 }
 
