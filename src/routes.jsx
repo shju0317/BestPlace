@@ -17,7 +17,6 @@ import UserReviewList from "./pages/UserReviewList";
 import MyReview from "./pages/MyReview";
 import Favorites from "./pages/Favorites";
 import Follow from "./pages/Follow";
-import Header from "./layout/header";
 
 let isValidUser = pb.authStore.isValid;
 
