@@ -77,7 +77,7 @@ function ReviewPhoto({name}) {
       <label htmlFor="photos" 
         ref={labelRef}
         // className="flex justify-center items-center gap-1 py-1 border border-primary rounded font-semibold w-full self-center hover:cursor-pointer">
-        className={` flex justify-center items-center gap-1 py-1 border rounded font-semibold w-full self-center hover:cursor-pointer ${isInputFocused ? "border-black border-2" : "border-primary"}`}>
+        className={` flex justify-center items-center gap-1 py-1 border rounded font-semibold w-full self-center hover:cursor-pointer ${isInputFocused ? "outline outline-2 border-white" : "border-primary"}`}>
         <CiImageOn />
         사진추가
         <span className="text-slate-400 text-xs">최대 {MAX_IMAGE_COUNT}장</span>
