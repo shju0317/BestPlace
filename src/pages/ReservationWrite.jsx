@@ -11,7 +11,7 @@ import { alertMessage, isEmailRegValid, isTelRegValid } from '@u/index';
 
 function ReservationWrite() {
   const navigate = useNavigate();
-  const {reservationData} = useReservation();
+  const {reservationData, resetReservationData} = useReservation();
 
   const isValid = (reservationData) => {
     for (const key in reservationData) {
@@ -28,21 +28,6 @@ function ReservationWrite() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // if(!isValid(reservationData)){
-    //   alertMessage("공백란이 있습니다.","❗");
-    //   return;
-    // }
-
-    // if(!isEmailRegValid(reservationData.email)){
-    //   alertMessage("이메일 정보가 올바르지 않습니다.","❗");
-    //   return;
-    // }
-
-    // if(!isTelRegValid(reservationData.tel)){
-    //   alertMessage("전화번호 정보가 올바르지 않습니다.","❗");
-    //   return;
-    // }
 
     switch (true) {
       case !isValid(reservationData):
@@ -61,6 +46,7 @@ function ReservationWrite() {
     try {
       await pb.collection('reservation').create(reservationData);
       alertMessage("예약이 등록되었습니다.");
+      resetReservationData();
       navigate("/reservation");
     } catch (error) {
       alertMessage("요청하신 작업을 수행하지 못했습니다.","❗");
@@ -70,6 +56,8 @@ function ReservationWrite() {
 
   const handleGoBack = () => {
     if (window.confirm("정말 취소하시겠습니까?")) {
+      // navigate("/reservation");
+      resetReservationData();
       navigate(-1);
     }
   };
@@ -78,11 +66,11 @@ function ReservationWrite() {
     <>
     <ScrollToTop/>
     <section className="gap-4 flex-wrap mx-auto max-w-3xl mt-4 my-8">
-      <h1 className="hidden">가게정보</h1>
+      <h2 className="hidden">가게정보</h2>
       <PlaceInfo/>
     </section>
     <section>
-      <h1 className="text-lg text-center font-semibold mb-4">예약정보를 입력하세요</h1>
+      <h2 className="text-lg text-center font-semibold mb-4">예약정보를 입력하세요</h2>
       <form method="POST" className="flex flex-col">
         <ReservationDate/>
         <ReservationGuestCount/>

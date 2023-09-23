@@ -2,7 +2,7 @@ import useReservation from '@h/useReservation';
 import WriteText from '@c/WriteText';
 
 function ReservationGuestInfo() {
-  const {handleInputChange, reservationData, setReservationData} = useReservation();
+  const { handleInputChange, reservationData } = useReservation();
 
   return (
     <>
@@ -18,7 +18,7 @@ function ReservationGuestInfo() {
           </div>
           <div className="flex items-center gap-4">
             <label htmlFor="tel" className="w-1/6">연락처</label>
-            <input type="tel" id="tel" name="tel" placeholder="숫자만 입력하세요"
+            <input type="tel" id="tel" name="tel" placeholder="전화번호를 입력하세요"
               inputMode="tel"
               onChange={handleInputChange}
               className="rounded border border-primary px-4 py-2 w-5/6"/>

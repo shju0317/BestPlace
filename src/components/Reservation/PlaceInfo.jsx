@@ -13,12 +13,10 @@ function PlaceInfo() {
   const { userId, item } = useLocation().state || {};
   const { setReservationData } = useReservationStore();
   
-  console.log('아이템', item)
   useEffect(() => {
     setReservationData({ 
       booker: userId,
       place: item.expand.place.id
-      // title: item.expand.place.title
     });
   }, []);
 
@@ -36,28 +34,6 @@ function PlaceInfo() {
           }}
           modules={[Navigation, Pagination]}
         >
-          {/* {
-          item.collectionName === "reviews" ? 
-          item.photos.map((fileName) => (
-            <SwiperSlide key={crypto.randomUUID()} className="bg-cover bg-center">
-              <img
-                src={getPbImageURL(item, fileName)}
-                alt="리뷰 사진"
-                className="h-full w-full rounded-lg object-cover"
-              />
-            </SwiperSlide>
-          ))
-          :
-          item.expand.place.photos.map((fileName) => (
-            <SwiperSlide key={crypto.randomUUID()} className="bg-cover bg-center">
-              <img
-                src={getPbImageURL(item.expand.place, fileName)}
-                alt="리뷰 사진"
-                className="h-full w-full rounded-lg object-cover"
-              />
-            </SwiperSlide>
-          ))
-          } */}
           {
           item.expand.place.photos.map((fileName) => (
             <SwiperSlide key={crypto.randomUUID()} className="bg-cover bg-center">

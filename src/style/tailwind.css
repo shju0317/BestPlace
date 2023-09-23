@@ -122,6 +122,16 @@ html {
   background-color:rgba(47, 102, 144, 0.5)
 }
 
+.react-calendar__month-view__weekdays{
+  font-weight: bold;
+  font-size: 16px;
+  color:#68B0AB;
+}
+
+.react-calendar__month-view__weekdays abbr{
+  text-decoration: none;
+}
+
 .react-calendar__tile:disabled {
   background-color:rgba(47, 102, 144, 0.2);
 }

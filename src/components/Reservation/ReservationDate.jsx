@@ -10,8 +10,6 @@ function ReservationDate() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedTime, setSelectedTime] = useState("09:00");
 
-  console.log('셀렉트타임',selectedTime)
-
   const maxSelectableDate = new Date();
   maxSelectableDate.setDate(maxSelectableDate.getDate() + 21); // 현재 날짜로부터 3주 이내
 
@@ -29,7 +27,6 @@ function ReservationDate() {
   const handleTimeClick = (e) => setSelectedTime(e.target.value);
 
   useEffect(() => {
-    console.log('선택시간', selectedDate);
     const formattedDate = format(new Date(selectedDate), 'yyyy-MM-dd') // '2023-00-00' 형식으로 변환
     const formattedTime = `${selectedTime}:00`; // // '09:00:00' 형식으로 변환
     const mergeDateAndTime = new Date(`${formattedDate} ${formattedTime}`) // 한국표준시 GMT로 변환

@@ -13,7 +13,7 @@ import useReview from '@h/useReview';
 function ReviewWrite() {
   const navigate = useNavigate();
   
-  const {handleInputChange, reviewData} = useReview();
+  const {handleInputChange, reviewData, resetReviewData} = useReview();
 
   const isValid = (reviewData) => {
     for (const key in reviewData) {
@@ -49,6 +49,7 @@ function ReviewWrite() {
   try {    
     await pb.collection("reviews").create(formData);
     alertMessage("리뷰가 등록되었습니다.");
+    resetReviewData();
     navigate("/reservation");
 
   } catch (error) {
@@ -59,6 +60,7 @@ function ReviewWrite() {
 
   const handleGoBack = () => {
     if (window.confirm("정말 취소하시겠습니까?")) {
+      resetReviewData();
       navigate(-1);
     }
   }
