@@ -37,11 +37,11 @@ function FeedItemFooter({ item, isPlace = false }) {
   };
 
   return (
-    <div className={`${isPlace ? "" : "rounded-lg border"} mb-2 p-4`}>
+    <div className={`${isPlace ? "py-4" : "rounded-lg border p-4"} mb-2`}>
       <div className={`flex items-center justify-between ${isPlace ? "mx-auto max-w-3xl px-3" : ""}`}>
         <dl className="grid grid-cols-[36px_1fr] gap-1">
           <dt className="sr-only">플레이스 이름</dt>
-          <dd className="col-start-1 col-end-3 overflow-hidden text-ellipsis whitespace-nowrap font-bold">
+          <dd className="col-start-1 col-end-3 overflow-hidden text-ellipsis whitespace-nowrap pr-2 font-bold">
             {item.expand.place.title}
           </dd>
           <dt className="sr-only">플레이스 카테고리</dt>
@@ -49,23 +49,33 @@ function FeedItemFooter({ item, isPlace = false }) {
             {item.expand.place.category} <span aria-hidden>·</span>
           </dd>
           <dt className="sr-only">플레이스 주소</dt>
-          <dd className="col-start-2 overflow-hidden text-ellipsis whitespace-nowrap text-sm text-gray-500">
+          <dd className="col-start-2 overflow-hidden text-ellipsis whitespace-nowrap pr-2 text-sm text-gray-500">
             {item.expand.place.address}
           </dd>
         </dl>
-        <div className="flex gap-2">
-          <Link to={"/reservation-write"} state={{ userId, item }} className="flex flex-col items-center gap-2">
+        <div className="flex w-24 justify-end gap-2">
+          <Link
+            to={"/reservation-write"}
+            state={{ userId, item }}
+            className="mr-2 flex flex-col items-center gap-2 text-secondary"
+          >
             <BsCalendarCheck className="text-xl" />
-            <span className="text-xs">예약하기</span>
+            <span className="whitespace-nowrap text-xs">예약</span>
           </Link>
-          <div className="ml-2 border-r"></div>
+          <div className="border-r"></div>
           {isSave ? (
-            <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-primary">
+            <button
+              aria-label="플레이스 저장하기"
+              className="ml-2 flex flex-col items-center gap-1 whitespace-nowrap text-primary"
+            >
               <BsFillBookmarkStarFill className="text-2xl" onClick={handleSave} />
               <span className="text-xs">저장됨</span>
             </button>
           ) : (
-            <button aria-label="플레이스 저장하기" className="ml-2 flex flex-col items-center gap-1 text-gray-400">
+            <button
+              aria-label="플레이스 저장하기"
+              className="ml-2 flex flex-col items-center gap-1 whitespace-nowrap text-gray-400"
+            >
               <BsBookmarkStar className="text-2xl" onClick={handleSave} />
               <span className="text-xs">저장</span>
             </button>

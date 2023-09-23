@@ -1,7 +1,7 @@
 import { pb, read, create, update, setLogIn } from "@/api/pocketbase";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { isEmailRegVaild, isPwRegVaild, isIdRegVaild, alertMessage } from "@u/index";
+import { isEmailRegValid, isPwRegValid, isIdRegValid, alertMessage } from "@u/index";
 
 import SignTitle from "@c/SignInUp/SignTitle";
 import SignInput from "@c/SignInUp/SignInput";
@@ -48,13 +48,13 @@ function Register() {
 
   async function handleRegister() {
     switch (true) {
-      case !isIdRegVaild(id):
+      case !isIdRegValid(id):
         alertMessage("아이디는 소문자/대문자/숫자로 이루어진 4~20자리 문자여야 합니다");
         break;
-      case !isEmailRegVaild(email):
+      case !isEmailRegValid(email):
         alertMessage("사용가능한 이메일 양식이 아닙니다");
         break;
-      case !isPwRegVaild(pw):
+      case !isPwRegValid(pw):
         alertMessage("비밀번호는 숫자/영어/특수문자를 포함하는 8~16자리 양식이어야 합니다");
         break;
       case !(pw === pwCheck):

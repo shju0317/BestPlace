@@ -93,7 +93,7 @@ function ReviewPhoto({name}) {
         }}
         className="absolute z-10 h-full w-full cursor-pointer opacity-0"
       />
-        <div className="flex gap-4" ref={divRef}>
+      <div className="flex gap-4" ref={divRef}>
         <div 
           className="flex border border-primary rounded gap-2 overflow-x-auto p-2 h-36 w-full"
         >
@@ -104,7 +104,7 @@ function ReviewPhoto({name}) {
                 <button 
                   type="button"
                   onClick={() => handleDeleteImage(index)} 
-                  className="absolute top-[4px] right-[4px] text-primary z-10"
+                  className="absolute top-[2px] right-[2px] text-primary z-10"
                   aria-label={`이미지 ${index+1} 삭제`}>
                   <MdOutlineCancel size="20"/>
                 </button>

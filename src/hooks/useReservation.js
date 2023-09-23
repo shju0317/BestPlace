@@ -4,6 +4,7 @@ import { useCallback, useMemo } from "react";
 function useReservation() {
   const reservationData = useReservationStore((state) => state.reservationData);
   const setReservationData = useReservationStore((state) => state.setReservationData);
+  const resetReservationData = useReservationStore((state) => state.resetReservationData);
   
   const handleInputChange = useCallback(
     (e) => {
@@ -14,12 +15,13 @@ function useReservation() {
     [setReservationData]
   );
 
-  console.log(reservationData);
+  console.log('reservationData:',reservationData);
 
   return useMemo(
-    () => ({ reservationData, setReservationData, handleInputChange }),
-    [reservationData, setReservationData, handleInputChange]
+    () => ({ reservationData, setReservationData, handleInputChange, resetReservationData }),
+    [reservationData, setReservationData, handleInputChange, resetReservationData]
   );
+  // return { reservationData, setReservationData, handleInputChange };
 }
 
 export default useReservation

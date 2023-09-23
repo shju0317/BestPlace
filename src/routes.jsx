@@ -30,8 +30,6 @@ const routerConfig = isValidUser
           { index: true, element: <Feed /> },
           { path: "review", element: <ReviewList /> },
           { path: "reservation", element: <Reservation /> },
-          { path: "review-write", element: <ReviewWrite /> },
-          { path: "reservation-write", element: <ReservationWrite /> },
           { path: "favorite", element: <Favorites /> },
           { path: "my-review", element: <MyReview /> },
         ],
@@ -41,6 +39,8 @@ const routerConfig = isValidUser
       { path: "user-review/:userId", element: <UserReview /> },
       { path: "user-review-list/:userId", element: <UserReviewList /> },
       { path: "region", element: <Region /> },
+      { path: "review-write", element: <ReviewWrite /> },
+      { path: "reservation-write", element: <ReservationWrite /> },
     ]
   : [
       {
