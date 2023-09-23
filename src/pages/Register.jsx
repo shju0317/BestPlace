@@ -14,6 +14,7 @@ function Register() {
   const navigate = useNavigate();
 
   const [id, setId] = useState("");
+  const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [pwCheck, setPwCheck] = useState("");
@@ -40,6 +41,7 @@ function Register() {
   };
 
   const createData = {
+    nickname: nickname,
     username: id,
     email: email,
     password: pw,
@@ -54,6 +56,7 @@ function Register() {
     }
     await create("users", createData);
     await setLogIn([id, pw]);
+    await create("follow", { owner: pb.authStore.model.id});
     globalThis.location.href = "/";
     
   }
@@ -63,6 +66,7 @@ function Register() {
       <SignLogo />
       <SignTitle value="회원가입" />
       <SignForm>
+        <SignInput labelValue="별명" ariaText="별명 입력창" placeHolder="별명을 입력하세요" inputValue={setNickname} />
         <SignInput labelValue="아이디" ariaText="아이디 입력창" placeHolder="아이디를 입력하세요" inputValue={setId} />
         <SignInput
           labelValue="이메일"
