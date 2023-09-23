@@ -8,10 +8,7 @@ function ReservationDate() {
 
   const { setReservationData } = useReservation();
   const [selectedDate, setSelectedDate] = useState(new Date());
-  // const [selectedDate, setSelectedDate] = useState();
-  const [selectedTime, setSelectedTime] = useState(
-    setHours(setMinutes(new Date(), 0), 9) // 9:00
-  );
+  const [selectedTime, setSelectedTime] = useState("09:00");
 
   const maxSelectableDate = new Date();
   maxSelectableDate.setDate(maxSelectableDate.getDate() + 21); // 현재 날짜로부터 3주 이내
@@ -26,11 +23,10 @@ function ReservationDate() {
     );
   }
 
-  const handleDateClick = (date) => setSelectedDate(date);
+  const handleDateClick = (e) => setSelectedDate(e);
   const handleTimeClick = (e) => setSelectedTime(e.target.value);
 
   useEffect(() => {
-    console.log('선택시간', selectedDate);
     const formattedDate = format(new Date(selectedDate), 'yyyy-MM-dd') // '2023-00-00' 형식으로 변환
     const formattedTime = `${selectedTime}:00`; // // '09:00:00' 형식으로 변환
     const mergeDateAndTime = new Date(`${formattedDate} ${formattedTime}`) // 한국표준시 GMT로 변환
@@ -42,7 +38,10 @@ function ReservationDate() {
     <>
       <div>
         <label htmlFor="date" className="hidden">캘린더</label>
-        <Calendar id="date" 
+        <Calendar id="date"
+          calendarType={"gregory"}
+          // view={"month"}
+          minDetail={"month"}
           fortmatShortWeekday={true}
           minDate={new Date()}
           maxDate={maxSelectableDate} 

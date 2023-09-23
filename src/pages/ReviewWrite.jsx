@@ -13,38 +13,54 @@ import useReview from '@h/useReview';
 function ReviewWrite() {
   const navigate = useNavigate();
   
-  const {handleInputChange, reviewData} = useReview();
+  const {handleInputChange, reviewData, resetReviewData} = useReview();
+
+  const isValid = (reviewData) => {
+    for (const key in reviewData) {
+      if(key === "canceled" || key === "visited") break;
+      const value = reviewData[key];
+      if (!value && value !== 0) {
+        return false;
+      }
+    }
+    return true;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(!isValid(reviewData)){
+      alertMessage("공백란이 있습니다.","❗");
+      return;
+    }
   
     const formData = new FormData();
-  
+
     for (const [key, value] of Object.entries(reviewData)) {
-      if (value) {
-        if (key === "photos" || key === "keywords") {
-          for (let item of value) {
-            formData.append(key, item);
-          }
-        }else {
-          formData.append(key, value);
+      if (key === "photos" || key === "keywords") {
+        for (let item of value) {
+          formData.append(key, item);
         }
-        console.log('여기',formData);
+      }else {
+        formData.append(key, value);
       }
     }
-    
-    try {
-      await pb.collection("reviews").create(formData);
-      alertMessage("리뷰가 등록되었습니다.");
-      navigate("/review");
-    } catch (error) {
-      alertMessage("요청하신 작업을 수행하지 못했습니다.","❗");
-      console.log(error);
-    }
-  };
-  
+
+  try {    
+    await pb.collection("reviews").create(formData);
+    alertMessage("리뷰가 등록되었습니다.");
+    resetReviewData();
+    navigate("/reservation");
+
+  } catch (error) {
+    alertMessage("요청하신 작업을 수행하지 못했습니다.","❗");
+    console.log('데이터 전송 실패:', error);
+  }
+};
+
   const handleGoBack = () => {
     if (window.confirm("정말 취소하시겠습니까?")) {
+      resetReviewData();
       navigate(-1);
     }
   }
@@ -64,7 +80,8 @@ function ReviewWrite() {
       <ReviewKeyword name="keywords"/>
       <div className="flex gap-2">
         <Button text="취소하기" onClick={handleGoBack} bgColor="bg-gray-100" textColor="text-red-500"/>
-        <Button type="submit" text="등록하기" onClick={handleSubmit}/>
+        <Button type="submit" text="등록하기" onClick={handleSubmit} />
+        {/* isValid={!isValid(reviewData)} */}
       </div>
     </form>
     </>
