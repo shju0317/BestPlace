@@ -13,7 +13,7 @@ function WriteText({label, placeholder, name, onChange}) {
       <label htmlFor="inputId" className="text-lg text-center font-semibold">{label}</label>
       <textarea id="inputId" rows="5" maxLength={INPUT_MAX_LENGTH}
         placeholder={placeholder}
-        className="bg-slate-100 rounded p-3 focus:outline-primary"
+        className="bg-slate-100 rounded p-3 focus:outline-2"
         onChange={
           (e)=>{
             setLetterCount(e.target.value.length);

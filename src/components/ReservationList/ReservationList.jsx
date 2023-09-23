@@ -159,7 +159,7 @@ function ReservationList({ userInfo, visitedList, canceledList }) {
               </div>
               <div className="flex gap-2 text-lg">
                 <Dropdown inline arrowIcon={null} label={<MdMoreVert />} style={null}>
-                  <Link to={"/reservation-write"} state={{ userId, item }}>
+                  <Link to={"/reservation-write"} state={{ userInfo, item }}>
                     <p className="mx-3 my-1 bg-transparent text-center  text-sm font-semibold">+ 재예약</p>
                   </Link>
                 </Dropdown>

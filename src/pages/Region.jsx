@@ -7,7 +7,7 @@ import ScrollToTop from "@/components/ScrollTop";
 import { useEffect, useState } from "react";
 import { GoX } from "react-icons/go";
 import { Link, useNavigate } from "react-router-dom";
-import Header from "../layout/header";
+import Header from "../layout/Header";
 import PopularRegion from "./../components/Region/PopularRegion";
 
 //@ 관심지역 설정 컴포넌트

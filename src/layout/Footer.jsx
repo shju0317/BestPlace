@@ -1,17 +1,11 @@
-import { bool } from "prop-types";
-
-function Footer({ isUser }) {
+function Footer() {
   return (
-    <footer className={`grid w-full place-content-center bg-gray-200 p-10 ${isUser ? "absolute bottom-0" : ""}`}>
+    <footer className={`absolute bottom-0 grid w-full place-content-center bg-gray-200 p-10`}>
       <small className="text-base text-primary">
         Copyright &copy; <strong>Best Place</strong>
       </small>
     </footer>
   );
 }
-
-Footer.propTypes = {
-  isUser: bool,
-};
 
 export default Footer;

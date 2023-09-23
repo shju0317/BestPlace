@@ -75,9 +75,6 @@ function Profile() {
             </button>
           </div>
         </dl>
-        {/* <div className="relative h-6 w-full">
-          <button className="absolute right-0 rounded-lg bg-secondary px-[52px] text-white">리뷰 쓰기</button>
-        </div> */}
       </div>
     </div>
   );
