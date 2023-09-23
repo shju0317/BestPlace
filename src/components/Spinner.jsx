@@ -1,13 +1,8 @@
-import { number, string, arrayOf } from 'prop-types';
+import { number, string, arrayOf } from "prop-types";
 
-function Spinner({
-  size = 200,
-  message = '로딩 중...',
-  colors = ['#93dbe9', '#689cc5', '#5e6fa3'],
-  ...restProps
-}) {
+function Spinner({ size = 100, message = "로딩 중...", colors = ["#93dbe9", "#689cc5", "#5e6fa3"], ...restProps }) {
   return (
-    <div className="flex items-center justify-center py-10">
+    <div className="flex justify-center py-4">
       <svg
         width={size}
         height={size}

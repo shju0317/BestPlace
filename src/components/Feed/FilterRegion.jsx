@@ -17,7 +17,13 @@ function FilterRegion() {
   };
 
   return (
-    <Swiper spaceBetween={8} slidesPerView={"auto"} navigation={true} modules={[Navigation]} className="pb-1">
+    <Swiper
+      spaceBetween={8}
+      slidesPerView={"auto"}
+      navigation={true}
+      modules={[Navigation]}
+      className="pb-1 text-sm sm:text-base"
+    >
       <SwiperSlide
         key={crypto.randomUUID()}
         style={{
