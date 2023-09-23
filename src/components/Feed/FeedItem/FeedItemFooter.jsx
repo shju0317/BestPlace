@@ -7,6 +7,7 @@ import { BsBookmarkStar, BsCalendarCheck, BsFillBookmarkStarFill } from "react-i
 
 function FeedItemFooter({ item, isPlace = false }) {
   const userId = pb.authStore.model.id;
+  const userInfo = pb.authStore.model;
   const userFavorites = pb.authStore.model.favorites;
   const [isSave, setIsSave] = useState(false);
   const { data, refetch } = useUserAuth();
@@ -56,7 +57,7 @@ function FeedItemFooter({ item, isPlace = false }) {
         <div className="flex w-24 justify-end gap-2">
           <Link
             to={"/reservation-write"}
-            state={{ userId, item }}
+            state={{ userInfo, item }}
             className="mr-2 flex flex-col items-center gap-2 text-secondary"
           >
             <BsCalendarCheck className="text-xl" />
