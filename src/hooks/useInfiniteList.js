@@ -2,7 +2,7 @@ import { pb } from "@/api/pocketbase";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 const defaultOptions = {
-  expand: "writer,place",
+  expand: "writer,place,reservation",
 };
 
 /**

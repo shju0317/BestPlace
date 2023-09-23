@@ -1,28 +1,34 @@
 import { pb } from "@/api/pocketbase";
 import NoResult from "@/components/Feed/NoResult";
+import PopUpModal from "@/components/PopupModal";
 import ScrollToTop from "@/components/ScrollTop";
 import Spinner from "@/components/Spinner";
 import Kakaomap from "@/components/kakaomap";
 import { useUserInfo } from "@/hooks/useUserInfo";
 import { getPbImageURL } from "@/utils";
+import { Button } from "flowbite-react";
+import { useState } from "react";
+import { BsTrashFill } from "react-icons/bs";
 
 function Favorites() {
   const myId = pb.authStore.model.id;
-  const { data, isLoading } = useUserInfo(myId, "favorites");
+  const userFavorites = pb.authStore.model.favorites;
+  const [openModal, setOpenModal] = useState(false);
+  const [itemId, setItemId] = useState("");
+  const { data, refetch } = useUserInfo(myId, "favorites");
   const favorites = data?.expand?.favorites?.length && data?.expand.favorites;
-
-  // 로딩 중
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center">
-        <Spinner size={160} />
-      </div>
-    );
-  }
 
   return (
     <>
       <ScrollToTop />
+      <PopUpModal
+        myId={myId}
+        itemId={itemId}
+        refetch={refetch}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        userFavorites={userFavorites}
+      />
       {favorites ? (
         <main>
           <h2 className="sr-only">저장 페이지</h2>
@@ -33,18 +39,31 @@ function Favorites() {
           <ul>
             {favorites?.map((item) => (
               <li key={crypto.randomUUID()} className="border-b border-gray-100 py-4">
-                <dl className="grid grid-cols-[fit-content(100ch)_1fr] items-center gap-x-2">
-                  <dt className="sr-only">플레이스 이름</dt>
-                  <dd className="col-start-1 row-start-1 overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold">
-                    {item.title}
-                  </dd>
-                  <dt className="sr-only">플레이스 카테고리</dt>
-                  <dd className="col-start-2 row-start-1 text-sm font-light text-gray-500">{item.category}</dd>
-                  <dt className="sr-only">플레이스 주소</dt>
-                  <dd className="col-start-1 col-end-3 overflow-hidden text-ellipsis whitespace-nowrap font-light">
-                    {item.address}
-                  </dd>
-                </dl>
+                <div className="flex justify-between">
+                  <dl className="grid grid-cols-[fit-content(100ch)_1fr] items-center gap-x-2">
+                    <dt className="sr-only">플레이스 이름</dt>
+                    <dd className="col-start-1 row-start-1 overflow-hidden text-ellipsis whitespace-nowrap text-lg font-bold">
+                      {item.title}
+                    </dd>
+                    <dt className="sr-only">플레이스 카테고리</dt>
+                    <dd className="col-start-2 row-start-1 text-sm font-light text-gray-500">{item.category}</dd>
+                    <dt className="sr-only">플레이스 주소</dt>
+                    <dd className="col-start-1 col-end-3 overflow-hidden text-ellipsis whitespace-nowrap font-light">
+                      {item.address}
+                    </dd>
+                  </dl>
+
+                  <Button
+                    onClick={() => {
+                      setItemId(item.id);
+                      setOpenModal(true);
+                    }}
+                    className="bg-transparent enabled:hover:bg-transparent"
+                    aria-label="장소 삭제하기"
+                  >
+                    <BsTrashFill className="text-xl text-secondary" aria-hidden />
+                  </Button>
+                </div>
                 <figure className="flex h-28 gap-1 pt-3">
                   {item.photos.slice(0, 3).map((photo, index) => (
                     <img

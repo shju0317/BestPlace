@@ -7,7 +7,6 @@ import { MdOutlineCheck } from "react-icons/md";
 //@ 예약 횟수 컴포넌트
 function ReservationCount({ userInfo, visitedList }) {
   const { data: visitData } = useFetchVisitData();
-  console.log(visitData);
   const [isSeeMore, setIsSeeMore] = useState(false);
   let renderList = !isSeeMore ? visitData?.slice(0, 3) : visitData?.slice(0, 9);
   let firstCount = renderList ? renderList[0][1] : 0;
@@ -17,7 +16,7 @@ function ReservationCount({ userInfo, visitedList }) {
   }
 
   return (
-    <div className="border-b border-dashed border-gray-500/50 pb-8 mb-8">
+    <div className="mb-8 border-b border-dashed border-gray-500/50 pb-8">
       <h3 className="mb-6 text-lg font-bold">
         <MdOutlineCheck className="mr-2 inline align-bottom text-3xl" />
         <span className="mx-0.5 text-secondary">{userInfo.nickname}</span>님은 LION PLACE로

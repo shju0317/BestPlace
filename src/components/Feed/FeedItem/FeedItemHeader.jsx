@@ -11,8 +11,7 @@ function FeedItemHeader({ item, isUser }) {
   const myId = pb.authStore.model.id;
   const { data, refetch } = useFetchList("follow", { expand: "owner" });
   const { data: reviewData } = useFetchList("reviews", { filter: `writer='${item.writer}'` });
-  console.log(reviewData);
-  // const { data: followData } = useFetchList("follow", { filter: `owner='${userInfo.id}'` });
+  const { data: followData } = useFetchList("follow", { filter: `owner='${item.writer}'` });
 
   useEffect(() => {
     const myFollowings = data?.filter((el) => el.expand.owner.id === myId)[0].followings;
@@ -76,9 +75,13 @@ function FeedItemHeader({ item, isUser }) {
             {item.expand.writer.nickname}
           </dd>
           <dt className={`${isUser ? "h-fit text-sm" : "text-xs"} col-start-2 row-start-2`}>리뷰</dt>
-          <dd className={`${isUser ? "h-fit text-sm" : "text-xs"} col-start-3 row-start-2 text-primary`}>20</dd>
+          <dd className={`${isUser ? "h-fit text-sm" : "text-xs"} col-start-3 row-start-2 text-primary`}>
+            {reviewData && reviewData?.length}
+          </dd>
           <dt className={`${isUser ? "h-fit text-sm" : "text-xs"} col-start-4 row-start-2`}>팔로워</dt>
-          <dd className={`${isUser ? "h-fit text-sm" : "text-xs"} col-start-5 row-start-2 text-primary`}>8</dd>
+          <dd className={`${isUser ? "h-fit text-sm" : "text-xs"} col-start-5 row-start-2 text-primary`}>
+            {followData && followData[0].followers.length}
+          </dd>
         </dl>
       </Link>
       {myId === item.expand.writer.id ? (
