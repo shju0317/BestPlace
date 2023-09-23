@@ -38,7 +38,7 @@ export function isRegValid(key, value) {
       return idReg.test(value);
     case key === "email":
       return emailReg.test(value);
-    case key === "pw":
+    case key === "password":
       return pwReg.test(value);
     default:
       return true;
@@ -55,8 +55,8 @@ export function alertReg(key) {
     case key === "email":
       alertMessage("사용가능한 이메일 양식이 아닙니다");
       break;
-    case key === "pw":
-      alertMessage("비밀번호는 숫자/영어/특수문자를 포함하는 8~16자리 양식이어야 합니다");
+    case key === "password":
+      alertMessage("비밀번호는 숫자/영어/특수문자를 포함하는 8~16자리 문자여야 합니다");
       break;
   }
 }

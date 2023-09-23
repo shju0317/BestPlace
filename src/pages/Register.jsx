@@ -1,7 +1,7 @@
 import { pb, read, create, update, setLogIn } from "@/api/pocketbase";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { isEmailRegValid, isPwRegValid, isIdRegValid, alertMessage } from "@u/index";
+import { alertMessage, alertUnableInput, isRegValid } from "@u/index";
 
 import SignTitle from "@c/SignInUp/SignTitle";
 import SignInput from "@c/SignInUp/SignInput";
@@ -47,26 +47,17 @@ function Register() {
   };
 
   async function handleRegister() {
-    switch (true) {
-      case !isIdRegValid(id):
-        alertMessage("아이디는 소문자/대문자/숫자로 이루어진 4~20자리 문자여야 합니다");
-        break;
-      case !isEmailRegValid(email):
-        alertMessage("사용가능한 이메일 양식이 아닙니다");
-        break;
-      case !isPwRegValid(pw):
-        alertMessage("비밀번호는 숫자/영어/특수문자를 포함하는 8~16자리 양식이어야 합니다");
-        break;
-      case !(pw === pwCheck):
-        alertMessage("비밀번호가 일치하지 않습니다");
-        break;
-    }
+    alertUnableInput(createData)
 
-    console.log(createData)
+    if(pw !== pwCheck && isRegValid("password", pw)){
+      alertMessage("비밀번호가 일치하지 않습니다")
+    }
     await create("users", createData);
     await setLogIn([id, pw]);
-    // globalThis.location.href = "/";
+    globalThis.location.href = "/";
+    
   }
+  
   return (
     <SignContents>
       <SignLogo />
@@ -82,7 +73,7 @@ function Register() {
         <SignInput
           labelValue="비밀번호"
           ariaText="비밀번호 입력창"
-          placeHolder="비밀번호의 길이는 8자리 이상"
+          placeHolder="비밀번호를 입력하세요"
           inputValue={setPw}
           type= "password"
         />
