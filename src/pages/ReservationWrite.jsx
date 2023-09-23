@@ -18,7 +18,7 @@ function ReservationWrite() {
 
   const isValid = (reservationData) => {
     for (const key in reservationData) {
-      if(key === "canceled" || key === "visited") break;
+      if(key === "canceled" || key === "visited" || key === "requirements") break;
 
       const value = reservationData[key];
 
@@ -34,7 +34,7 @@ function ReservationWrite() {
 
     switch (true) {
       case !isValid(reservationData):
-        alertMessage("공백란이 있습니다.", "❗");
+        alertMessage("필수사항을 입력해주세요.", "❗");
         return;
     
       case !isEmailRegValid(reservationData.email):

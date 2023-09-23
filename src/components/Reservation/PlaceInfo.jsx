@@ -10,15 +10,16 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 function PlaceInfo() {
-  const { userId, item } = useLocation().state || {};
+  const { userInfo, item } = useLocation().state || {};
   const { setReservationData } = useReservationStore();
-  
+  console.log("유저", userInfo);
   useEffect(() => {
     setReservationData({ 
-      booker: userId,
+      booker: userInfo.id,
+      email: userInfo.email,
       place: item.expand.place.id
     });
-  }, []);
+  }, [userInfo, item.expand.place.id, setReservationData]);
 
   return (
     <div className="pb-2 w-full">

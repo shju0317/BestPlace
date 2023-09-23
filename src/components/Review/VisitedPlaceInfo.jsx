@@ -12,7 +12,7 @@ function VisitedPlaceInfo() {
       place: item.expand.place.id,
       reservation: item.id
     });
-  }, []);
+  }, [userId, item.expand.place.id, item.id, setReviewData]);
 
   return (
     <div className="border-b pb-2 w-full">

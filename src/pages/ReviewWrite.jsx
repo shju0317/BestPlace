@@ -31,7 +31,7 @@ function ReviewWrite() {
     e.preventDefault();
 
     if(!isValid(reviewData)){
-      alertMessage("공백란이 있습니다.","❗");
+      alertMessage("공란이 있습니다.","❗");
       return;
     }
   
