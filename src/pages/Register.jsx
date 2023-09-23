@@ -62,11 +62,11 @@ function Register() {
         break;
     }
 
+    console.log(createData)
     await create("users", createData);
     await setLogIn([id, pw]);
-    globalThis.location.href = "/";
+    // globalThis.location.href = "/";
   }
-
   return (
     <SignContents>
       <SignLogo />
@@ -97,7 +97,7 @@ function Register() {
 
       <div className="flex flex-col gap-2 max-w-3xl w-full">
         <SignButton value="회원가입" handleEvent={() => handleRegister()} bgColor="bg-white" textColor="text-black" />
-        <SignButton value="로그인" handleEvent={() => navigate("/Login")} />
+        <SignButton value="로그인" handleEvent={() => navigate("/")} />
       </div>
     </SignContents>
   );

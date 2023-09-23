@@ -16,6 +16,7 @@ import UserReview from "./pages/UserReview";
 import UserReviewList from "./pages/UserReviewList";
 import MyReview from "./pages/MyReview";
 import Favorites from "./pages/Favorites";
+import Header from "./layout/header";
 
 let isValidUser = pb.authStore.isValid;
 
@@ -33,9 +34,9 @@ const routerConfig = isValidUser
           { path: "reservation-write", element: <ReservationWrite /> },
           { path: "favorite", element: <Favorites /> },
           { path: "my-review", element: <MyReview /> },
-          { path: "update-user-data", element: <UpdateUserData /> },
         ],
       },
+      { path: "update-user-data", element: <UpdateUserData /> },
       { path: "place/:placeId/:recordId", element: <Place /> },
       { path: "user-review/:userId", element: <UserReview /> },
       { path: "user-review-list/:userId", element: <UserReviewList /> },
@@ -46,7 +47,6 @@ const routerConfig = isValidUser
         path: "/",
         children: [
           { index: true, element: <Login /> },
-          { path: "login", element: <Login /> },
           { path: "register", element: <Register /> },
         ],
         errorElement: <NotFound />,
