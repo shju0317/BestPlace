@@ -5,7 +5,7 @@ export const useFetchRecord = (recordId) => {
   const fetchRecord = async () => {
     try {
       const record = await pb.collection("reviews").getOne(recordId, {
-        expand: "place,writer",
+        expand: "place,writer,reservation",
       });
       return record;
     } catch (error) {

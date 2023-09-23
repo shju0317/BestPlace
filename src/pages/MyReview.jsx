@@ -1,7 +1,5 @@
-import Footer from "@/layout/Footer";
 import { Link } from "react-router-dom";
 import { useInfiniteList, useIntersect } from "@/hooks";
-import Spinner from "@/components/Spinner";
 import { getPbImageURL } from "@/utils";
 import { pb } from "@/api/pocketbase";
 import ScrollToTop from "@/components/ScrollTop";
@@ -22,20 +20,11 @@ function MyReview() {
     { threshold: 1 }
   );
 
-  // 로딩 중
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center">
-        <Spinner size={160} />
-      </div>
-    );
-  }
-
   return (
     <>
       <ScrollToTop />
       <h2 className="sr-only">나의 리뷰 페이지</h2>
-      <ul className="my-4 mb-[194px] grid grid-cols-3 gap-1.5 sm:mb-[174px]">
+      <ul className="my-4 mb-[194px] grid grid-cols-2 gap-1.5 sm:mb-[174px] sm:grid-cols-3">
         {result?.map((item) => (
           <Link to={`/user-review-list/${myId}`} key={item.id}>
             <li>
@@ -43,7 +32,7 @@ function MyReview() {
                 <img
                   src={getPbImageURL(item, item.photos[0])}
                   alt={`나의 ${item.expand.place.title} 리뷰`}
-                  className="h-[280px] w-full rounded-lg object-cover"
+                  className="aspect-square min-h-[180px] w-full rounded-lg object-cover"
                 />
                 <figcaption className="absolute bottom-0 flex w-full flex-col rounded-b-lg bg-black bg-opacity-50 p-2 text-white">
                   <span
