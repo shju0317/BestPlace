@@ -16,7 +16,7 @@ import UserReview from "./pages/UserReview";
 import UserReviewList from "./pages/UserReviewList";
 import MyReview from "./pages/MyReview";
 import Favorites from "./pages/Favorites";
-import Header from "./layout/header";
+import Follow from "./pages/Follow";
 
 let isValidUser = pb.authStore.isValid;
 
@@ -41,6 +41,7 @@ const routerConfig = isValidUser
       { path: "region", element: <Region /> },
       { path: "review-write", element: <ReviewWrite /> },
       { path: "reservation-write", element: <ReservationWrite /> },
+      { path: "follow", element: <Follow /> },
     ]
   : [
       {
