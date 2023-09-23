@@ -1,9 +1,8 @@
+import { useEffect, useState } from "react";
 import KEYWORDS from "@d/keywords";
 import useReview from "@h/useReview";
 import { alertMessage } from "@u/index";
 import { produce } from "immer";
-import { string } from "prop-types";
-import { useEffect, useState } from "react";
 
 function ReviewKeyword() {
   const { handleInputChange } = useReview();
@@ -56,9 +55,5 @@ function ReviewKeyword() {
     </div>
   );
 }
-
-// ReviewKeyword.propTypes = {
-//   name: string,
-// };
 
 export default ReviewKeyword;

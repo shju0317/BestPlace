@@ -1,8 +1,8 @@
-import useReservation from '@h/useReservation';
-import WriteText from '@c/WriteText';
+import useReservation from "@h/useReservation";
+import WriteText from "@c/WriteText";
 
 function ReservationGuestInfo() {
-  const { handleInputChange, reservationData } = useReservation();
+  const { handleInputChange } = useReservation();
 
   return (
     <>
@@ -11,7 +11,7 @@ function ReservationGuestInfo() {
         <div id="guestInfo" className="flex flex-col gap-4 ml-4 font-semibold">
           <div className="flex items-center gap-4">
             <label htmlFor="reservedName" className="w-1/6">예약명</label>
-            <input type="text" id="reservedName" name="reservedName"
+            <input type="text" id="reservedName" name="reservedName" placeholder="이름 또는 단체명을 입력하세요"
               inputMode="text" 
               onChange={handleInputChange}
               className="rounded border border-primary px-4 py-2 w-5/6"/>

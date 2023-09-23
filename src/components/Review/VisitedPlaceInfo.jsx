@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import useReviewStore from '@s/review';
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import useReviewStore from "@s/review";
 
 function VisitedPlaceInfo() {
   const { userId, item } = useLocation().state || {};

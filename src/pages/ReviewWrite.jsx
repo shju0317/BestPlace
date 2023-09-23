@@ -1,14 +1,14 @@
-import { pb } from '@/api/pocketbase';
-import { useNavigate } from 'react-router-dom';
-import VisitedPlaceInfo from '@c/Review/VisitedPlaceInfo';
-import ReviewKeyword from '@c/Review/ReviewKeyword';
-import ReviewPhoto from '@c/Review/ReviewPhoto';
-import ScrollToTop from '@c/ScrollTop';
-import WriteText from '@c/WriteText';
-import Button from '@c/Button';
-import { alertMessage } from '@u/index';
-import useReview from '@h/useReview';
-import Header from '@l/header';
+import { pb } from "@/api/pocketbase";
+import { useNavigate } from "react-router-dom";
+import VisitedPlaceInfo from "@c/Review/VisitedPlaceInfo";
+import ReviewKeyword from "@c/Review/ReviewKeyword";
+import ReviewPhoto from "@c/Review/ReviewPhoto";
+import ScrollToTop from "@c/ScrollTop";
+import WriteText from "@c/WriteText";
+import Button from "@c/Button";
+import { alertMessage } from "@u/index";
+import useReview from "@h/useReview";
+import Header from "@l/header";
 
 
 function ReviewWrite() {
@@ -67,26 +67,28 @@ function ReviewWrite() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl">
-    <ScrollToTop/>
-    <Header/>
-    <form method="POST" className="flex flex-col gap-4 flex-wrap mx-auto max-w-3xl mt-4">
-      <VisitedPlaceInfo/>
-      <WriteText label="리뷰를 남겨주세요" 
-        placeholder="업주와 다른 사용자들이 상처받지 않도록 좋은 표현을 사용해주세요. 유용한 Tip도 남겨주세요!"
-        name="contents"
-        value={reviewData.contents}
-        onChange={handleInputChange}
-      />
-      <ReviewPhoto name="photos"/>
-      <ReviewKeyword name="keywords"/>
-      <div className="flex gap-2">
-        <Button text="취소하기" onClick={handleGoBack} bgColor="bg-gray-100" textColor="text-red-500"/>
-        <Button type="submit" text="등록하기" onClick={handleSubmit} />
-        {/* isValid={!isValid(reviewData)} */}
-      </div>
-    </form>
-    </div>
+    <>
+      <ScrollToTop/>
+      <Header/>
+      <main className="mx-auto max-w-3xl mb-10 px-3">
+        <form method="POST" className="flex flex-col gap-4 flex-wrap mx-auto max-w-3xl mt-4">
+          <VisitedPlaceInfo/>
+          <WriteText label="리뷰를 남겨주세요" 
+            placeholder="업주와 다른 사용자들이 상처받지 않도록 좋은 표현을 사용해주세요. 유용한 Tip도 남겨주세요!"
+            name="contents"
+            value={reviewData.contents}
+            onChange={handleInputChange}
+          />
+          <ReviewPhoto name="photos"/>
+          <ReviewKeyword name="keywords"/>
+          <div className="flex gap-2 sticky bottom-0 z-10 bg-gradient-to-b from-white/10 from-10% to-white to-40% pb-3 pt-8">
+            <Button text="취소하기" onClick={handleGoBack} bgColor="bg-gray-100" textColor="text-red-500"/>
+            <Button type="submit" text="등록하기" onClick={handleSubmit} />
+            {/* isValid={!isValid(reviewData)} */}
+          </div>
+        </form>
+      </main>
+    </>
   )
 }
 

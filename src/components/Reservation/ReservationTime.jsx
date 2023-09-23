@@ -1,7 +1,7 @@
-import DatePicker from 'react-datepicker';
-import { useState, useEffect } from 'react';
-import { format, setHours, setMinutes } from 'date-fns';
-import useReservation from '@h/useReservation';
+import DatePicker from "react-datepicker";
+import { useState, useEffect } from "react";
+import { format, setHours, setMinutes } from "date-fns";
+import useReservation from "@h/useReservation";
 
 function ReservationTime() {
   const {reservationData, setReservationData} = useReservation();
@@ -12,7 +12,6 @@ function ReservationTime() {
   const handleTimeClick = (time) => {
     setSelectedTime(time);
     const formattedTime = format(new Date(time), 'HH:mm:ss');
-    console.log('오', formattedTime)
 
     setReservationData(prevData => ({
       ...prevData,"date":formattedTime
