@@ -17,6 +17,7 @@ import DontAccess from "@p/DontAccess";
 import UserReviewList from "./pages/UserReviewList";
 import MyReview from "./pages/MyReview";
 import Favorites from "./pages/Favorites";
+import Follow from "./pages/Follow";
 
 let isValidUser = pb.authStore.isValid;
 
@@ -42,6 +43,7 @@ const routerConfig = isValidUser
       { path: "user-review-list/:userId", element: <UserReviewList /> },
       { path: "update-user-data", element: <UpdateUserData /> },
       { path: "region", element: <Region /> },
+      { path: "follow", element: <Follow /> },
     ]
   : [
       {
