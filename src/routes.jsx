@@ -1,22 +1,22 @@
 import { createBrowserRouter } from "react-router-dom";
 import { pb } from "@/api/pocketbase";
 import RootLayout from "@l/RootLayout";
-import NotFound from "@p/NotFound";
-import Feed from "@p/Feed";
-import ReviewWrite from "@p/ReviewWrite";
-import Region from "@p/Region";
-import ReviewList from "@p/ReviewList";
-import Reservation from "./pages/Reservation";
-import UpdateUserData from "@p/UpdateUserData";
-import Login from "@p/Login";
-import Register from "@p/Register";
 import ReservationWrite from "@p/ReservationWrite";
-import Place from "./pages/Place";
-import UserReview from "./pages/UserReview";
-import UserReviewList from "./pages/UserReviewList";
-import MyReview from "./pages/MyReview";
-import Favorites from "./pages/Favorites";
-import Follow from "./pages/Follow";
+import UserReviewList from "@p/UserReviewList";
+import UpdateUserData from "@p/UpdateUserData";
+import ReviewWrite from "@p/ReviewWrite";
+import Reservation from "@p/Reservation";
+import UserReview from "@p/UserReview";
+import Favorites from "@p/Favorites";
+import MyReview from "@p/MyReview";
+import NotFound from "@p/NotFound";
+import Register from "@p/Register";
+import Follow from "@p/Follow";
+import Region from "@p/Region";
+import Login from "@p/Login";
+import Place from "@p/Place";
+import Feed from "@p/Feed";
+
 
 let isValidUser = pb.authStore.isValid;
 
@@ -28,10 +28,9 @@ const routerConfig = isValidUser
         errorElement: <NotFound />,
         children: [
           { index: true, element: <Feed /> },
-          { path: "review", element: <ReviewList /> },
-          { path: "reservation", element: <Reservation /> },
-          { path: "favorite", element: <Favorites /> },
           { path: "my-review", element: <MyReview /> },
+          { path: "reservation", element: <Reservation /> },
+          { path: "favorite", element: <Favorites /> }
         ],
       },
       { path: "update-user-data", element: <UpdateUserData /> },

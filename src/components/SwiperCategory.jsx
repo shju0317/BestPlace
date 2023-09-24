@@ -2,7 +2,7 @@ import { useCategoryStore } from "@/store/category";
 import { bool, string } from "prop-types";
 import { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Keyboard, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
@@ -27,7 +27,7 @@ function SwiperCategory() {
   };
 
   return (
-    <Swiper spaceBetween={8} slidesPerView={"auto"} navigation={true} modules={[Navigation]}>
+    <Swiper spaceBetween={8} slidesPerView={"auto"} navigation={true} keyboard={{enabled: true}} modules={[Navigation, Keyboard]}>
       {CATEGORY.map((item, index) => (
         <SwiperSlide
           key={index}

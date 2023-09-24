@@ -31,7 +31,7 @@ function Header() {
             </div>
           </Link>
         </h1>
-        <div className="absolute right-0 top-2 flex items-center gap-2">
+        <div className=" flex items-center gap-2">
           <Link to={"/update-user-data"} className="mr-1">
             <FaUserEdit aria-label="프로필 수정" title="프로필 수정" className="text-2xl text-secondary" />
           </Link>

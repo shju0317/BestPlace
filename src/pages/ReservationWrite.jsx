@@ -1,17 +1,20 @@
 import { pb } from "@/api/pocketbase";
-import PopUpModal from "@/components/PopUpModal";
-import Button from "@c/Button";
-import PlaceInfo from "@c/Reservation/PlaceInfo";
-import ReservationDate from "@c/Reservation/ReservationDate";
-import ReservationGuestCount from "@c/Reservation/ReservationGuestCount";
-import ReservationGuestInfo from "@c/Reservation/ReservationGuestInfo";
-import ScrollToTop from "@c/ScrollTop";
-import useReservation from "@h/useReservation";
+import { useNavigate } from "react-router-dom";
+import { isBefore } from "date-fns/esm";
+import { GoX } from "react-icons/go";
+import { useState } from "react";
 import Header from "@l/Header";
 import { alertMessage, isEmailRegValid, isTelRegValid } from "@u/index";
-import { useState } from "react";
-import { GoX } from "react-icons/go";
-import { useNavigate } from "react-router-dom";
+import useReservation from "@h/useReservation";
+import ReservationGuestCount from "@c/Reservation/ReservationGuestCount";
+import ReservationGuestInfo from "@c/Reservation/ReservationGuestInfo";
+import ReservationDate from "@c/Reservation/ReservationDate";
+import PlaceInfo from "@c/Reservation/PlaceInfo";
+import ScrollToTop from "@c/ScrollTop";
+import PopUpModal from "@c/PopUpModal";
+import Button from "@c/Button";
+
+
 
 function ReservationWrite() {
   const navigate = useNavigate();
@@ -38,13 +41,17 @@ function ReservationWrite() {
       case !isValid(reservationData):
         alertMessage("필수사항을 입력해주세요.", "❗");
         return;
-
+      
+      case !isTelRegValid(reservationData.tel):
+        alertMessage("전화번호 정보가 올바르지 않습니다.", "❗");
+        return;
+    
       case !isEmailRegValid(reservationData.email):
         alertMessage("이메일 정보가 올바르지 않습니다.", "❗");
         return;
-
-      case !isTelRegValid(reservationData.tel):
-        alertMessage("전화번호 정보가 올바르지 않습니다.", "❗");
+        
+      case isBefore(reservationData.date, new Date()): // 현재 시간보다 이전 시간 선택 시 알림
+        alertMessage("지난 시간입니다. 시간을 확인해주세요.", "❗");
         return;
     }
 
