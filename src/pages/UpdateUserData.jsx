@@ -42,7 +42,6 @@ function Register() {
 
   async function handleUserDataUpdate() {
     for (const [key, value] of Object.entries(updateData)) {
-
       if (!(value === pb.authStore.model[key])) {
         if (await isUsed(key, value)) {
           alertMessage(`이미 사용중인 닉네임입니다.`);
@@ -62,7 +61,7 @@ function Register() {
   const metaData = {
     title: "Best Place - 업데이트",
     description: "유저 정보 업데이트",
-    keywords:["유저", "정보", "업데이트"],
+    keywords: ["유저", "정보", "업데이트"],
     image: "/logo.svg",
   };
 
