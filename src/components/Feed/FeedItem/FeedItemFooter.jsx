@@ -4,6 +4,7 @@ import { bool, shape, string } from "prop-types";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { BsBookmarkStar, BsCalendarCheck, BsFillBookmarkStarFill } from "react-icons/bs";
+import debounce from "@/utils/debounce";
 
 function FeedItemFooter({ item, isPlace = false }) {
   const userId = pb.authStore.model.id;
@@ -40,7 +41,7 @@ function FeedItemFooter({ item, isPlace = false }) {
   return (
     <div className={`${isPlace ? "py-4" : "rounded-lg border p-4"} mb-2`}>
       <div className={`flex items-center justify-between ${isPlace ? "mx-auto max-w-3xl px-3" : ""}`}>
-        <dl className="grid grid-cols-[36px_1fr] gap-1">
+        <dl className="grid gap-1">
           <dt className="sr-only">플레이스 이름</dt>
           <dd className="col-start-1 col-end-3 overflow-hidden text-ellipsis whitespace-nowrap pr-2 font-bold">
             {item.expand.place.title}
@@ -69,7 +70,7 @@ function FeedItemFooter({ item, isPlace = false }) {
               aria-label="플레이스 저장하기"
               className="ml-2 flex flex-col items-center gap-1 whitespace-nowrap text-primary"
             >
-              <BsFillBookmarkStarFill className="text-2xl" onClick={handleSave} />
+              <BsFillBookmarkStarFill className="text-2xl" onClick={debounce(() => handleSave(), 500)} />
               <span className="text-xs">저장됨</span>
             </button>
           ) : (
@@ -77,7 +78,7 @@ function FeedItemFooter({ item, isPlace = false }) {
               aria-label="플레이스 저장하기"
               className="ml-2 flex flex-col items-center gap-1 whitespace-nowrap text-gray-400"
             >
-              <BsBookmarkStar className="text-2xl" onClick={handleSave} />
+              <BsBookmarkStar className="text-2xl" onClick={debounce(() => handleSave(), 500)} />
               <span className="text-xs">저장</span>
             </button>
           )}

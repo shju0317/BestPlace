@@ -26,6 +26,7 @@ function Feed() {
   // 데이터 필터링
   const filterRegion = useFilterRegion(fetchData);
   const filterCategory = useFilterCategory(filterRegion);
+
   const result = filterCategory?.flatMap((el) => el.items) || null;
 
   if (isLoading) return <Spinner />;
@@ -52,7 +53,7 @@ function Feed() {
       </ul>
 
       <ul className="flex flex-col gap-1 bg-gray-50">
-        {!isLoading && filterCategory[0].items.length ? (
+        {result.length ? (
           result.map((item) => (
             <li key={item.id}>
               <FeedItem item={item} />

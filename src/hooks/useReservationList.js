@@ -13,7 +13,7 @@ function useReservationList() {
       });
       return reservation;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -22,7 +22,7 @@ function useReservationList() {
     queryFn: fetchReservation,
   });
 
-  if (error) console.log(error);
+  if (error) console.error(error);
 
   return { data, isLoading };
 }
@@ -50,7 +50,7 @@ export function useFetchVisitData() {
       let visitData = Object.entries(visitCount).sort((a, b) => b[1] - a[1]);
       return visitData;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -59,7 +59,7 @@ export function useFetchVisitData() {
     queryFn: fetchVisitData,
   });
 
-  if (error) console.log(error);
+  if (error) console.error(error);
 
   return { data, isLoading };
 }

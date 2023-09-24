@@ -16,7 +16,7 @@ function useFetchAllReviews() {
 
       return reservationId;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -25,7 +25,7 @@ function useFetchAllReviews() {
     queryFn: fetchWriteReviewList,
   });
 
-  if (error) console.log(error);
+  if (error) console.error(error);
 
   return { data };
 }

@@ -11,8 +11,6 @@ async function boom() {
     })),
   ];
 
-  console.log(data);
-
   for (let item of data) {
     await create("follow", item);
   }

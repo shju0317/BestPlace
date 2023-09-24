@@ -4,6 +4,7 @@ import MetaData from "@c/MetaData";
 import ReservationCount from "@/components/ReservationList/ReservationCount";
 import ReservationList from "@/components/ReservationList/ReservationList";
 import ReservedList from "@/components/ReservationList/ReservedList";
+import ScrollToTop from "@/components/ScrollTop";
 import Spinner from "@/components/Spinner";
 import useReservationList from "@/hooks/useReservationList.js";
 
