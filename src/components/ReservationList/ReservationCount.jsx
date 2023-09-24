@@ -9,8 +9,12 @@ function ReservationCount({ userInfo, visitedList }) {
   const [onFocus, setOnFocus] = useState(false);
   const { data: visitData } = useFetchVisitData();
   const [isSeeMore, setIsSeeMore] = useState(false);
+
+  if (!visitData) return;
+
   let renderList = !isSeeMore ? visitData?.slice(0, 3) : visitData?.slice(0, 9);
-  let firstCount = renderList ? renderList[0][1] : 0;
+  console.log(renderList);
+  let firstCount = renderList.length !== 0 ? renderList[0][1] : null;
 
   function handleClickButton() {
     setIsSeeMore(!isSeeMore);
@@ -26,7 +30,7 @@ function ReservationCount({ userInfo, visitedList }) {
         <MdOutlineCheck className="mr-2 inline align-bottom text-3xl" />
         <span className="mx-0.5 text-secondary">{userInfo.nickname}</span>님은 LION PLACE로
         <span className="text-secondary"> {visitedList?.length}회 </span>
-        예약했어요
+        예약하고 방문했어요
       </h3>
 
       <ol>
