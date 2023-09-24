@@ -1,13 +1,13 @@
 import { useLocation } from "react-router-dom";
-// import useReview from '@h/useReview';
 import { useEffect } from "react";
 import useReservationStore from "@/store/reservation";
+import { getPbImageURL } from "@u";
+import { Keyboard, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
-import { getPbImageURL } from "@/utils";
-import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "swiper/css";
+
 
 function PlaceInfo() {
   const { userInfo, item } = useLocation().state || {};
@@ -33,12 +33,13 @@ function PlaceInfo() {
       <Swiper
         className="photo-swiper"
         spaceBetween={30}
-        navigation={true}
         loop={true}
+        navigation={true}
         pagination={{
           type: "fraction",
         }}
-        modules={[Navigation, Pagination]}
+        keyboard={{enabled: true}}
+        modules={[Navigation, Pagination, Keyboard]}
       >
         {item.expand.place.photos.map((fileName) => (
           <SwiperSlide key={crypto.randomUUID()} className="bg-cover bg-center">

@@ -9,6 +9,7 @@ import { GoX } from "react-icons/go";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "../layout/Header";
 import PopularRegion from "./../components/Region/PopularRegion";
+import { alertMessage } from "@u";
 
 //@ 관심지역 설정 컴포넌트
 function SetRegion() {
@@ -46,6 +47,7 @@ function SetRegion() {
   // 관심지역 설정 서버에 등록
   const setRegionList = () => {
     update("users", userInfo.id, { regions: checkedRegionList });
+    alertMessage("관심지역이 설정되었습니다.");
     navigate("/");
   };
 
