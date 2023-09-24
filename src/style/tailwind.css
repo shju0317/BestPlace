@@ -70,8 +70,10 @@ html {
 /* 캘린더 커스텀 스타일링  */
 .react-calendar {
   width: 100%;
-  min-width: 320px;
+  min-width: 300px;
+  max-width: 650px;
   border: 1px solid #68b0ab;
+  @apply rounded-lg text-sm sm:text-lg;
 }
 
 .react-calendar__tile {
@@ -118,6 +120,12 @@ html {
 .react-calendar__navigation__next-button:disabled {
   color: #fff;
   font-size: 28px;
+}
+
+.react-calendar__navigation button {
+  font-size: 20px;
+  color: #68b0ab;
+  font-weight: 800;
 }
 
 .react-calendar__navigation button:enabled:hover,

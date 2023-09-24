@@ -25,7 +25,7 @@ function ReservationGuestCount() {
 
   return (
     <>
-      <div className="flex flex-row items-center gap-4 border-b p-4">
+      <div className="flex flex-row items-center gap-4 border-b py-4">
         <label htmlFor="guestCount" className="text-lg font-semibold">
           인원
         </label>
