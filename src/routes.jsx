@@ -2,8 +2,10 @@ import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import { pb } from "@/api/pocketbase";
 
+import ReservationWrite from "./pages/ReservationWrite";
+
+// const ReservationWrite = lazy(() => import("@p/ReservationWrite"));
 const RootLayout = lazy(() => import("@l/RootLayout"));
-const ReservationWrite = lazy(() => import("@p/ReservationWrite"));
 const UserReviewList = lazy(() => import("@p/UserReviewList"));
 const UpdateUserData = lazy(() => import("@p/UpdateUserData"));
 const ReviewWrite = lazy(() => import("@p/ReviewWrite"));
