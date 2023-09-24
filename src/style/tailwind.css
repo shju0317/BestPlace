@@ -70,7 +70,7 @@ html {
 /* 캘린더 커스텀 스타일링  */
 .react-calendar {
   width: 100%;
-  min-width: 350px;
+  min-width: 320px;
   border: 1px solid #68b0ab;
 }
 
