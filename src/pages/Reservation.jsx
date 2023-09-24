@@ -10,7 +10,6 @@ import useReservationList from "@/hooks/useReservationList.js";
 function Reservation() {
   let userInfo = pb.authStore.model;
   const { data: reservation, isLoading } = useReservationList();
-  console.log(reservation);
   let reservedList = [];
   let progressList = [];
   let visitedList = [];
