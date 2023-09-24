@@ -58,8 +58,8 @@ function SetRegion() {
           {isFocusSearchBar || (
             <div>
               {/* 창 닫기 */}
-              <Link to="/" className="float-right" title="설정 닫기">
-                <GoX className="mr-1 mt-3 text-3xl" />
+              <Link to="/" className="float-right mr-1" title="설정 닫기">
+                <GoX className="mt-3 text-3xl" />
               </Link>
               {/* 제목 */}
               <h2 className="mb-3 pt-8 text-2xl font-bold">관심지역을 설정해주세요!</h2>
