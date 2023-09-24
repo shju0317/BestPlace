@@ -4,6 +4,7 @@ import { getPbImageURL } from "@/utils";
 import { pb } from "@/api/pocketbase";
 import ScrollToTop from "@/components/ScrollTop";
 import Spinner from "@/components/Spinner";
+import NoResult from "@/components/Feed/NoResult";
 
 function MyReview() {
   const myId = pb.authStore.model.id;
@@ -26,7 +27,7 @@ function MyReview() {
 
   if (isLoading) return <Spinner />;
 
-  return (
+  return result.length !== 0 ? (
     <>
       <ScrollToTop />
       <h2 className="sr-only">나의 리뷰 페이지</h2>
@@ -58,6 +59,8 @@ function MyReview() {
       </ul>
       <div ref={ref} className="h-[1px]"></div>
     </>
+  ) : (
+    <NoResult title={"회원님이 작성한 리뷰가 없어요."} contents={"방문한 장소의 리뷰를 추가해보세요!"} />
   );
 }
 

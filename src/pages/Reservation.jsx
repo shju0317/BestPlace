@@ -1,4 +1,5 @@
 import { pb } from "@/api/pocketbase";
+import NoResult from "@/components/Feed/NoResult";
 import ReservationCount from "@/components/ReservationList/ReservationCount";
 import ReservationList from "@/components/ReservationList/ReservationList";
 import ReservedList from "@/components/ReservationList/ReservedList";
@@ -9,11 +10,12 @@ import useReservationList from "@/hooks/useReservationList.js";
 function Reservation() {
   let userInfo = pb.authStore.model;
   const { data: reservation, isLoading } = useReservationList();
+  console.log(reservation);
   let reservedList = [];
   let progressList = [];
   let visitedList = [];
   let canceledList = [];
-  
+
   if (isLoading) return <Spinner />;
 
   reservation?.forEach((item) => {
@@ -26,7 +28,7 @@ function Reservation() {
     !item.canceled ? (visitedList = [...visitedList, item]) : (canceledList = [...canceledList, item]);
   });
 
-  return (
+  return reservation.length !== 0 ? (
     <div>
       {/* 현재 예약중 리스트 */}
       <ReservedList userInfo={userInfo} reservedList={reservedList.reverse()} />
@@ -42,6 +44,8 @@ function Reservation() {
         canceledList={canceledList}
       />
     </div>
+  ) : (
+    <NoResult title={"회원님의 예약 정보가 없어요."} contents={"원하는 장소를 예약하고, 예약 정보를 관리해보세요!"} />
   );
 }
 

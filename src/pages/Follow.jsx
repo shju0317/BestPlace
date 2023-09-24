@@ -1,11 +1,12 @@
 import { pb, update } from "@/api/pocketbase";
+import NoResult from "@/components/Feed/NoResult";
 import ScrollToTop from "@/components/ScrollTop";
 import { useFetchList } from "@/hooks/useFetchList";
-import Header from "@l/Header";
 import { getPbImageURL } from "@/utils";
+import Header from "@l/Header";
+import Spinner from "@/components/Spinner";
 import { array, func, object, string } from "prop-types";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GoChevronLeft } from "react-icons/go";
 import { IoPersonCircleSharp } from "react-icons/io5";
 
@@ -13,11 +14,11 @@ function Follow() {
   const [selectGroup, setSelectGroup] = useState("following");
 
   const myId = pb.authStore.model.id;
-  const { data, refetch } = useFetchList("follow", { expand: "followers,followings" });
+  const { data, isLoading, refetch } = useFetchList("follow", { expand: "followers,followings" });
   const myData = data?.filter((item) => item.owner === myId)[0];
 
-  const followingList = myData?.expand.followings || [];
-  const followerList = myData?.expand.followers || [];
+  const followingList = myData?.expand?.followings || [];
+  const followerList = myData?.expand?.followers || [];
   const followingId = followingList.map((item) => item.id);
 
   let renderList = [];
@@ -73,38 +74,44 @@ function Follow() {
           </button>
         </div>
         {/* 리스트 */}
-        <div>
-          {renderList.map((item, index) => (
-            <div key={index} className="flex items-center justify-center border-b border-gray-100 px-4 py-3">
-              <dl className="flex grow items-center gap-4">
-                <dt className="sr-only">유저 사진</dt>
-                <dd className="rounded-full">
-                  {item.avatar ? (
-                    <img
-                      src={getPbImageURL(item, item.avatar)}
-                      alt="작성자 프로필"
-                      className="h-14 w-14 rounded-full object-cover text-xs"
-                    />
-                  ) : (
-                    <IoPersonCircleSharp className="h-14 w-14 text-gray-100" />
-                  )}
-                </dd>
-                <dt className="sr-only">유저 닉네임</dt>
-                <dd>
-                  <p>{item.nickname}</p>
-                </dd>
-              </dl>
-              <FollowButton
-                myId={myId}
-                item={item}
-                data={data}
-                refetch={refetch}
-                myData={myData}
-                followingId={followingId}
-              />
-            </div>
-          ))}
-        </div>
+        {isLoading ? (
+          <Spinner className="mx-auto"/>
+        ) : renderList.length !== 0 ? (
+          <div>
+            {renderList.map((item, index) => (
+              <div key={index} className="flex items-center justify-center border-b border-gray-100 px-4 py-3">
+                <dl className="flex grow items-center gap-4">
+                  <dt className="sr-only">유저 사진</dt>
+                  <dd className="rounded-full">
+                    {item.avatar ? (
+                      <img
+                        src={getPbImageURL(item, item.avatar)}
+                        alt="작성자 프로필"
+                        className="h-14 w-14 rounded-full object-cover text-xs"
+                      />
+                    ) : (
+                      <IoPersonCircleSharp className="h-14 w-14 text-gray-100" />
+                    )}
+                  </dd>
+                  <dt className="sr-only">유저 닉네임</dt>
+                  <dd>
+                    <p>{item.nickname}</p>
+                  </dd>
+                </dl>
+                <FollowButton
+                  myId={myId}
+                  item={item}
+                  data={data}
+                  refetch={refetch}
+                  myData={myData}
+                  followingId={followingId}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <NoResult title={"팔로잉/팔로워 정보가 없어요."} />
+        )}
       </div>
     </>
   );
@@ -114,7 +121,7 @@ function FollowButton({ myId, item, data, refetch, myData, followingId }) {
   const [isFollow, setIsFollow] = useState(false);
 
   useEffect(() => {
-    const followingList = myData?.expand.followings?.map((el) => el.id);
+    const followingList = myData?.expand.followings?.map((el) => el.id) || [];
     followingList?.includes(item.id) ? setIsFollow(true) : setIsFollow(false);
   }, [item, myData]);
 

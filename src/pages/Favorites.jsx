@@ -90,7 +90,7 @@ function Favorites() {
           </ul>
         </main>
       ) : (
-        <NoResult title={"저장한 장소가 없습니다."} contents={"자주 방문하는 장소를 추가해 보세요."} />
+        <NoResult title={"회원님이 저장한 장소가 없어요."} contents={"자주 방문하는 장소를 저장해보세요!"} />
       )}
     </>
   );

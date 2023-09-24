@@ -95,7 +95,7 @@ function SearchRegion({ ...props }) {
         </div>
       </div>
       <div className={`mt-28 flex flex-col items-center ${!isSearch || "hidden"} ${isFocusSearchBar || "hidden"}`}>
-        <img src="/search-guide.png" alt="현재 페이지가 검색 페이지임을 알리는 이미지" className="mb-2" />
+        <img src="/search-guide.png" alt="현재 화면에 표시되는 정보가 없습니다." className="mb-2" />
         <p className="text-lg font-bold">지역명을 검색해서</p>
         <p className="text-lg font-bold">관심지역으로 설정할 수 있어요!</p>
         <p className="mt-2 text-sm font-semibold text-gray-500">예) 서울, 해운대구, 경주시 등</p>
