@@ -32,11 +32,11 @@ function Header() {
           </Link>
         </h1>
         <div className="absolute right-0 top-2 flex items-center gap-2">
-          <Link to={"/update-user-data"}>
-            <FaUserEdit aria-label="프로필 수정" title="프로필 수정" className="mr-1 text-2xl text-secondary" />
+          <Link to={"/update-user-data"} className="mr-1">
+            <FaUserEdit aria-label="프로필 수정" title="프로필 수정" className="text-2xl text-secondary" />
           </Link>
-          <button type="button" onClick={() => setOpenModal(true)}>
-            <MdOutlineLogout aria-label="로그아웃" title="로그아웃" className="mr-2 text-2xl text-secondary" />
+          <button type="button" onClick={() => setOpenModal(true)} className="mr-2">
+            <MdOutlineLogout aria-label="로그아웃" title="로그아웃" className="text-2xl text-secondary" />
           </button>
         </div>
       </div>

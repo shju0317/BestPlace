@@ -11,6 +11,7 @@ import useReview from "@h/useReview";
 import Header from "@l/Header";
 import { useState } from "react";
 import PopUpModal from "@/components/PopUpModal";
+import { GoX } from "react-icons/go";
 
 function ReviewWrite() {
   const navigate = useNavigate();
@@ -76,8 +77,11 @@ function ReviewWrite() {
         handleEvent={handleGoBack}
       />
       <Header />
-      <main className="mx-auto mb-10 max-w-3xl px-3">
-        <form method="POST" className="mx-auto mt-4 flex max-w-3xl flex-col flex-wrap gap-4">
+      <main className="mx-auto mb-10 max-w-3xl px-3 relative">
+          <button onClick={() => setOpenModal(true)} className="absolute right-2">
+            <GoX className="text-2xl" />
+          </button>
+        <form method="POST" className="mx-auto mt-4 flex flex-col flex-wrap gap-4">
           <VisitedPlaceInfo />
           <WriteText
             label="리뷰를 남겨주세요"
