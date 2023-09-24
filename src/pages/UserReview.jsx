@@ -6,6 +6,7 @@ import { getPbImageURL } from "@/utils";
 import FeedItemHeader from "@/components/Feed/FeedItem/FeedItemHeader";
 import Header from "@/layout/Header";
 import ScrollTopButton from "@/components/Button/ScrollTopButton";
+import NoResult from "@/components/Feed/NoResult";
 
 function UserReview() {
   const { userId } = useParams();
@@ -28,7 +29,7 @@ function UserReview() {
 
   if (isLoading) return <Spinner />;
 
-  return (
+  return result.length !== 0 ? (
     <div className="relative min-h-screen pb-28">
       <Header />
 
@@ -73,6 +74,8 @@ function UserReview() {
         <ScrollTopButton />
       </div>
     </div>
+  ) : (
+    <NoResult title={"이 회원님이 작성한 리뷰가 없어요."} contents={""} />
   );
 }
 

@@ -11,7 +11,7 @@ export const useFetchList = (collection, options) => {
     }
   };
 
-  const { data, error, refetch } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["list", collection, options],
     queryFn: fetchData,
   });
@@ -20,6 +20,7 @@ export const useFetchList = (collection, options) => {
 
   return {
     data,
+    isLoading,
     refetch,
   };
 };
