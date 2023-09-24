@@ -7,7 +7,7 @@ import SignInput from "@c/SignInUp/SignInput";
 import SignPhoto from "@c/SignInUp/SignPhoto";
 import SignButton from "@c/SignInUp/SignButton";
 import SignForm from "@c/SignInUp/SignForm";
-import Header from "./../layout/header";
+import Header from "@l/Header";
 // import SignContents from "@c/SignInUp/SignContents";
 // import { produce } from "immer";
 // import Profile from "./../components/Profile";
