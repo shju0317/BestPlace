@@ -22,12 +22,6 @@ function ReservationDate() {
       <option key={timeString} value={timeString} className={"time-list-item"}>{timeString}</option>
     );
   }
-  // const filterPassedTime = (time) => {
-  //   const currentDate = new Date();
-  //   const selectedDate = new Date(time);
-    
-  //   return currentDate.getTime() < selectedDate.getTime();
-  // };
 
   const handleDateClick = (e) => setSelectedDate(e);
   const handleTimeClick = (e) => setSelectedTime(e.target.value);
