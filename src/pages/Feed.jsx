@@ -50,7 +50,7 @@ function Feed() {
             </li>
           ))
         ) : (
-          <NoResult title="일치하는 결과가 없습니다." contents="필터를 바꾸고 다시 시도해 보세요." />
+          <NoResult title="검색한 조건과 일치하는 장소의 리뷰가 없어요." contents="회원님이 처음으로 리뷰를 작성해보는건 어떠세요?" />
         )}
       </ul>
 

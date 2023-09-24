@@ -1,4 +1,5 @@
 import { pb } from "@/api/pocketbase";
+import { GoX } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import VisitedPlaceInfo from "@c/Review/VisitedPlaceInfo";
 import ReviewKeyword from "@c/Review/ReviewKeyword";
@@ -77,8 +78,11 @@ function ReviewWrite() {
         handleEvent={handleGoBack}
       />
       <Header />
-      <main className="mx-auto mb-10 max-w-3xl px-3">
-        <form method="POST" className="mx-auto mt-4 flex max-w-3xl flex-col flex-wrap gap-4">
+      <main className="mx-auto mb-10 max-w-3xl px-3 relative">
+          <button onClick={() => setOpenModal(true)} className="absolute right-2">
+            <GoX className="text-2xl" />
+          </button>
+        <form method="POST" className="mx-auto mt-4 flex flex-col flex-wrap gap-4">
           <VisitedPlaceInfo />
           <WriteText
             label="리뷰를 남겨주세요"
