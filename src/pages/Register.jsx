@@ -9,6 +9,7 @@ import SignButton from "@c/SignInUp/SignButton";
 import SignForm from "@c/SignInUp/SignForm";
 import SignContents from "@c/SignInUp/SignContents";
 import SignLogo from "@c/SignInUp/SignLogo";
+import { useEffect } from "react";
 
 function Register() {
   const navigate = useNavigate();
@@ -60,7 +61,18 @@ function Register() {
     globalThis.location.href = "/";
     
   }
-  
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Enter') {
+       handleRegister() 
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    
+    // Don't forget to cleanup after component unmounts
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  });
   return (
     <SignContents>
       <SignLogo />
