@@ -1,16 +1,17 @@
 import { pb } from "@/api/pocketbase";
-import { useNavigate } from "react-router-dom";
-import Header from "@l/Header";
-import { alertMessage, isEmailRegValid, isTelRegValid } from "@u/index";
+import PopUpModal from "@/components/PopUpModal";
+import Button from "@c/Button";
+import PlaceInfo from "@c/Reservation/PlaceInfo";
+import ReservationDate from "@c/Reservation/ReservationDate";
 import ReservationGuestCount from "@c/Reservation/ReservationGuestCount";
 import ReservationGuestInfo from "@c/Reservation/ReservationGuestInfo";
-import ReservationDate from "@c/Reservation/ReservationDate";
-import PlaceInfo from "@c/Reservation/PlaceInfo";
 import ScrollToTop from "@c/ScrollTop";
-import Button from "@c/Button";
 import useReservation from "@h/useReservation";
+import Header from "@l/Header";
+import { alertMessage, isEmailRegValid, isTelRegValid } from "@u/index";
 import { useState } from "react";
-import PopUpModal from "@/components/PopUpModal";
+import { GoX } from "react-icons/go";
+import { useNavigate } from "react-router-dom";
 
 function ReservationWrite() {
   const navigate = useNavigate();
@@ -76,6 +77,9 @@ function ReservationWrite() {
 
       <Header />
       <main className="mx-auto mb-10 max-w-3xl px-3">
+        <button onClick={() => setOpenModal(true)} className="float-right">
+          <GoX className="mr-1 text-2xl" />
+        </button>
         <section className="mx-auto my-8 mt-4 max-w-3xl flex-wrap gap-4">
           <h2 className="hidden">가게정보</h2>
           <PlaceInfo />
