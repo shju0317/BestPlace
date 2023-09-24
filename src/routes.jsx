@@ -1,22 +1,23 @@
+import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import { pb } from "@/api/pocketbase";
-import RootLayout from "@l/RootLayout";
-import ReservationWrite from "@p/ReservationWrite";
-import UserReviewList from "@p/UserReviewList";
-import UpdateUserData from "@p/UpdateUserData";
-import ReviewWrite from "@p/ReviewWrite";
-import Reservation from "@p/Reservation";
-import UserReview from "@p/UserReview";
-import Favorites from "@p/Favorites";
-import MyReview from "@p/MyReview";
-import NotFound from "@p/NotFound";
-import Register from "@p/Register";
-import Follow from "@p/Follow";
-import Region from "@p/Region";
-import Login from "@p/Login";
-import Place from "@p/Place";
-import Feed from "@p/Feed";
 
+const RootLayout = lazy(() => import("@l/RootLayout"));
+const ReservationWrite = lazy(() => import("@p/ReservationWrite"));
+const UserReviewList = lazy(() => import("@p/UserReviewList"));
+const UpdateUserData = lazy(() => import("@p/UpdateUserData"));
+const ReviewWrite = lazy(() => import("@p/ReviewWrite"));
+const Reservation = lazy(() => import("@p/Reservation"));
+const UserReview = lazy(() => import("@p/UserReview"));
+const Favorites = lazy(() => import("@p/Favorites"));
+const MyReview = lazy(() => import("@p/MyReview"));
+const NotFound = lazy(() => import("@p/NotFound"));
+const Register = lazy(() => import("@p/Register"));
+const Follow = lazy(() => import("@p/Follow"));
+const Region = lazy(() => import("@p/Region"));
+const Login = lazy(() => import("@p/Login"));
+const Place = lazy(() => import("@p/Place"));
+const Feed = lazy(() => import("@p/Feed"));
 
 let isValidUser = pb.authStore.isValid;
 
@@ -30,7 +31,7 @@ const routerConfig = isValidUser
           { index: true, element: <Feed /> },
           { path: "my-review", element: <MyReview /> },
           { path: "reservation", element: <Reservation /> },
-          { path: "favorite", element: <Favorites /> }
+          { path: "favorite", element: <Favorites /> },
         ],
       },
       { path: "update-user-data", element: <UpdateUserData /> },
