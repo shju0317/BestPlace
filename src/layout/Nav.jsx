@@ -17,7 +17,7 @@ function Nav() {
               <NavLink
                 to={`/${item.url}`}
                 className={({ isActive }) => {
-                  const baseClassName = "px-3";
+                  const baseClassName = "px-3 py-2";
                   return isActive
                     ? `${baseClassName} block border-b-4 border-primary font-extrabold text-primary`
                     : `${baseClassName} text-secondary`;

@@ -8,7 +8,6 @@ function TestLogin() {
 
   async function setAuthAdmin(pb) {
     const authData = await pb.admins.authWithPassword("qqqqmmss11@gmail.com", "asdf@@1234");
-    console.log(pb.authStore.model.email);
   }
 
   function getLogger(pb) {

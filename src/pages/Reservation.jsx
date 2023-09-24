@@ -3,6 +3,7 @@ import NoResult from "@/components/Feed/NoResult";
 import ReservationCount from "@/components/ReservationList/ReservationCount";
 import ReservationList from "@/components/ReservationList/ReservationList";
 import ReservedList from "@/components/ReservationList/ReservedList";
+import ScrollToTop from "@/components/ScrollTop";
 import Spinner from "@/components/Spinner";
 import useReservationList from "@/hooks/useReservationList.js";
 
@@ -29,6 +30,7 @@ function Reservation() {
 
   return reservation.length !== 0 ? (
     <div>
+      <ScrollToTop />
       {/* 현재 예약중 리스트 */}
       <ReservedList userInfo={userInfo} reservedList={reservedList.reverse()} />
 

@@ -1,6 +1,7 @@
 import { pb } from "@/api/pocketbase";
 import { useFetchList } from "@/hooks/useFetchList";
 import { useFollowCountStore } from "@/store/follow";
+import debounce from "@/utils/debounce";
 import { getPbImageURL } from "@u";
 import { bool, shape, string } from "prop-types";
 import { useState, useEffect } from "react";
@@ -10,19 +11,18 @@ import { Link } from "react-router-dom";
 function FeedItemHeader({ item, isUser }) {
   const myId = pb.authStore.model.id;
   const [isFollow, setIsFollow] = useState(false);
-  const setCount = useFollowCountStore((state) => state.setFollowCount);
-
+  const { setFollowCount } = useFollowCountStore();
   const { data, refetch } = useFetchList("follow", { expand: "owner" });
   const { data: reviewData } = useFetchList("reviews", { filter: `writer='${item.writer}'` });
-  const { data: followData } = useFetchList("follow", { filter: `owner='${item.writer}'` });
+  const { data: followData, refetch: refetchWriter } = useFetchList("follow", { filter: `owner='${item.writer}'` });
 
   useEffect(() => {
     const myFollowings = data?.filter((el) => el.expand.owner.id === myId)[0].followings;
     const myFollowers = data?.filter((el) => el.expand.owner.id === myId)[0].followers;
 
-    setCount(myFollowings?.length, myFollowers?.length);
+    setFollowCount(myFollowings?.length, myFollowers?.length);
     myFollowings?.includes(item.expand.writer.id) ? setIsFollow(true) : setIsFollow(false);
-  }, [data, myId, setCount, item]);
+  }, [data, myId, setFollowCount, item]);
 
   const handleFollow = async (e) => {
     let followings;
@@ -54,6 +54,7 @@ function FeedItemHeader({ item, isUser }) {
     }
 
     refetch();
+    refetchWriter();
   };
 
   return (
@@ -98,7 +99,7 @@ function FeedItemHeader({ item, isUser }) {
         <button
           className="h-8 rounded-md bg-gray-100 px-3 text-sm text-gray-500"
           id={item.expand.writer.id}
-          onClick={handleFollow}
+          onClick={debounce((e) => handleFollow(e), 500)}
         >
           팔로우 취소
         </button>
@@ -106,7 +107,7 @@ function FeedItemHeader({ item, isUser }) {
         <button
           className="h-8 rounded-md bg-secondary px-3 text-sm text-white"
           id={item.expand.writer.id}
-          onClick={handleFollow}
+          onClick={debounce((e) => handleFollow(e), 500)}
         >
           팔로우
         </button>

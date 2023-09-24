@@ -17,22 +17,17 @@ function Login() {
   const [pw, setPw] = useState("");
   let idPw = [id, pw];
 
-  // console.log(idPw);
-
   async function isValidId() {
     const usernameData = await read("users", "username");
     const usernamesObj = usernameData.items;
     const usernames = usernamesObj.map((item) => item.username);
-    // console.log(usernamesObj);
-    console.log(usernames);
-    console.log(usernames.includes(id));
+
     return usernames.includes(id);
 
     // return isValidId;
   }
 
   async function handleLogin() {
-    console.log(idPw);
     try {
       await setLogIn(idPw);
       globalThis.location.href = "/";

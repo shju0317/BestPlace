@@ -15,6 +15,10 @@ const idReg = /^[a-zA-Z0-9]{4,20}$/;
 // const telReg = /^(01[016789])-(\d{3,4})-(\d{4})$|^02-(\d{3,4})-(\d{4})$|^\d{2,3}-\d{3,4}-\d{4}$|^\d{2,3}\-\d{4}\-\d{4}$/;
 const telReg = /^01[016789]-?\d{3,4}-?\d{4}$/;
 
+export function isNicknameRegValid(text) {
+  return nicknameReg.test(text);
+}
+
 export function isIdRegValid(text) {
   return idReg.test(text);
 }
