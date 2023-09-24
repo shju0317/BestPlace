@@ -2,6 +2,7 @@ import ScrollTopButton from "@/components/Button/ScrollTopButton";
 import FeedItem from "@/components/Feed/FeedItem/FeedItem";
 import FeedItemFooter from "@/components/Feed/FeedItem/FeedItemFooter";
 import NoResult from "@/components/Feed/NoResult";
+import MetaData from "@c/MetaData";
 import ScrollToTop from "@/components/ScrollTop";
 import Spinner from "@/components/Spinner";
 import { useInfiniteList, useIntersect } from "@/hooks";
@@ -9,6 +10,7 @@ import { useFetchRecord } from "@/hooks/useFetchRecord";
 import Footer from "@/layout/Footer";
 import Header from "@/layout/Header";
 import { useParams } from "react-router-dom";
+import { read } from "@/api/pocketbase";
 
 function Place() {
   const { recordId, placeId } = useParams();
@@ -32,8 +34,15 @@ function Place() {
 
   if (isLoading) return <Spinner />;
 
+  const metaData = {
+    title: `Best Place - ${record.expand.place.title}`,
+    description: `${record.expand.place.address}에 위치한 ${record.expand.place.category}, ${record.expand.place.title}`,
+    keywords: [`${record.expand.place.title}`, `${record.expand.place.category}`, `${record.expand.place.address}`, `${record.keywords}`],
+    image: `${record.photos}`,
+  };
   return (
     <div className="relative min-h-screen pb-28">
+      <MetaData props={metaData} />
       <ScrollToTop />
 
       <Header />
