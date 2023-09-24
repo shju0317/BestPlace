@@ -36,7 +36,7 @@ function ReservationDate() {
 
   return (
     <>
-      <div>
+      <div className="flex justify-center">
         <label htmlFor="date" className="hidden">캘린더</label>
         <Calendar id="date"
           calendarType={"gregory"}
