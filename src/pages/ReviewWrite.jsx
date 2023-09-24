@@ -13,7 +13,6 @@ import useReview from "@h/useReview";
 import Header from "@l/Header";
 import { useState } from "react";
 
-
 function ReviewWrite() {
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
@@ -58,7 +57,6 @@ function ReviewWrite() {
       navigate("/reservation");
     } catch (error) {
       alertMessage("요청하신 작업을 수행하지 못했습니다.", "❗");
-      console.log("데이터 전송 실패:", error);
     }
   };
 
@@ -78,10 +76,10 @@ function ReviewWrite() {
         handleEvent={handleGoBack}
       />
       <Header />
-      <main className="mx-auto mb-10 max-w-3xl px-3 relative">
-          <button onClick={() => setOpenModal(true)} className="absolute right-2">
-            <GoX className="text-2xl" />
-          </button>
+      <main className="relative mx-auto mb-10 max-w-3xl px-3">
+        <button onClick={() => setOpenModal(true)} className="absolute right-2">
+          <GoX className="text-2xl" />
+        </button>
         <form method="POST" className="mx-auto mt-4 flex flex-col flex-wrap gap-4">
           <VisitedPlaceInfo />
           <WriteText

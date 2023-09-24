@@ -41,6 +41,7 @@ function SignInput({
         <img
           className="mx-5 mt-3 h-[120px] w-[120px] cursor-pointer rounded-full  border-4 border-primary"
           src={fileUrl}
+          alt="프로필 사진"
           onClick={handleClickImage}
         />
 

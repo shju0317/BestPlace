@@ -20,7 +20,7 @@ export async function autoA11yTest({ locale = "ko", timeout = 1000 } = {}) {
 }
 
 // 한국어 출력
-autoA11yTest();
+// autoA11yTest();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

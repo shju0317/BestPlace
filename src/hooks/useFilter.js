@@ -7,7 +7,6 @@ export const useFilterCategory = (fetchData) => {
   let data = [];
   let filteredData = [];
   const category = useCategoryStore((state) => state.category);
-
   fetchData && (filteredData = _.cloneDeep(fetchData));
   filteredData.forEach((el) => {
     const filteredItems = el.items.filter((el) => category.includes(el.expand.place.category));

@@ -3,7 +3,6 @@ import { useFetchList } from "@/hooks/useFetchList";
 import { useFollowCountStore } from "@/store/follow";
 import { getPbImageURL } from "@/utils";
 import { BsPencilFill } from "react-icons/bs";
-import { FaUserEdit } from "react-icons/fa";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
@@ -11,6 +10,8 @@ function Profile() {
   const userInfo = pb.authStore.model;
   const followCount = useFollowCountStore((state) => state.followCount);
   const { data: reviewData } = useFetchList("reviews", { filter: `writer='${userInfo.id}'` });
+  const { data: followData } = useFetchList("follow", { filter: `owner='${userInfo.id}'` });
+  const myFollow = followData && followData[0];
 
   return (
     <div className="mx-auto flex max-w-3xl justify-start px-3 py-4">
@@ -54,14 +55,14 @@ function Profile() {
                 <Link to={"/follow"}>
                   <div className="flex flex-col items-center border-r border-primary px-4 text-sm">
                     <span>팔로잉</span>
-                    <span className="font-semibold">{followCount.following}</span>
+                    <span className="font-semibold">{followCount.following || myFollow?.followings.length}</span>
                   </div>
                 </Link>
 
                 <Link to={"/follow"}>
                   <div className="flex flex-col items-center pl-4 text-sm">
                     <span>팔로워</span>
-                    <span className="font-semibold">{followCount.follower}</span>
+                    <span className="font-semibold">{followCount.follower || myFollow?.followers.length}</span>
                   </div>
                 </Link>
               </div>

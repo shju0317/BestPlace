@@ -6,7 +6,7 @@ import { Keyboard, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
-const CATEGORY = ["전체", "한식", "양식", "일식", "중식", "카페", "아시아/퓨전 음식", "뷔페/레스토랑", "술집"];
+const CATEGORY = ["전체", "한식", "양식", "일식", "중식", "카페", "술집", "동남아 음식", "레스토랑", "뷔페"];
 
 function SwiperCategory() {
   const { category: selectedCategory, addCategory, removeCategory, resetCategory } = useCategoryStore();
@@ -17,7 +17,6 @@ function SwiperCategory() {
 
   const handleActive = (e) => {
     const selectedItem = e.target.id;
-
     if (selectedItem === "전체") {
       resetCategory();
       return;
@@ -27,7 +26,13 @@ function SwiperCategory() {
   };
 
   return (
-    <Swiper spaceBetween={8} slidesPerView={"auto"} navigation={true} keyboard={{enabled: true}} modules={[Navigation, Keyboard]}>
+    <Swiper
+      spaceBetween={8}
+      slidesPerView={"auto"}
+      navigation={true}
+      keyboard={{ enabled: true }}
+      modules={[Navigation, Keyboard]}
+    >
       {CATEGORY.map((item, index) => (
         <SwiperSlide
           key={index}

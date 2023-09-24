@@ -9,6 +9,7 @@ import { array, func, object, string } from "prop-types";
 import { useEffect, useState } from "react";
 import { GoChevronLeft } from "react-icons/go";
 import { IoPersonCircleSharp } from "react-icons/io5";
+import debounce from "@/utils/debounce";
 
 function Follow() {
   const [selectGroup, setSelectGroup] = useState("following");
@@ -75,7 +76,7 @@ function Follow() {
         </div>
         {/* 리스트 */}
         {isLoading ? (
-          <Spinner className="mx-auto"/>
+          <Spinner className="mx-auto" />
         ) : renderList.length !== 0 ? (
           <div>
             {renderList.map((item, index) => (
@@ -155,11 +156,19 @@ function FollowButton({ myId, item, data, refetch, myData, followingId }) {
   return (
     <>
       {isFollow ? (
-        <button className="h-8 rounded-md bg-gray-100 px-3 text-sm text-gray-500" id={item.id} onClick={handleFollow}>
+        <button
+          className="h-8 rounded-md bg-gray-100 px-3 text-sm text-gray-500"
+          id={item.id}
+          onClick={debounce((e) => handleFollow(e), 500)}
+        >
           팔로우 취소
         </button>
       ) : (
-        <button className="h-8 rounded-md bg-secondary px-3 text-sm text-white" id={item.id} onClick={handleFollow}>
+        <button
+          className="h-8 rounded-md bg-secondary px-3 text-sm text-white"
+          id={item.id}
+          onClick={debounce((e) => handleFollow(e), 500)}
+        >
           팔로우
         </button>
       )}
