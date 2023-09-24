@@ -1,7 +1,7 @@
-import { pb, read, create, update, setLogIn } from "@/api/pocketbase";
+import { create, setLogIn } from "@/api/pocketbase";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { alertMessage, alertUnableInput, isRegValid } from "@u/index";
+import { alertMessage, alertUnableInput, isUsed } from "@u/index";
 
 import SignTitle from "@c/SignInUp/SignTitle";
 import SignInput from "@c/SignInUp/SignInput";
@@ -20,26 +20,26 @@ function Register() {
   const [pw, setPw] = useState("");
   const [pwCheck, setPwCheck] = useState("");
 
-  const UserDataFormat = {
-    id: "",
-    collectionName: "users",
-    collectionId: "_pb_users_auth_",
-    emailVisibility: false,
-    verified: false,
-    created: "2023-08-31 06:35:29.391Z",
-    updated: "2023-08-31 06:35:29.391Z",
-    follower: [],
-    following: [],
-    favorites: [],
-    review: [],
-    username: "id와 같음",
-    nickname: "별명",
-    email: "",
-    password: "",
-    passwordConfirm: "",
-    avatar: "",
-    regions: [],
-  };
+  // const UserDataFormat = {
+  //   id: "",
+  //   collectionName: "users",
+  //   collectionId: "_pb_users_auth_",
+  //   emailVisibility: false,
+  //   verified: false,
+  //   created: "2023-08-31 06:35:29.391Z",
+  //   updated: "2023-08-31 06:35:29.391Z",
+  //   follower: [],
+  //   following: [],
+  //   favorites: [],
+  //   review: [],
+  //   username: "id와 같음",
+  //   nickname: "별명",
+  //   email: "",
+  //   password: "",
+  //   passwordConfirm: "",
+  //   avatar: "",
+  //   regions: [],
+  // };
 
   const createData = {
     nickname: nickname,
@@ -47,32 +47,37 @@ function Register() {
     email: email,
     password: pw,
     passwordConfirm: pwCheck,
+    emailVisibility: true,
   };
 
   async function handleRegister() {
-    alertUnableInput(createData)
+    if (alertUnableInput(createData)) return;
 
-    if(pw !== pwCheck && isRegValid("password", pw)){
-      alertMessage("비밀번호가 일치하지 않습니다")
+    if (pw !== pwCheck) {
+      return alertMessage("비밀번호가 일치하지 않습니다");
     }
-    await create("users", createData);
+
+    const used = await isUsed(createData);
+    if (used) return;
+
+    const data = await create("users", createData);
+    data && (await create("follow", { owner: data.id }));
     await setLogIn([id, pw]);
-    await create("follow", { owner: pb.authStore.model.id});
     globalThis.location.href = "/";
-    
   }
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === 'Enter') {
-       handleRegister() 
+      if (event.key === "Enter") {
+        handleRegister();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    
+    window.addEventListener("keydown", handleKeyDown);
+
     // Don't forget to cleanup after component unmounts
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   });
+
   return (
     <SignContents>
       <SignLogo />
@@ -91,18 +96,18 @@ function Register() {
           ariaText="비밀번호 입력창"
           placeHolder="비밀번호를 입력하세요"
           inputValue={setPw}
-          type= "password"
+          type="password"
         />
         <SignInput
           labelValue="비밀번호 확인"
           ariaText="비밀번호 재입력창"
           placeHolder="비밀번호를 다시 입력하세요"
           inputValue={setPwCheck}
-          type= "password"
+          type="password"
         />
       </SignForm>
 
-      <div className="flex flex-col gap-2 max-w-3xl w-full">
+      <div className="flex w-full max-w-3xl flex-col gap-2">
         <SignButton value="회원가입" handleEvent={() => handleRegister()} bgColor="bg-white" textColor="text-black" />
         <SignButton value="로그인으로 돌아가기" handleEvent={() => navigate("/")} />
       </div>

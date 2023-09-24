@@ -1,7 +1,8 @@
 import { string, func } from "prop-types";
-import { useState } from "react";
-import { pb, read } from "@/api/pocketbase";
+import { useState, useRef } from "react";
+import { pb } from "@/api/pocketbase";
 import { getPbImageURL } from "./../../utils/getPbImageURL";
+
 function SignInput({
   labelValue,
   ariaText,
@@ -11,7 +12,7 @@ function SignInput({
   textColor = "text-white",
   placeHolderColor = "placeholder-white",
 }) {
-  const [inputChange, setInputChange] = useState();
+  const [inputChange] = useState();
   const [fileUrl, setFileUrl] = useState(
     pb.authStore.model.avatar ? getPbImageURL(pb.authStore.model, pb.authStore.model.avatar) : "/button-check.svg"
   );
@@ -24,7 +25,7 @@ function SignInput({
     setFileUrl(url);
     inputValue(selectedFile);
   };
-  const inputFileRef = useState(); // Create a ref
+  const inputFileRef = useRef(); // Create a ref
 
   const handleClickImage = () => {
     inputFileRef.current.click(); // Simulate click on input when image is clicked
@@ -38,7 +39,7 @@ function SignInput({
 
       <div className="flex flex-col items-center">
         <img
-          className="mx-5 mt-3 h-32 w-32 rounded-full border-4  border-primary"
+          className="mx-5 mt-3 h-[120px] w-[120px] cursor-pointer rounded-full  border-4 border-primary"
           src={fileUrl}
           onClick={handleClickImage}
         />
@@ -50,7 +51,7 @@ function SignInput({
           onChange={handleChangeInput}
           value={inputChange}
           id="signInputId"
-          className={`hidden ${textColor} ${bgColor} ${placeHolderColor} w-full rounded px-7 py-4 text-base`}
+          className={`hidden ${textColor} ${bgColor} ${placeHolderColor} w-full cursor-pointer rounded px-7 py-4 text-base`}
           aria-label={ariaText}
           placeholder={placeHolder}
         />
