@@ -10,7 +10,7 @@ function ReservationCount({ userInfo, visitedList }) {
   const { data: visitData } = useFetchVisitData();
   const [isSeeMore, setIsSeeMore] = useState(false);
   let renderList = !isSeeMore ? visitData?.slice(0, 3) : visitData?.slice(0, 9);
-  let firstCount = renderList ? renderList[0][1] : 0;
+  let firstCount = renderList.length !== 0 ? renderList[0][1] : 0;
 
   function handleClickButton() {
     setIsSeeMore(!isSeeMore);
