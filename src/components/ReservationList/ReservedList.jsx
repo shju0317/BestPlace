@@ -1,11 +1,23 @@
+import { update } from "@/api/pocketbase";
 import { calcDay, dateFormat, timeFormat } from "@/utils";
+import { Dropdown } from "flowbite-react";
 import { array, object } from "prop-types";
 import { BsCalendarWeek } from "react-icons/bs";
-
-
+import { MdMoreVert } from "react-icons/md";
 
 //@ 현재 예약중 리스트
 function ReservedList({ reservedList, userInfo }) {
+  function handleClickChangeVisit(e) {
+    console.log(e.target.closest("li").id);
+    update("reservation", e.target.closest("li").id, { visited: true });
+    // location.reload();
+  }
+
+  function handleClickChangeCancel(e) {
+    update("reservation", e.target.closest("li").id, { canceled: true });
+    // location.reload();
+  }
+
   return (
     <div className="mb-8 border-b border-dashed border-gray-500/50 pb-8">
       <h3 className="mb-4 mt-2 text-lg font-bold">
@@ -15,10 +27,28 @@ function ReservedList({ reservedList, userInfo }) {
 
       <ul>
         {reservedList.map((item, index) => (
-          <li key={index} className="my-2 rounded-2xl border-2 border-primary p-4">
+          <li key={index} className="my-2 rounded-2xl border-2 border-primary p-4" id={item.id}>
             <p className="inline rounded-xl bg-primary px-1.5 py-0.5 text-xs font-bold text-white">
               {calcDay(item.date)}
             </p>
+            <div className="float-right">
+              <Dropdown inline arrowIcon={null} label={<MdMoreVert />}>
+                <button
+                  type="button"
+                  className="mx-3 block border-b border-gray-500 bg-transparent py-1 text-center text-sm font-semibold"
+                  onClick={handleClickChangeVisit}
+                >
+                  방문 확인
+                </button>
+                <button
+                  type="button"
+                  className="mx-3 block bg-transparent py-1 text-center text-sm font-semibold"
+                  onClick={handleClickChangeCancel}
+                >
+                  예약 취소
+                </button>
+              </Dropdown>
+            </div>
             <h4 className="mt-1 font-bold">{item.expand.place.title}</h4>
             <p className="text-sm font-light">
               {dateFormat(item.date)} <span className="mx-1 font-normal opacity-40">|</span>

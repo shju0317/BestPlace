@@ -1,8 +1,9 @@
 import { pb, update } from "@/api/pocketbase";
 import ScrollToTop from "@/components/ScrollTop";
 import { useFetchList } from "@/hooks/useFetchList";
-import Header from "@/layout/header";
+import Header from "@l/Header";
 import { getPbImageURL } from "@/utils";
+import { array, func, object, string } from "prop-types";
 import { useEffect } from "react";
 import { useState } from "react";
 import { GoChevronLeft } from "react-icons/go";
@@ -10,13 +11,14 @@ import { IoPersonCircleSharp } from "react-icons/io5";
 
 function Follow() {
   const [selectGroup, setSelectGroup] = useState("following");
-  const userInfo = pb.authStore.model;
 
+  const myId = pb.authStore.model.id;
   const { data, refetch } = useFetchList("follow", { expand: "followers,followings" });
-  const userData = data?.filter((item) => item.owner === userInfo.id)[0];
-  const followingList = userData?.expand.followings || [];
+  const myData = data?.filter((item) => item.owner === myId)[0];
+
+  const followingList = myData?.expand.followings || [];
+  const followerList = myData?.expand.followers || [];
   const followingId = followingList.map((item) => item.id);
-  const followerList = userData?.expand.followers || [];
 
   let renderList = [];
   renderList = selectGroup === "following" ? followingList : followerList;
@@ -34,25 +36,6 @@ function Follow() {
         setSelectGroup("follower");
         break;
     }
-  }
-
-  async function handleFollow(e) {
-    let postUserData;
-    let postTargetData;
-    const targetData = data?.filter((item) => item.owner === e.target.id)[0];
-    let target = data?.filter((item) => item.owner === e.target.id)[0].followers;
-    if (followingId.includes(e.target.id)) {
-      postUserData = followingId.filter((item) => item !== e.target.id);
-      postTargetData = target.filter((item) => item !== userInfo.id);
-    } else {
-      postUserData = [...followingId, e.target.id];
-      postTargetData = [...target, userInfo.id];
-    }
-
-    update("follow", userData.id, { followings: postUserData });
-    update("follow", targetData.Id, { followers: postTargetData });
-
-    await refetch();
   }
 
   return (
@@ -111,23 +94,14 @@ function Follow() {
                   <p>{item.nickname}</p>
                 </dd>
               </dl>
-              {followingId.includes(item.id) ? (
-                <button
-                  className="h-8 rounded-md bg-gray-100 px-3 text-sm text-gray-500"
-                  id={item.id}
-                  onClick={handleFollow}
-                >
-                  팔로우 취소
-                </button>
-              ) : (
-                <button
-                  className="h-8 rounded-md bg-secondary px-3 text-sm text-white"
-                  id={item.id}
-                  onClick={handleFollow}
-                >
-                  팔로우
-                </button>
-              )}
+              <FollowButton
+                myId={myId}
+                item={item}
+                data={data}
+                refetch={refetch}
+                myData={myData}
+                followingId={followingId}
+              />
             </div>
           ))}
         </div>
@@ -135,5 +109,64 @@ function Follow() {
     </>
   );
 }
+
+function FollowButton({ myId, item, data, refetch, myData, followingId }) {
+  const [isFollow, setIsFollow] = useState(false);
+
+  useEffect(() => {
+    const followingList = myData?.expand.followings?.map((el) => el.id);
+    followingList?.includes(item.id) ? setIsFollow(true) : setIsFollow(false);
+  }, [item, myData]);
+
+  async function handleFollow(e) {
+    let postUserData;
+    let postTargetData;
+
+    const targetData = data?.filter((item) => item.owner === e.target.id)[0];
+    let target = data?.filter((item) => item.owner === e.target.id)[0].followers;
+
+    if (followingId.includes(e.target.id)) {
+      postUserData = followingId.filter((item) => item !== e.target.id);
+      postTargetData = target.filter((item) => item !== myId);
+      setIsFollow(false);
+    } else {
+      postUserData = [...followingId, e.target.id];
+      postTargetData = [...target, myId];
+      setIsFollow(true);
+    }
+
+    try {
+      await update("follow", myData.id, { followings: postUserData });
+      await update("follow", targetData.id, { followers: postTargetData });
+    } catch (error) {
+      console.error(error);
+    }
+
+    refetch();
+  }
+
+  return (
+    <>
+      {isFollow ? (
+        <button className="h-8 rounded-md bg-gray-100 px-3 text-sm text-gray-500" id={item.id} onClick={handleFollow}>
+          팔로우 취소
+        </button>
+      ) : (
+        <button className="h-8 rounded-md bg-secondary px-3 text-sm text-white" id={item.id} onClick={handleFollow}>
+          팔로우
+        </button>
+      )}
+    </>
+  );
+}
+
+FollowButton.propTypes = {
+  myId: string,
+  item: object,
+  data: array,
+  refetch: func,
+  myData: object,
+  followingId: array,
+};
 
 export default Follow;

@@ -50,10 +50,10 @@ function SetRegion() {
   };
 
   return (
-    <div>
+    <>
       <ScrollToTop />
       <Header />
-      <div className="mx-auto max-w-3xl">
+      <main className="mx-auto max-w-3xl px-3">
         <div className="sticky top-0 z-10 bg-gradient-to-b from-white from-80% to-white/10 to-90% pb-8">
           {isFocusSearchBar || (
             <div>
@@ -93,8 +93,8 @@ function SetRegion() {
             <RegionSaveButton onClick={setRegionList} />
           </div>
         )}
-      </div>
-    </div>
+      </main>
+    </>
   );
 }
 

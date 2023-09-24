@@ -13,7 +13,7 @@ import Profile from "./../components/Profile";
 import ReviewPhoto from "@/components/Review/ReviewPhoto";
 import { isRegValid, alertReg, alertMessage } from "@u/index";
 import { getPbImageURL } from "./../utils/getPbImageURL";
-import Header from './../layout/header';
+import Header from "@l/Header";
 
 function Register() {
   const navigate = useNavigate();
@@ -79,7 +79,7 @@ function Register() {
   return (
     <>
       <Header />
-      <div className="flex flex-col gap-20 py-10 px-8">
+      <div className="flex flex-col items-center gap-10 px-8 py-40 ">
         <SignTitle value="회원정보 업데이트" />
 
         <SignForm>
@@ -141,7 +141,7 @@ function Register() {
           {/* <SignButton value="탈퇴" handleEvent={() => getPw()} bgColor="bg-white" textColor="text-red-600" /> */}
         </SignForm>
 
-        <div className="flex gap-2">
+        <div className="flex w-full max-w-3xl gap-2">
           <SignButton value="취소" handleEvent={() => navigate("/")} bgColor="bg-white" textColor="text-red-600" />
           <SignButton
             value="수정완료"
