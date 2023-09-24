@@ -1,5 +1,6 @@
 import { pb } from "@/api/pocketbase";
 import { useFetchList } from "@/hooks/useFetchList";
+import { useFollowCountStore } from "@/store/follow";
 import { getPbImageURL } from "@u";
 import { bool, shape, string } from "prop-types";
 import { useState, useEffect } from "react";
@@ -7,16 +8,21 @@ import { IoPersonCircleSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 function FeedItemHeader({ item, isUser }) {
-  const [isFollow, setIsFollow] = useState(false);
   const myId = pb.authStore.model.id;
+  const [isFollow, setIsFollow] = useState(false);
+  const setCount = useFollowCountStore((state) => state.setFollowCount);
+
   const { data, refetch } = useFetchList("follow", { expand: "owner" });
   const { data: reviewData } = useFetchList("reviews", { filter: `writer='${item.writer}'` });
   const { data: followData } = useFetchList("follow", { filter: `owner='${item.writer}'` });
 
   useEffect(() => {
     const myFollowings = data?.filter((el) => el.expand.owner.id === myId)[0].followings;
+    const myFollowers = data?.filter((el) => el.expand.owner.id === myId)[0].followers;
+
+    setCount(myFollowings?.length, myFollowers?.length);
     myFollowings?.includes(item.expand.writer.id) ? setIsFollow(true) : setIsFollow(false);
-  }, [data, myId, item]);
+  }, [data, myId, setCount, item]);
 
   const handleFollow = async (e) => {
     let followings;
