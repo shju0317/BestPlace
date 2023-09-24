@@ -8,6 +8,7 @@ import { useUserInfo } from "@/hooks/useUserInfo";
 import { getPbImageURL } from "@/utils";
 import { useState } from "react";
 import { BsTrashFill } from "react-icons/bs";
+import MetaData from "@c//MetaData";
 
 function Favorites() {
   const myId = pb.authStore.model.id;
@@ -33,8 +34,16 @@ function Favorites() {
 
   if (isLoading) return <Spinner />;
 
+  const metaData = {
+    title: "Best Place - 저장",
+    description: "즐겨찾기에 저장한 맛집들",
+    keywords: ["지도", "맛집", "즐겨찾기"],
+    image: "/logo.svg",
+  };
+
   return (
     <>
+      <MetaData props={metaData} />
       <ScrollToTop />
       <PopUpModal
         openModal={openModal}

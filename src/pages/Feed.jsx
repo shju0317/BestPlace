@@ -7,6 +7,7 @@ import SwiperCategory from "@/components/SwiperCategory";
 import { useFilterRegion } from "@/hooks";
 import { useFilterCategory, useInfiniteList } from "@/hooks";
 import ScrollToTop from "@/components/ScrollTop";
+import MetaData from "@c/MetaData";
 
 function Feed() {
   const { data: fetchData, isLoading, hasNextPage, fetchNextPage } = useInfiniteList("reviews");
@@ -29,8 +30,16 @@ function Feed() {
 
   if (isLoading) return <Spinner />;
 
+  const metaData = {
+    title: "Best Place - 피드",
+    description: "식당 리뷰를 시간순으로 보여주기",
+    keywords: ["맛집", "리뷰", "커뮤니티"],
+    image: "/logo.svg",
+  };
+
   return (
     <>
+      <MetaData props={metaData} />
       <ScrollToTop />
       <h2 className="sr-only">피드 페이지</h2>
 
@@ -50,7 +59,10 @@ function Feed() {
             </li>
           ))
         ) : (
-          <NoResult title="검색한 조건과 일치하는 장소의 리뷰가 없어요." contents="회원님이 처음으로 리뷰를 작성해보는건 어떠세요?" />
+          <NoResult
+            title="검색한 조건과 일치하는 장소의 리뷰가 없어요."
+            contents="회원님이 처음으로 리뷰를 작성해보는건 어떠세요?"
+          />
         )}
       </ul>
 
