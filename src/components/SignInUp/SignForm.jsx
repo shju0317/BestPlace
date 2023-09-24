@@ -1,5 +1,5 @@
 function SignForm({ children }) {
-  return <form className="flex flex-col gap-2 max-w-3xl w-full">{children}</form>;
+  return <form className="flex w-full max-w-3xl flex-col gap-3 py-6">{children}</form>;
 }
 
 export default SignForm;

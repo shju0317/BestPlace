@@ -1,25 +1,37 @@
-import { pb, read } from "@/api/pocketbase";
+import { pb } from "@/api/pocketbase";
 import { isRegValid, alertReg, alertMessage } from "@u/index";
 
-async function isUsed(field, value) {
-  if (field === "password") {
-    return false;
+export async function isUsed(createdData) {
+  if (!createdData) return;
+  const fieldData = await pb.collection("users").getFullList();
+  const nickNames = fieldData.map((item) => item.nickname);
+  const emails = fieldData.map((item) => item.email);
+  const userNames = fieldData.map((item) => item.username);
+
+  if (nickNames.includes(createdData.nickname)) {
+    alertMessage(`이미 사용중인 별명이 있습니다.`);
+    return true;
   }
-  const fieldData = await read("users", field);
-  const fieldObj = fieldData.items;
-  const fieldArr = fieldObj.map((item) => item[field]);
-  return fieldArr.includes(value);
+  if (emails.includes(createdData.email)) {
+    alertMessage(`이미 사용중인 이메일이 있습니다.`);
+    return true;
+  }
+  if (userNames.includes(createdData.username)) {
+    alertMessage(`이미 사용중인 아이디가 있습니다.`);
+    return true;
+  }
 }
 
-export async function alertUnableInput(data) {
+export function alertUnableInput(data) {
   for (const [key, value] of Object.entries(data)) {
     if (!isRegValid(key, value)) {
       alertReg(key);
-      return;
+      return true;
     }
-    if (await isUsed(key, value)) {
-      alertMessage(`이미 사용된 ${key}입니다`);
-      return;
+
+    if (!value) {
+      alertMessage("비어있는 내용이 있습니다. 확인해주세요.");
+      return true;
     }
   }
 }

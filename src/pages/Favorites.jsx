@@ -2,7 +2,8 @@ import { pb } from "@/api/pocketbase";
 import NoResult from "@/components/Feed/NoResult";
 import PopUpModal from "@/components/PopUpModal";
 import ScrollToTop from "@/components/ScrollTop";
-import Kakaomap from "@/components/Kakaomap";
+import Spinner from "@/components/Spinner";
+import Kakaomap from "@/components/kakaomap";
 import { useUserInfo } from "@/hooks/useUserInfo";
 import { getPbImageURL } from "@/utils";
 import { useState } from "react";
@@ -13,7 +14,7 @@ function Favorites() {
   const userFavorites = pb.authStore.model.favorites;
   const [openModal, setOpenModal] = useState(false);
   const [itemId, setItemId] = useState("");
-  const { data, refetch } = useUserInfo(myId, "favorites");
+  const { data, refetch, isLoading } = useUserInfo(myId, "favorites");
   const favorites = data?.expand?.favorites?.length && data?.expand.favorites;
 
   const handleDelete = async () => {
@@ -29,6 +30,8 @@ function Favorites() {
     setOpenModal(false);
     refetch();
   };
+
+  if (isLoading) return <Spinner />;
 
   return (
     <>

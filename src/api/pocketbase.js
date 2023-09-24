@@ -29,13 +29,11 @@ export async function read(collection, field = "", itemId = "") {
     return itemData;
   }
 
-  const FieldData = await pb.collection(collection).getList(1, 10, {
-    fields: field,
-  });
-
-  const collectionData = await pb.collection(collection).getList(1, 10);
-
-  return field ? FieldData : collectionData;
+  return field
+    ? await pb.collection(collection).getList(1, 10, {
+        fields: field,
+      })
+    : await pb.collection(collection).getList(1, 10);
 }
 
 // 콜랙션 전부 읽기
