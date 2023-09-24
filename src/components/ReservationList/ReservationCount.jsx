@@ -6,6 +6,7 @@ import { MdOutlineCheck } from "react-icons/md";
 
 //@ 예약 횟수 컴포넌트
 function ReservationCount({ userInfo, visitedList }) {
+  const [onFocus, setOnFocus] = useState(false);
   const { data: visitData } = useFetchVisitData();
   const [isSeeMore, setIsSeeMore] = useState(false);
   let renderList = !isSeeMore ? visitData?.slice(0, 3) : visitData?.slice(0, 9);
@@ -13,6 +14,10 @@ function ReservationCount({ userInfo, visitedList }) {
 
   function handleClickButton() {
     setIsSeeMore(!isSeeMore);
+  }
+
+  function handleFocusButton() {
+    setOnFocus(!onFocus);
   }
 
   return (
@@ -50,9 +55,19 @@ function ReservationCount({ userInfo, visitedList }) {
           renderList?.length < 3 ? "hidden" : ""
         }`}
       >
-        <input type="checkbox" className="sr-only" onChange={handleClickButton} id="seeMoreButton" />
-        <span>{!isSeeMore ? "더보기" : "접기"}</span>
-        {!isSeeMore ? <BsChevronDown /> : <BsChevronUp />}
+        <input
+          type="checkbox"
+          className="sr-only"
+          onChange={handleClickButton}
+          id="seeMoreButton"
+          tabIndex={0}
+          onFocus={handleFocusButton}
+          onBlur={handleFocusButton}
+        />
+        <p className={onFocus ? "border-2 border-black rounded-md px-1" : "py-0.5"}>
+          <span>{!isSeeMore ? "더보기" : "접기"}</span>
+          {!isSeeMore ? <BsChevronDown className="inline" /> : <BsChevronUp className="inline" />}
+        </p>
       </label>
     </div>
   );
