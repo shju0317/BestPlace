@@ -21,7 +21,7 @@ function ReservationCount({ userInfo, visitedList }) {
   }
 
   return (
-    <div className="mb-8 border-b border-dashed border-gray-500/50 pb-8">
+    <div className="my-8 border-b border-dashed border-gray-500/50 pb-8">
       <h3 className="mb-6 text-lg font-bold">
         <MdOutlineCheck className="mr-2 inline align-bottom text-3xl" />
         <span className="mx-0.5 text-secondary">{userInfo.nickname}</span>님은 LION PLACE로
@@ -37,7 +37,7 @@ function ReservationCount({ userInfo, visitedList }) {
                 {index + 1}
               </span>
               <h4 className="grow font-semibold">{item[0]}</h4>
-              <p className="font-bold">{item[1]}회</p>
+              <p className="font-bold mr-1">{item[1]}회</p>
             </div>
             <div className="mt-2 h-0.5 w-full rounded-md bg-gray-200">
               <div

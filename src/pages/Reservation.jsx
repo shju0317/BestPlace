@@ -2,16 +2,19 @@ import { pb } from "@/api/pocketbase";
 import ReservationCount from "@/components/ReservationList/ReservationCount";
 import ReservationList from "@/components/ReservationList/ReservationList";
 import ReservedList from "@/components/ReservationList/ReservedList";
+import Spinner from "@/components/Spinner";
 import useReservationList from "@/hooks/useReservationList.js";
 
 //@ 예약 페이지 컴포넌트
 function Reservation() {
   let userInfo = pb.authStore.model;
-  const { data: reservation } = useReservationList();
+  const { data: reservation, isLoading } = useReservationList();
   let reservedList = [];
   let progressList = [];
   let visitedList = [];
   let canceledList = [];
+  
+  if (isLoading) return <Spinner />;
 
   reservation?.forEach((item) => {
     !item.canceled && !item.visited

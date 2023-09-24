@@ -35,9 +35,6 @@ function ReservationList({ userInfo, visitedList, canceledList }) {
     case "cancel":
       renderList = infiniteList.filter((i) => i.canceled) || null;
       break;
-    // case "date":
-    // renderList = infiniteList.filter((i) => );
-    // break;
     default:
       renderList = infiniteList;
   }
@@ -129,21 +126,6 @@ function ReservationList({ userInfo, visitedList, canceledList }) {
             예약 취소 <span className="pl-0.5">{canceledList.length}</span>
           </p>
         </label>
-
-        {/* <label
-          htmlFor="filterDateButton"
-          className={`rounded-xl border border-gray-200/50 px-4 py-2 text-sm ${
-            filter === "date"
-              ? `border-0 bg-primary text-white shadow-md`
-              : `border text-gray-600 shadow-md`
-          }`}
-        >
-          <input type="radio" name="filter" id="filterDateButton" value="date" onChange={onChangeRadio} />
-          <p className="flex items-center">
-            기간 선택
-            <BsCalendarWeek className="ml-2 text-primary" />
-          </p>
-        </label> */}
       </div>
 
       <ul className="mb-8">
@@ -157,7 +139,7 @@ function ReservationList({ userInfo, visitedList, canceledList }) {
                   {dateFormat(item.date)} <span className="mx-1 font-normal opacity-40">|</span> {timeFormat(item.date)}
                 </p>
               </div>
-              <div className="flex gap-2 text-lg">
+              <div className="flex gap-2 text-lg mr-1">
                 <Dropdown inline arrowIcon={null} label={<MdMoreVert />} style={null}>
                   <Link to={"/reservation-write"} state={{ userInfo, item }}>
                     <p className="mx-3 my-1 bg-transparent text-center  text-sm font-semibold">+ 재예약</p>
