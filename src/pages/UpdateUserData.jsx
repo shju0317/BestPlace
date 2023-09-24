@@ -1,29 +1,27 @@
 import { useState } from "react";
 import { pb, read, update } from "@/api/pocketbase";
 import { useNavigate } from "react-router-dom";
-
+import { isRegValid, alertReg, alertMessage } from "@u/index";
 import SignTitle from "@c/SignInUp/SignTitle";
 import SignInput from "@c/SignInUp/SignInput";
 import SignPhoto from "@c/SignInUp/SignPhoto";
 import SignButton from "@c/SignInUp/SignButton";
 import SignForm from "@c/SignInUp/SignForm";
-import SignContents from "@c/SignInUp/SignContents";
-import { produce } from "immer";
-import Profile from "./../components/Profile";
-import ReviewPhoto from "@/components/Review/ReviewPhoto";
-import { isRegValid, alertReg, alertMessage } from "@u/index";
-import { getPbImageURL } from "./../utils/getPbImageURL";
-import Header from "@l/Header";
+import Header from "./../layout/header";
+// import SignContents from "@c/SignInUp/SignContents";
+// import { produce } from "immer";
+// import Profile from "./../components/Profile";
+// import ReviewPhoto from "@/components/Review/ReviewPhoto";
+// import { getPbImageURL } from "./../utils/getPbImageURL";
 
 function Register() {
   const navigate = useNavigate();
 
+  // const [pw, setPw] = useState();
   const [avatar, setAvatar] = useState(pb.authStore.model.avatar);
   const [nickname, setNickname] = useState(pb.authStore.model.nickname);
   const [username, setUsername] = useState(pb.authStore.model.username);
   const [email, setEmail] = useState(pb.authStore.model.email);
-
-  const [pw, setPw] = useState();
 
   const updateData = {
     avatar: avatar,
@@ -53,7 +51,7 @@ function Register() {
 
       if (!(value === pb.authStore.model[key])) {
         if (await isUsed(key, value)) {
-          alertMessage(`이미 사용된 ${key}입니다`);
+          alertMessage(`이미 사용중인 닉네임입니다.`);
           return;
         }
         if (!isRegValid(key, value)) {
@@ -62,29 +60,29 @@ function Register() {
         }
       }
     }
-    console.log(updateData);
+
     appendFormData();
     await update("users", pb.authStore.model.id, formData);
-    globalThis.location.href = "/updateUserData";
+    navigate("/");
     // console.log("done");
   }
-  async function getPw() {
-    let pw0 = await read("users", "", pb.authStore.model.id);
-    pw0 = pw0.items;
-    // console.log(pw0);
-  }
+  // async function getPw() {
+  //   let pw0 = await read("users", "", pb.authStore.model.id);
+  //   pw0 = pw0.items;
+  //   console.log(pw0);
+  // }
   // console.log(avatar);
   // console.log(pb.authStore.model.avatar);
   // console.log(getPbImageURL(pb.authStore.model, pb.authStore.model.avatar));
   return (
-    <>
+    <div className="relative min-h-screen pb-28">
       <Header />
-      <div className="flex flex-col items-center gap-10 px-8 py-40 ">
-        <SignTitle value="회원정보 업데이트" />
+      <main className="mx-auto max-w-3xl px-3 py-10">
+        <SignTitle value="프로필 설정" />
 
         <SignForm>
           <SignPhoto
-            labelValue="프로필 사진"
+            labelValue=""
             ariaText="새 프로필 사진 입력창"
             placeHolder=""
             inputValue={setAvatar}
@@ -96,21 +94,42 @@ function Register() {
             labelValue="별명"
             ariaText="별명 입력창"
             placeHolder="새 별명을 입력하세요"
+            type="text"
             inputValue={setNickname}
             bgColor="bg-white"
             textColor="text-black"
-            placeHolderColor="placeholder-black"
+            placeHolderColor="placeholder-gray-400"
           />
-          <SignInput
+          {/* <SignInput
             labelValue="상태메세지"
             ariaText="상태메세지 입력창"
             placeHolder="새 상태메세지를 입력하세요"
             inputValue={setNickname}
             bgColor="bg-white"
             textColor="text-black"
-            placeHolderColor="placeholder-black"
+            placeHolderColor="placeholder-gray-400"
+          /> */}
+          <input type="text" className="hidden"></input>
+        </SignForm>
+
+        <div className="flex gap-3 py-6">
+          <SignButton value="취소" handleEvent={() => navigate("/")} bgColor="bg-white" textColor="text-red-600" />
+          <SignButton
+            value="수정완료"
+            handleEvent={() => handleUserDataUpdate()}
+            bgColor="bg-primary"
+            textColor="text-white"
           />
-          {/* <SignTitle value="위험" />
+        </div>
+      </main>
+    </div>
+  );
+}
+
+export default Register;
+
+{
+  /* <SignTitle value="위험" />
         <SignInput
         labelValue="아이디"
         ariaText="아이디 입력창"
@@ -128,8 +147,10 @@ function Register() {
         bgColor="bg-white"
         textColor="text-black"
         placeHolderColor="placeholder-black"
-      /> */}
-          {/* <SignInput
+      /> */
+}
+{
+  /* <SignInput
           labelValue="email"
           ariaText="아이디 입력창"
           placeHolder="사용할 새 이메일을 입력하세요"
@@ -137,22 +158,8 @@ function Register() {
           bgColor="bg-white"
           textColor="text-black"
           placeHolderColor="placeholder-black"
-        /> */}
-          {/* <SignButton value="탈퇴" handleEvent={() => getPw()} bgColor="bg-white" textColor="text-red-600" /> */}
-        </SignForm>
-
-        <div className="flex w-full max-w-3xl gap-2">
-          <SignButton value="취소" handleEvent={() => navigate("/")} bgColor="bg-white" textColor="text-red-600" />
-          <SignButton
-            value="수정완료"
-            handleEvent={() => handleUserDataUpdate()}
-            bgColor="bg-primary"
-            textColor="text-white"
-          />
-        </div>
-      </div>
-    </>
-  );
+        /> */
 }
-
-export default Register;
+{
+  /* <SignButton value="탈퇴" handleEvent={() => getPw()} bgColor="bg-white" textColor="text-red-600" /> */
+}
