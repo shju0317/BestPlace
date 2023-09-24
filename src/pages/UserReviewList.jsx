@@ -1,5 +1,6 @@
 import ScrollTopButton from "@/components/Button/ScrollTopButton";
 import FeedItem from "@/components/Feed/FeedItem/FeedItem";
+import MetaData from "@c/MetaData";
 import Spinner from "@/components/Spinner";
 import UserReviewHeader from "@/components/UserReviewList/UserReviewHeader";
 import { useInfiniteList, useIntersect } from "@/hooks";
@@ -36,8 +37,16 @@ function UserReviewList() {
 
   if (isLoading) return <Spinner />;
 
+  const metaData = {
+    title: `Best Place - ${result[0].expand.writer.nickname}의 리뷰 리스트`,
+    description: `${result[0].expand.writer.nickname}가 작성한 리뷰 리스트`,
+    keywords: [`${result[0].expand.writer.nickname}`, `리뷰`, `맛집후기`],
+    image: `${data[0].items[0].photos}`,
+  };
+
   return (
     <div className="relative min-h-screen pb-28">
+      <MetaData props={metaData} />
       <Header />
       {result && <UserReviewHeader item={result[0]} />}
 

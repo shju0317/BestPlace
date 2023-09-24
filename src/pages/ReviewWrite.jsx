@@ -12,7 +12,7 @@ import { alertMessage } from "@u/index";
 import useReview from "@h/useReview";
 import Header from "@l/Header";
 import { useState } from "react";
-
+import MetaData from "@c/MetaData";
 
 function ReviewWrite() {
   const navigate = useNavigate();
@@ -66,9 +66,16 @@ function ReviewWrite() {
     resetReviewData();
     navigate(-1);
   };
+  const metaData = {
+    title: "Best Place - 리뷰작성",
+    description: "예약에 대한 리뷰 작성",
+    keywords: ["리뷰", "기록", "후기", "맛집기행"],
+    image: "/public/logo.svg",
+  };
 
   return (
     <>
+      <MetaData props={metaData} />
       <ScrollToTop />
       <PopUpModal
         openModal={openModal}
@@ -78,10 +85,10 @@ function ReviewWrite() {
         handleEvent={handleGoBack}
       />
       <Header />
-      <main className="mx-auto mb-10 max-w-3xl px-3 relative">
-          <button onClick={() => setOpenModal(true)} className="absolute right-2">
-            <GoX className="text-2xl" />
-          </button>
+      <main className="relative mx-auto mb-10 max-w-3xl px-3">
+        <button onClick={() => setOpenModal(true)} className="absolute right-2">
+          <GoX className="text-2xl" />
+        </button>
         <form method="POST" className="mx-auto mt-4 flex flex-col flex-wrap gap-4">
           <VisitedPlaceInfo />
           <WriteText

@@ -9,6 +9,7 @@ import { array, func, object, string } from "prop-types";
 import { useEffect, useState } from "react";
 import { GoChevronLeft } from "react-icons/go";
 import { IoPersonCircleSharp } from "react-icons/io5";
+import MetaData from "@c/MetaData";
 
 function Follow() {
   const [selectGroup, setSelectGroup] = useState("following");
@@ -39,8 +40,16 @@ function Follow() {
     }
   }
 
+  const metaData = {
+    title: "Best Place - 팔로우",
+    description: "나를 따르는 팔로워, 내가 따르는 팔로잉",
+    keywords: ["팔로우", "팔로워", "팔로잉", "커뮤니티"],
+    image: "/public/logo.svg",
+  };
+
   return (
     <>
+      <MetaData props={metaData} />
       <ScrollToTop />
       <Header />
       <div className="mx-auto max-w-3xl">
@@ -75,7 +84,7 @@ function Follow() {
         </div>
         {/* 리스트 */}
         {isLoading ? (
-          <Spinner className="mx-auto"/>
+          <Spinner className="mx-auto" />
         ) : renderList.length !== 0 ? (
           <div>
             {renderList.map((item, index) => (

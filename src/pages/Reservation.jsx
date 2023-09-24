@@ -28,8 +28,8 @@ function Reservation() {
     !item.canceled ? (visitedList = [...visitedList, item]) : (canceledList = [...canceledList, item]);
   });
   const metaData = {
-    title: "Best Place - 피드",
-    description: "식당 리뷰를 시간순으로 보여주기",
+    title: "Best Place - 방문/예약",
+    description: "작성한 예약을 리뷰로 바꿔보자",
     keywords: ["맛집", "리뷰", "커뮤니티"],
     image: "/logo.svg",
   };
