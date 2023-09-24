@@ -7,7 +7,7 @@ import FeedItemFooter from "./FeedItemFooter";
 import { Link } from "react-router-dom";
 import { getPbImageURL } from "@/utils";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Keyboard, Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -26,7 +26,8 @@ function FeedItem({ item, isPlace, hiddenHeader, hiddenFooter }) {
             pagination={{
               type: "fraction",
             }}
-            modules={[Navigation, Pagination]}
+            keyboard={{enabled: true}}
+            modules={[Navigation, Pagination, Keyboard]}
           >
             {item.photos.map((fileName) => (
               <SwiperSlide key={crypto.randomUUID()} className="bg-cover bg-center">
