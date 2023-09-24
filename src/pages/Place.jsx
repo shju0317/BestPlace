@@ -8,7 +8,6 @@ import { useInfiniteList, useIntersect } from "@/hooks";
 import { useFetchRecord } from "@/hooks/useFetchRecord";
 import Footer from "@/layout/Footer";
 import Header from "@/layout/Header";
-import { Suspense } from "react";
 import { useParams } from "react-router-dom";
 
 function Place() {
@@ -31,6 +30,8 @@ function Place() {
     { threshold: 1 }
   );
 
+  if (isLoading) return <Spinner />;
+
   return (
     <div className="relative min-h-screen pb-28">
       <ScrollToTop />
@@ -41,24 +42,22 @@ function Place() {
         {record && <FeedItemFooter item={record} isPlace={true} />}
       </header>
 
-      <Suspense fallback={<Spinner />}>
-        <main className="mx-auto max-w-3xl px-3">
-          {record && <FeedItem key={record?.id} item={record} isPlace={true} hiddenFooter={true} />}
-          <div className="border-t-2 pt-4 text-lg font-semibold">이 장소의 다른 리뷰</div>
-          <ul className="flex flex-col gap-1 bg-gray-50">
-            {result.length ? (
-              result.map((item) => (
-                <li key={item.id}>
-                  <FeedItem item={item} isPlace={true} hiddenFooter={true} />
-                </li>
-              ))
-            ) : (
-              <NoResult title="다른 리뷰가 없습니다." contents="이 장소를 방문하시고 리뷰를 추가해 보세요." />
-            )}
-          </ul>
-          <div ref={ref} className="h-[1px]"></div>
-        </main>
-      </Suspense>
+      <main className="mx-auto max-w-3xl px-3">
+        {record && <FeedItem key={record?.id} item={record} isPlace={true} hiddenFooter={true} />}
+        <div className="border-t-2 pt-4 text-lg font-semibold">이 장소의 다른 리뷰</div>
+        <ul className="flex flex-col gap-1 bg-gray-50">
+          {result.length ? (
+            result.map((item) => (
+              <li key={item.id}>
+                <FeedItem item={item} isPlace={true} hiddenFooter={true} />
+              </li>
+            ))
+          ) : (
+            <NoResult title="다른 리뷰가 없습니다." contents="이 장소를 방문하시고 리뷰를 추가해 보세요." />
+          )}
+        </ul>
+        <div ref={ref} className="h-[1px]"></div>
+      </main>
 
       <Footer />
 

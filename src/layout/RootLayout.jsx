@@ -3,8 +3,6 @@ import Footer from "./Footer";
 import Nav from "./Nav";
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
-import { Suspense } from "react";
-import Spinner from "@/components/Spinner";
 import ScrollTopButton from "@/components/Button/ScrollTopButton";
 import ReviewWriteLink from "@/components/Link/ReviewWriteLink";
 
@@ -13,16 +11,12 @@ function RootLayout() {
     <div className="relative min-h-screen pb-28">
       <Header />
       <div className="relative bg-gray-50">
-        <Suspense fallback={<Spinner size={50} />}>
-          <Profile />
-        </Suspense>
+        <Profile />
       </div>
       <Nav />
 
       <main className="mx-auto max-w-3xl p-3">
-        <Suspense fallback={<Spinner />}>
-          <Outlet />
-        </Suspense>
+        <Outlet />
       </main>
 
       <Footer />

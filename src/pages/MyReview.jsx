@@ -3,11 +3,15 @@ import { useInfiniteList, useIntersect } from "@/hooks";
 import { getPbImageURL } from "@/utils";
 import { pb } from "@/api/pocketbase";
 import ScrollToTop from "@/components/ScrollTop";
+import Spinner from "@/components/Spinner";
 
 function MyReview() {
   const myId = pb.authStore.model.id;
-  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteList("reviews");
-  const result = data?.flatMap((el) => el.items).filter((el) => el.writer === myId) || null;
+  const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteList("reviews", {
+    filter: `writer.id='${myId}'`,
+  });
+
+  const result = data?.flatMap((el) => el.items);
 
   // 인피니트 스크롤
   const ref = useIntersect(
@@ -20,13 +24,15 @@ function MyReview() {
     { threshold: 1 }
   );
 
+  if (isLoading) return <Spinner />;
+
   return (
     <>
       <ScrollToTop />
       <h2 className="sr-only">나의 리뷰 페이지</h2>
       <ul className="my-4 mb-[194px] grid grid-cols-2 gap-1.5 sm:mb-[174px] sm:grid-cols-3">
         {result?.map((item) => (
-          <Link to={`/user-review-list/${myId}`} key={item.id}>
+          <Link to={`/user-review-list/${myId}`} state={item.id} key={item.id}>
             <li>
               <figure className="relative">
                 <img

@@ -1,8 +1,7 @@
-import { pb } from "@/api/pocketbase";
 import { Button, Modal, Flowbite } from "flowbite-react";
-import { array, bool, func, string } from "prop-types";
+import { bool, func, string } from "prop-types";
 
-function PopUpModal({ openModal, setOpenModal, myId, userFavorites, itemId, refetch }) {
+function PopUpModal({ openModal, setOpenModal, handleEvent, modalTitle, actionTitle }) {
   const customTheme = {
     button: {
       color: {
@@ -11,35 +10,19 @@ function PopUpModal({ openModal, setOpenModal, myId, userFavorites, itemId, refe
     },
   };
 
-  const handleDelete = async () => {
-    const favorites = userFavorites.filter((el) => el !== itemId);
-    try {
-      await pb.collection("users").update(myId, {
-        favorites,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-
-    refetch();
-    setOpenModal(false);
-  };
-
   return (
     <Flowbite theme={{ theme: customTheme }}>
       <Modal show={openModal} size="md" popup onClose={() => setOpenModal(false)}>
         <Modal.Header />
         <Modal.Body>
           <div className="text-center">
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              이 장소를 리스트에서 삭제합니다.
-            </h3>
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">{modalTitle}</h3>
             <div className="flex justify-center gap-4">
-              <Button color="primary" onClick={handleDelete}>
-                삭제
-              </Button>
               <Button color="gray" onClick={() => setOpenModal(false)}>
                 취소
+              </Button>
+              <Button color="primary" onClick={handleEvent}>
+                {actionTitle}
               </Button>
             </div>
           </div>
@@ -50,12 +33,11 @@ function PopUpModal({ openModal, setOpenModal, myId, userFavorites, itemId, refe
 }
 
 PopUpModal.propTypes = {
-  myId: string,
-  itemId: string,
-  refetch: func,
   openModal: bool,
   setOpenModal: func,
-  userFavorites: array,
+  handleEvent: func,
+  modalTitle: string,
+  actionTitle: string,
 };
 
 export default PopUpModal;
