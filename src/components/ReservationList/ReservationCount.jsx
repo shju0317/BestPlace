@@ -13,8 +13,7 @@ function ReservationCount({ userInfo, visitedList }) {
   if (!visitData) return;
 
   let renderList = !isSeeMore ? visitData?.slice(0, 3) : visitData?.slice(0, 9);
-  console.log(renderList);
-  let firstCount = renderList.length !== 0 ? renderList[0][1] : null;
+  let firstCount = renderList.length !== 0 ? renderList[0][1] : 0;
 
   function handleClickButton() {
     setIsSeeMore(!isSeeMore);

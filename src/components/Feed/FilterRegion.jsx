@@ -1,9 +1,9 @@
 import { pb } from "@/api/pocketbase";
 import { string } from "prop-types";
 import { Link } from "react-router-dom";
-import { useRegionStore } from "@/store/region";
+import { useRegionStore } from "@s/region";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Keyboard, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
@@ -21,7 +21,8 @@ function FilterRegion() {
       spaceBetween={8}
       slidesPerView={"auto"}
       navigation={true}
-      modules={[Navigation]}
+      keyboard={{enabled: true}}
+      modules={[Navigation,Keyboard]}
       className="pb-1 text-sm sm:text-base"
     >
       <SwiperSlide
