@@ -5,6 +5,7 @@ import { pb } from "@/api/pocketbase";
 import ScrollToTop from "@/components/ScrollTop";
 import Spinner from "@/components/Spinner";
 import NoResult from "@/components/Feed/NoResult";
+import MetaData from "@c/MetaData";
 
 function MyReview() {
   const myId = pb.authStore.model.id;
@@ -26,9 +27,16 @@ function MyReview() {
   );
 
   if (isLoading) return <Spinner />;
+  const metaData = {
+    title: "Best Place - 리뷰",
+    description: "맛집 방문 후기",
+    keywords: ["맛집", "리뷰", "기록"],
+    image: "/logo.svg",
+  };
 
   return result.length !== 0 ? (
     <>
+      <MetaData props={metaData} />
       <ScrollToTop />
       <h2 className="sr-only">나의 리뷰 페이지</h2>
       <ul className="my-4 mb-[194px] grid grid-cols-2 gap-1.5 sm:mb-[174px] sm:grid-cols-3">

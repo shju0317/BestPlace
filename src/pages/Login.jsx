@@ -9,6 +9,7 @@ import SignForm from "@c/SignInUp/SignForm";
 import SignInput from "@c/SignInUp/SignInput";
 import SignLogo from "@c/SignInUp/SignLogo";
 import SignTitle from "@c/SignInUp/SignTitle";
+import MetaData from "@c/MetaData";
 
 function Login() {
   const navigate = useNavigate();
@@ -17,25 +18,11 @@ function Login() {
   const [pw, setPw] = useState("");
   let idPw = [id, pw];
 
-  async function isValidId() {
-    const usernameData = await read("users", "username");
-    const usernamesObj = usernameData.items;
-    const usernames = usernamesObj.map((item) => item.username);
-
-    return usernames.includes(id);
-
-    // return isValidId;
-  }
-
   async function handleLogin() {
     try {
       await setLogIn(idPw);
       globalThis.location.href = "/";
     } catch {
-      // if (await isValidId()) {
-      //   alertMessage("비밀번호가 일치하지 않습니다", "❌");
-      // } else {
-      // }
       alertMessage("사용자 정보가 없습니다", "❌");
     }
   }
@@ -49,12 +36,18 @@ function Login() {
 
     window.addEventListener("keydown", handleKeyDown);
 
-    // Don't forget to cleanup after component unmounts
     return () => window.removeEventListener("keydown", handleKeyDown);
   });
+  const metaData = {
+    title: "Best Place - 로그인",
+    description: "Best Place 로그인 페이지",
+    keywords: ["로그인", "회원"],
+    image: "/logo.svg",
+  };
 
   return (
     <SignContents>
+      <MetaData props={metaData} />
       <SignLogo />
       <SignTitle value="로그인" />
 

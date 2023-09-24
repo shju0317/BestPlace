@@ -10,6 +10,7 @@ import SignForm from "@c/SignInUp/SignForm";
 import SignContents from "@c/SignInUp/SignContents";
 import SignLogo from "@c/SignInUp/SignLogo";
 import { useEffect } from "react";
+import MetaData from "@c/MetaData";
 
 function Register() {
   const navigate = useNavigate();
@@ -19,27 +20,6 @@ function Register() {
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [pwCheck, setPwCheck] = useState("");
-
-  // const UserDataFormat = {
-  //   id: "",
-  //   collectionName: "users",
-  //   collectionId: "_pb_users_auth_",
-  //   emailVisibility: false,
-  //   verified: false,
-  //   created: "2023-08-31 06:35:29.391Z",
-  //   updated: "2023-08-31 06:35:29.391Z",
-  //   follower: [],
-  //   following: [],
-  //   favorites: [],
-  //   review: [],
-  //   username: "id와 같음",
-  //   nickname: "별명",
-  //   email: "",
-  //   password: "",
-  //   passwordConfirm: "",
-  //   avatar: "",
-  //   regions: [],
-  // };
 
   const createData = {
     nickname: nickname,
@@ -74,12 +54,18 @@ function Register() {
 
     window.addEventListener("keydown", handleKeyDown);
 
-    // Don't forget to cleanup after component unmounts
     return () => window.removeEventListener("keydown", handleKeyDown);
   });
+  const metaData = {
+    title: "Best Place - 회원가입",
+    description: "Best Place 회원가입 페이지",
+    keywords: ["회원가입", "즉시접속"],
+    image: "/logo.svg",
+  };
 
   return (
     <SignContents>
+      <MetaData props={metaData} />
       <SignLogo />
       <SignTitle value="회원가입" />
       <SignForm>

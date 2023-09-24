@@ -13,8 +13,7 @@ import PlaceInfo from "@c/Reservation/PlaceInfo";
 import ScrollToTop from "@c/ScrollTop";
 import PopUpModal from "@c/PopUpModal";
 import Button from "@c/Button";
-
-
+import MetaData from "@c/MetaData";
 
 function ReservationWrite() {
   const navigate = useNavigate();
@@ -41,15 +40,15 @@ function ReservationWrite() {
       case !isValid(reservationData):
         alertMessage("필수사항을 입력해주세요.", "❗");
         return;
-      
+
       case !isTelRegValid(reservationData.tel):
         alertMessage("전화번호 정보가 올바르지 않습니다.", "❗");
         return;
-    
+
       case !isEmailRegValid(reservationData.email):
         alertMessage("이메일 정보가 올바르지 않습니다.", "❗");
         return;
-        
+
       case isBefore(reservationData.date, new Date()): // 현재 시간보다 이전 시간 선택 시 알림
         alertMessage("지난 시간입니다. 시간을 확인해주세요.", "❗");
         return;
@@ -71,8 +70,16 @@ function ReservationWrite() {
     navigate(-1);
   };
 
+  const metaData = {
+    title: "Best Place - 예약작성",
+    description: "식당예약 작성 페이지",
+    keywords: ["예약", "식당예약", "예약시간"],
+    image: "/public/logo.svg",
+  };
+
   return (
     <>
+      <MetaData props={metaData} />
       <ScrollToTop />
       <PopUpModal
         openModal={openModal}

@@ -7,6 +7,7 @@ import FeedItemHeader from "@/components/Feed/FeedItem/FeedItemHeader";
 import Header from "@/layout/Header";
 import ScrollTopButton from "@/components/Button/ScrollTopButton";
 import NoResult from "@/components/Feed/NoResult";
+import MetaData from "@c/MetaData";
 
 function UserReview() {
   const { userId } = useParams();
@@ -15,7 +16,7 @@ function UserReview() {
   });
 
   const result = data?.flatMap((el) => el.items);
-
+  
   // 인피니트 스크롤
   const ref = useIntersect(
     async (entry, observer) => {
@@ -28,9 +29,17 @@ function UserReview() {
   );
 
   if (isLoading) return <Spinner />;
-
+  
+  const metaData = {
+    title: `Best Place - ${result[0].expand.writer.nickname}의 리뷰`,
+    description: `${result[0].expand.writer.nickname}가 작성한 리뷰 타일`,
+    keywords: [`${result[0].expand.writer.nickname}`, `리뷰`, `맛집후기`],
+    image: `${data[0].items[0].photos}`,
+  };
+  console.log(result[0].expand.writer.nickname);
   return result.length !== 0 ? (
     <div className="relative min-h-screen pb-28">
+      <MetaData props={metaData} />
       <Header />
 
       <header className="bg-gray-50 py-4 shadow-[0_6px_6px_-2px_rgba(0,0,0,0.1)]">

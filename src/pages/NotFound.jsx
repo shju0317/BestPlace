@@ -1,12 +1,21 @@
 import SignLogo from '@c/SignInUp/SignLogo';
 import Button from '@c/Button';
 import { useNavigate } from 'react-router-dom';
+import MetaData from '@c/MetaData';
 
 function NotFound() {
   const navigate = useNavigate();
 
+  const metaData = {
+    title: "Best Place - 잘못된 접근",
+    description: "잘못된 접근입니다",
+    keywords: ["에러", "잘못된접근"],
+    image: "/public/logo.svg",
+  };
+  
   return (
     <div className="flex flex-col mx-auto max-w-3xl mt-4 gap-6 p-4 justify-center">
+      <MetaData props={metaData} />
       <SignLogo/>
       <h1 className="text-xl font-bold self-center text-secondary">페이지를 찾을 수 없습니다😢</h1>
       <p className="mb-6 font-semibold">방문하시려는 페이지의 주소가 잘못되었거나,<br/>

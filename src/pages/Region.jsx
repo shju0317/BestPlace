@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Header from "../layout/Header";
 import PopularRegion from "./../components/Region/PopularRegion";
 import { alertMessage } from "@u";
+import MetaData from "@c/MetaData";
 
 //@ 관심지역 설정 컴포넌트
 function SetRegion() {
@@ -50,9 +51,17 @@ function SetRegion() {
     alertMessage("관심지역이 설정되었습니다.");
     navigate("/");
   };
+  const metaData = {
 
+      title: "Best Place - 관심지역",
+      description: "피드에 표시할 리뷰에 지역 필터링을 추가합니다",
+      keywords: ["지역", "전국", "지방"],
+      image: "public/logo.svg",
+  };
+  
   return (
     <>
+    <MetaData props={metaData} />
       <ScrollToTop />
       <Header />
       <main className="mx-auto max-w-3xl px-3">
