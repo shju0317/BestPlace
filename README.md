@@ -14,7 +14,7 @@
 
 📌 프로젝트 주제 | 맛집 예약/리뷰 서비스 - [네이버MY플레이스](https://m.place.naver.com/my/home) 클론 코딩
 
-[📑발표자료]([https://](https://www.miricanvas.com/v/12flll1))
+[📑발표자료](https://www.miricanvas.com/v/12flll1)
 
 [🔗배포주소](https://13est-place.netlify.app/)
 
